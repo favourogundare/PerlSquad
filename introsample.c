@@ -3,6 +3,6 @@ int main(){
 
 printf("Perl Squad Presents: ");
 printf("\n")
-printf("Duplicate Gene ANnotation")
+printf("Duplicate Gene Annotation")
 return 0;
 }
