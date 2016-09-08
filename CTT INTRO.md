@@ -49,7 +49,9 @@ Academia, Bioinformatics Personnel.
 
 
 #### INITIAL USE CASES / USAGE SCENARIOS
-> To annotate duplicated genes that may have been missed in the initial annotation
+> To annotate duplicated genes that may have been missed in the initial .
+> Currently not enough information for more specific use cases and scenarios, 
+> Section will be updated at a later time. 
 
 #### NON-FUNCTIONAL REQUIREMENTS
 > Security is not a priority, all code used will have open source propiety rights
