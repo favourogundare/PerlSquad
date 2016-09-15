@@ -14,7 +14,8 @@
 
 > What is the maximum number of genes encoded in each     genome?
 
-Students work to answer this question by ‘finalizing’ a PERL-based annotation code, >that implements a closing Target Trimming algorithm, to >re-annotate the missing genes in their preferred genomes. 
+Students work to answer this question by ‘finalizing’ a PERL-based annotation code, 
+that implements a closing Target Trimming algorithm, to re-annotate the missing genes in their preferred genomes. 
 
 #### INTENDED USER BASE
 Academia, Bioinformatics Personnel. 
@@ -25,16 +26,10 @@ Academia, Bioinformatics Personnel.
 #### EQUIPMENT NEEDS
 
 	Machine running Perl with required dependencies:
-		Bioperl, BioPro, GeneWIse, Blast, HMMER
+		Bioperl, BioPro, GeneWIse, PFam Database, Blast & HMMER3.
     
     Current Requirements:
-        - Server to compile resulting executables,          
-        - Provided by Dr. Hua. 
-   
-        - Create account on server so students can access files on server.
-   
         - Tools/Server for Web-Site for developed stand alone program. 
-   
         - Eventually, student research assistants along with other 
           professors for alpha/beta testing 
 
@@ -48,66 +43,40 @@ Academia, Bioinformatics Personnel.
 	: Genomic DNA Sequence, Annotation Transcript sequence, Peptide Sequence
 
 
-#### INITIAL USE CASES / USAGE SCENARIOS
-> To annotate duplicated genes that may have been missed in the initial .
-> Currently not enough information for more specific use cases and scenarios, 
-> Section will be updated by the next time the Team meets with the client. 
+#### INITIAL USE CASES & USAGE SCENARIOS
+>Academia and bio-informatics personnel can use the application to better annotate genome sequences which may be incomplete due to duplicate genes. 
+
+- The application uses a Closing Target Trimming (CTT) algorithm along with predictions from dependencies like GeneWIse, PFam database, BLASTx and HMMER3 to gather two or more references allowing for unbiased annotation.
+
+- The application can in turn be used for accurate predictions for a transcript model, that is the protein code as opposed to the pseudogene, thus confirming an accurate model. 
+
+- Bioinformatics personnel may use the application to   annotate  incomplete genomes.
+
+- A Biology professor may use the application to correctly predict genome sequences for a given plant family.
+
+- A student researcher may use the application to  predict the transcript model of each non-annotated potential FBX locus.
+
 
 #### NON-FUNCTIONAL REQUIREMENTS
 > Security is not a priority, all code used will have open source propiety rights
 > Dependencies and requirements for the program will be listed on the eventual site 
 > and the executables FAQ.
+
+#### GUI MOCKUPS
+>Negligible, all commands run from commandline.
+
+#### ARCHITECTURE
+> Pictures attached in GitHub Repo
+The finished application will take user input in the forms of genome sequence, protein sequence and family.
+
+#### HELLO WORLD DEMO
+> Perl Script, To be run In-Class
+
+#### MILESTONES
+1. Run through the segmented algorithm successfully on several different servers.
+
+2. Create Universal version  of the algorithm application that can be run as one executable package. 
+		
+3. Optimize perl scripts and application. algorithm
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+4. Create website to host the algorithm,  paper and downloadable package.

@@ -16,27 +16,22 @@ Preferred Method of Communication: E-mail
 <blockquote>
 <p>What is the maximum number of genes encoded in each     genome?</p>
 </blockquote>
-<p>Students work to answer this question by ‘finalizing’ a PERL-based annotation code, &gt;that implements a closing Target Trimming algorithm, to &gt;re-annotate the missing genes in their preferred genomes.</p>
-<h4><a id="INTENDED_USER_BASE_18"></a>INTENDED USER BASE</h4>
+<p>Students work to answer this question by ‘finalizing’ a PERL-based annotation code,
+that implements a closing Target Trimming algorithm, to re-annotate the missing genes in their preferred genomes.</p>
+<h4><a id="INTENDED_USER_BASE_19"></a>INTENDED USER BASE</h4>
 <p>Academia, Bioinformatics Personnel.</p>
-<h4><a id="FIRST_ADOPTER_USER_GROUP_21"></a>FIRST ADOPTER USER GROUP</h4>
+<h4><a id="FIRST_ADOPTER_USER_GROUP_22"></a>FIRST ADOPTER USER GROUP</h4>
 <p>Academia, Bioinformatics Personnel.</p>
-<h4><a id="EQUIPMENT_NEEDS_24"></a>EQUIPMENT NEEDS</h4>
+<h4><a id="EQUIPMENT_NEEDS_25"></a>EQUIPMENT NEEDS</h4>
 <pre><code>Machine running Perl with required dependencies:
-    Bioperl, BioPro, GeneWIse, Blast, HMMER
+    Bioperl, BioPro, GeneWIse, PFam Database, Blast &amp; HMMER3.
 
 Current Requirements:
-    - Server to compile resulting executables,          
-    - Provided by Dr. Hua. 
-
-    - Create account on server so students can access files on server.
-
     - Tools/Server for Web-Site for developed stand alone program. 
-
     - Eventually, student research assistants along with other 
       professors for alpha/beta testing 
 </code></pre>
-<h4><a id="FEATURES_40"></a>FEATURES</h4>
+<h4><a id="FEATURES_35"></a>FEATURES</h4>
 <blockquote>
 <p>Executable File:- specific to eukaryotic systems :- application is not web based</p>
 </blockquote>
@@ -54,17 +49,60 @@ Current Requirements:
 </dl>
 </li>
 </ul>
-<h4><a id="INITIAL_USE_CASES__USAGE_SCENARIOS_50"></a>INITIAL USE CASES / USAGE SCENARIOS</h4>
+<h4><a id="INITIAL_USE_CASES__USAGE_SCENARIOS_45"></a>INITIAL USE CASES &amp; USAGE SCENARIOS</h4>
 <blockquote>
-<p>To annotate duplicated genes that may have been missed in the initial .
-Currently not enough information for more specific use cases and scenarios,
-Section will be updated by the next time the Team meets with the client.</p>
+<p>Academia and bio-informatics personnel can use the application to better annotate genome sequences which may be incomplete due to duplicate genes.</p>
 </blockquote>
-<h4><a id="NONFUNCTIONAL_REQUIREMENTS_55"></a>NON-FUNCTIONAL REQUIREMENTS</h4>
+<ul>
+<li>
+<p>The application uses a Closing Target Trimming (CTT) algorithm along with predictions from dependencies like GeneWIse, PFam database, BLASTx and HMMER3 to gather two or more references allowing for unbiased annotation.</p>
+</li>
+<li>
+<p>The application can in turn be used for accurate predictions for a transcript model, that is the protein code as opposed to the pseudogene, thus confirming an accurate model.</p>
+</li>
+<li>
+<p>Bioinformatics personnel may use the application to   annotate  incomplete genomes.</p>
+</li>
+<li>
+<p>A Biology professor may use the application to correctly predict genome sequences for a given plant family.</p>
+</li>
+<li>
+<p>A student researcher may use the application to  predict the transcript model of each non-annotated potential FBX locus.</p>
+</li>
+</ul>
+<h4><a id="NONFUNCTIONAL_REQUIREMENTS_59"></a>NON-FUNCTIONAL REQUIREMENTS</h4>
 <blockquote>
 <p>Security is not a priority, all code used will have open source propiety rights
 Dependencies and requirements for the program will be listed on the eventual site
 and the executables FAQ.</p>
 </blockquote>
+<h4><a id="GUI_MOCKUPS_64"></a>GUI MOCKUPS</h4>
+<blockquote>
+<p>Negligible, all commands run from commandline.</p>
+</blockquote>
+<h4><a id="ARCHITECTURE_67"></a>ARCHITECTURE</h4>
+<blockquote>
+<p>Pictures attached in GitHub Repo
+The finished application will take user input in the forms of genome sequence, protein sequence and family.</p>
+</blockquote>
+<h4><a id="HELLO_WORLD_DEMO_71"></a>HELLO WORLD DEMO</h4>
+<blockquote>
+<p>Perl Script, To be run In-Class</p>
+</blockquote>
+<h4><a id="MILESTONES_74"></a>MILESTONES</h4>
+<ol>
+<li>
+<p>Run through the segmented algorithm successfully on several different servers.</p>
+</li>
+<li>
+<p>Create Universal version  of the algorithm application that can be run as one executable package.</p>
+</li>
+<li>
+<p>Optimize perl scripts and application. algorithm</p>
+</li>
+<li>
+<p>Create website to host the algorithm,  paper and downloadable package.</p>
+</li>
+</ol>
 
 </body></html>
