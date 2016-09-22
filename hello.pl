@@ -34,3 +34,22 @@ foreach(@test_str_arr){
 }
 
 print "\n";
+
+#Test making a loop
+
+for my $i (1, 2, 3) {
+	print "loop $i!\n";
+}
+
+#Test stepping through an array with a loop
+
+pop (@test_str_arr); pop (@test_str_arr);
+push (@test_str_arr, "walked");
+push (@test_str_arr, "through");
+push (@test_str_arr, "with");
+push (@test_str_arr, "loops");
+for my $i (@test_str_arr){
+	print "$i\n";
+}
+
+print "\n";
