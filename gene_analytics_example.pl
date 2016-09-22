@@ -2,11 +2,11 @@
 
 =begin comment 
 
-******************************
-*	Author:  Brian Reynolds  *
-*	Program: HW3             *
-*	Date:    09/13/16        *
-******************************
+***************************************
+*   Author:  Brian Reynolds           *
+*   Program: gene_analytics_example   *
+*   Date:    09/22/16                 *
+***************************************
 
 =cut
 
