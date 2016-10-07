@@ -1,4 +1,0 @@
-GENOME_FILES	GFF_FILES	PROTEOME_FILES
-Alyrata_107_v1_genome.fa	Alyrata_107_v1.0.gene.gff3	Alyrata_107_v1.0.protein.fa
-Athaliana_167_TAIR9_genome.fa	Athaliana_167_TAIR10.gene.gff3	Athaliana_167_TAIR10.protein.fa
-Osativa_204_v7.0_genome.fa	Osativa_204_v7.0.gene.gff3	Osativa_204_v7.0.protein.fa
