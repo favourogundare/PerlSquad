@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Drag and drop example</title>
+		<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+		<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+		<script>
+			var DraggerRadius = 50; // radius of circle
+			var DestHeight = 100; // height and width of our destination box
+			var DestWidth = 100;
+			// Initialization function - creates the objects we want to move.
+			function init() {
+				// creates the canvas stage.
+				var stage = new createjs.Stage("demoCanvas");
+				// objects made in CreateJs are DisplayObject classes - look more into documentation later.
+				var circle = new createjs.Shape();
+				// Container objects are neat - they can hold display objects to make moving easier.
+				var dragger = new createjs.Container();
+				var label = new createjs.Text("DRAG ME", "14px Lato", "#fff");
+				label.textAlign="center";
+				label.y -= 7;
+				circle.graphics.beginFill("Red").drawCircle(0,0,DraggerRadius);
+				// Containers 'hold' the display objects for easier movement
+				dragger.addChild(circle, label);
+				dragger.x = 100;
+				dragger.y = 100;
+				dragger.setBounds(100, 100, DraggerRadius*2, DraggerRadius*2);
+				var label2 = new createjs.Text("PUT HERE", "14px Lato", "#000");
+				label2.textAlign = "center";
+				label2.x += 50;
+				label2.y += 40;
+				var box = new createjs.Shape();
+				box.graphics.setStrokeStyle(2).beginStroke("black").rect(0,0,DestHeight,DestWidth);
+				var destination = new createjs.Container();
+				destination.addChild(box, label2);
+				destination.x = 300;
+				destination.y = 50;
+				destination.setBounds(300, 50, DestHeight, DestWidth);				
+				dragger.on("pressmove", function(event) {
+					event.currentTarget.x = event.stageX;
+					event.currentTarget.y = event.stageY;
+					stage.update();
+					if(intersect(event.currentTarget, destination)){
+						event.currentTarget.alpha = 0.4;
+						box.graphics.clear();
+						box.graphics.setStrokeStyle(3).beginStroke("#800000").rect(0,0,DestHeight,DestWidth);
+					}
+					else{
+						event.currentTarget.alpha=1;
+						box.graphics.clear();
+						box.graphics.setStrokeStyle(2).beginStroke("black").rect(0,0,DestHeight,DestWidth);
+					}
+				});
+				dragger.on("pressup", function(event) {
+					if(intersect(event.currentTarget, destination)){
+						dragger.x = destination.x + DestWidth/2;
+						dragger.y = destination.y + DestHeight/2;
+						dragger.alpha = 1;
+						box.graphics.clear();
+						box.graphics.setStrokeStyle(2).beginStroke("black").rect(0,0,DestHeight,DestWidth);
+						label2.alpha = 0;
+						stage.update(event);
+					}
+					else{
+						label2.alpha = 1;
+						stage.update(event);
+					}
+				});
+				
+				stage.addChild(dragger);
+				stage.addChild(destination);
+				stage.update();
+			}
+			function intersect(obj1, obj2){
+				var objBounds1 = obj1.getBounds().clone();
+				var objBounds2 = obj2.getBounds().clone();
+				
+				var pt = obj1.globalToLocal(objBounds2.x,objBounds2.y);
+				var h1 = -(objBounds1.height/2 + objBounds2.height);
+				var h2 = objBounds2.width/2;
+				var w1 = -(objBounds1.width/2+objBounds2.width);
+				var w2 = objBounds2.width/2;
+				
+				if(pt.x > w2 || pt.x < w1) return false;
+				if(pt.y > h2 || pt.y < h1) return false;
+				
+				return true;
+			}
+		</script>
+	</head>
+	<body onload="init();">
+		<canvas id ="demoCanvas" width="500" height="200">
+			alternate content
+		</canvas>
+	</body>
+</html>
