@@ -87,7 +87,6 @@ function Game(easelStage) {
     var background = new createjs.Bitmap("images/background_map.png");
     background.x = 0;
     background.y = 0;
-    background.alpha = 0.5;
     mainGameContainer.addChild(background);
     stage.update();
     // Load GameEvent objects
