@@ -125,6 +125,7 @@ function Game(easelStage) {
   // members of this class. Below is an example in which a player moves around the board after
   // being appropriately clicked (i.e., single or double).
   this.loadStory = function() {
+	  
     // Player's avatar must be clicked to proceed
     this.singleClick = function() {
       var text;
@@ -149,13 +150,45 @@ function Game(easelStage) {
       stage.update();
     }
 
+
     // Player must be double clicked to go to next game segment
     this.doubleClick = function() {
+	  var scavHuntContainer;
+		
+	  this.onProceed = function(event) {
+        game.getStage().removeChild(scavHuntContainer);
+		game.progress();
+	  }
+		
       // Public eventListener to handle double clicking on the player
       this.handleDblClick = function(event) {
         // Delete old text
         mainGameContainer.removeChild(text)
-        game.progress();
+        scavHuntContainer = new createjs.Container();
+		scavHuntContainer.x = 100;
+		scavHuntContainer.y = 100;
+		var scavHuntBackground = new createjs.Shape();
+		scavHuntBackground.graphics.beginFill("#000000").drawRect(0, 0, 760, 244);
+		scavHuntContainer.addChild(scavHuntBackground);
+		var scavHuntAnimalPic = new createjs.Bitmap("images/tiger.png");
+		scavHuntAnimalPic.x = 50;
+		scavHuntAnimalPic.y = 25;
+		scavHuntContainer.addChild(scavHuntAnimalPic);
+		var scavHuntDivider = new createjs.Shape();
+		scavHuntDivider.graphics.beginFill("#FFFFFF").drawRect(269, 43, 3, 169);
+		scavHuntContainer.addChild(scavHuntDivider);
+		var scavHuntText = new createjs.Text("Text about a tiger...", "20px Arial", "#FFFFFF");
+		scavHuntText.x = 300;
+		scavHuntText.y = 122;
+		scavHuntContainer.addChild(scavHuntText);
+		var scavHuntProceed = new createjs.Text("Proceed", "20px Arial", "#FFFFFF");
+		scavHuntProceed.x = 680;
+		scavHuntProceed.y = 220;
+		scavHuntProceed.addEventListener("click", this.onProceed);
+		scavHuntContainer.addChild(scavHuntProceed);
+		game.getStage().addChild(scavHuntContainer);
+		game.getStage().update();
+		game.getStage().update();
       }
 
       // What will be executed when the GameEvent function pointer is triggered
