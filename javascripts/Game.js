@@ -351,9 +351,9 @@ function Game(easelStage) {
 
     // Assign different code to different segments GameEvents
     story[0] = new GameEvent(this.transition, this.startMenu);	// Single click to continue
-    story[1] = new GameEvent(this.transition, this.doubleClick);	// Now double click
-    story[2] = new GameEvent(this.transition, this.singleClick);	// Back to single click
-	story[3] = new GameEvent(this.transition, this.doubleClick);	// Double
+    story[1] = new GameEvent(this.transition, this.singleClick);	// Now double click
+    story[2] = new GameEvent(this.transition, this.doubleClick);	// Back to single click
+	story[3] = new GameEvent(this.transition, this.singleClick);	// Double
     story[4] = new GameEvent(this.transition, this.singleClick);	// Back to single click
   }
 }
