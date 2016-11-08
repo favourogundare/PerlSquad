@@ -1,5 +1,7 @@
 // Global variable for game object
 var game = new Game();
+const GAME_WIDTH = 960;
+const GAME_HEIGHT = 444;
 
 function init() {
   var stage = new createjs.Stage("main");
@@ -59,6 +61,7 @@ function Game(easelStage) {
   }
 
   //-- Public --//
+	
   // A generic container for game-scope data. Meaning, if it is needed
   // throughout different parts of the game, put it here. If the data is
   // needed for only one segment (i.e., GameEvent), bundle it with the object pointed to
@@ -102,6 +105,8 @@ function Game(easelStage) {
   // Set / Get root EaselJS Shape object of the game
   this.setStage = function(easelJSStage) {
     stage = easelJSStage;
+	stage.width = GAME_WIDTH;
+	stage.height = GAME_HEIGHT;
   }
   this.getStage = function() {
     return stage;
@@ -150,7 +155,143 @@ function Game(easelStage) {
       stage.update();
     }
 
-
+	this.startMenu = function() {
+	var ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW = 180;
+    var stage;
+		
+    	//  Handle user clicking "start"
+    	this.onStart = function(event) {
+        	game.getStage().removeChild(stage);
+        	game.getStage().update();
+        	game.progress();
+    	}
+    
+        // Change canvas color to off-white
+		var canvas = game.getStage();
+		var stage = canvas;
+        // canvas.style.backgroundColor = "#f5f5f5";
+        
+        //initialize variables
+        var incirclesr      = 40;
+        var outcirclesr    = 50;
+        var circlesy       = 150;
+        var inrectw        = 280;
+        var inrecth        = 30;
+        var inrectangle1y  = 235;
+        var inrectangle2y  = 310;
+        var outrectangle1y = 225;
+        var outrectangle2y = 300;
+        var outrectanglesx = 150 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+        var inrectanglesx  = 160 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+        var outrectw       = 300;
+        var outrecth       = 50;
+        
+        //initialize shapes
+        stage         = new createjs.Container();
+		game.getStage().addChild(stage);
+        var outrectangles = new createjs.Graphics().beginFill("#616161").drawRect(outrectanglesx,0,outrectw,outrecth);
+		var outcircles    = new createjs.Graphics().beginFill("#616161").drawCircle(0, circlesy, outcirclesr);
+        var outcircle1    = new createjs.Shape(outcircles);
+        var outcircle2    = new createjs.Shape(outcircles);
+        var outcircle3    = new createjs.Shape(outcircles);
+        var outcircle4    = new createjs.Shape(outcircles);
+        var incircle1     = new createjs.Shape();
+        var incircle2     = new createjs.Shape();
+        var incircle3     = new createjs.Shape();
+        var incircle4     = new createjs.Shape();
+        var outrectangle1 = new createjs.Shape(outrectangles);
+        var outrectangle2 = new createjs.Shape(outrectangles);
+        var inrectangle1  = new createjs.Shape();
+        var inrectangle2  = new createjs.Shape();
+        
+        //initialize text
+        var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#616161");
+        p_num.maxWidth = 1000;
+        p_num.textAlign = "center";
+        p_num.textBaseline = "middle";
+        var p1      = new createjs.Text("1", "36px Arial", "#fafafa");
+        p1.maxWidth = 1000;
+        p1.textAlign = "center";
+        p1.textBaseline = "middle";
+        var p2      = new createjs.Text("2", "36px Arial", "#fafafa");
+        p2.maxWidth = 1000;
+        p2.textAlign = "center";
+        p2.textBaseline = "middle";
+        var p3      = new createjs.Text("3", "36px Arial", "#fafafa");
+        p3.maxWidth = 1000;
+        p3.textAlign = "center";
+        p3.textBaseline = "middle";
+        var p4      = new createjs.Text("4", "36px Arial", "#fafafa");
+        p4.maxWidth = 1000;
+        p4.textAlign = "center";
+        p4.textBaseline = "middle";
+        var start   = new createjs.Text("Start", "36px Arial", "#fafafa");
+        start.maxWidth = 1000;
+        start.textAlign = "center";
+        start.textBaseline = "middle";
+        var options = new createjs.Text("Options", "36px Arial", "#fafafa");
+        options.maxWidth = 1000;
+        options.textAlign = "center";
+        options.textBaseline = "middle";
+        
+        //draw remaining shapes
+        incircle1.graphics.beginFill("#f50057").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+        incircle2.graphics.beginFill("#00b0ff").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+        incircle3.graphics.beginFill("#00e676").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+        incircle4.graphics.beginFill("#ff9100").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+        inrectangle1.graphics.beginFill("#f44336").drawRect(inrectanglesx, inrectangle1y, inrectw, inrecth);
+        inrectangle2.graphics.beginFill("#d500f9").drawRect(inrectanglesx, inrectangle2y, inrectw, inrecth);
+        
+        //set remaining shape coords
+        outcircle1.x = 120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+        outcircle2.x = 240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+        outcircle3.x = 360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+        outcircle4.x = 480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+        outrectangle1.y = outrectangle1y;
+        outrectangle2.y = outrectangle2y;
+        
+        //set text coords
+        var circle_offset = 2 * (outcirclesr + 10)
+        p_num.x   = canvas.width / 2;
+        p_num.y   = circlesy - 100;
+        p1.x      = canvas.width/2 - (circle_offset + circle_offset / 2);
+        p1.y      = circlesy;
+        p2.x      = canvas.width/2 - (circle_offset / 2);
+        p2.y      = circlesy;
+        p3.x      = canvas.width/2 + (circle_offset / 2);;
+        p3.y      = circlesy;
+        p4.x      = canvas.width/2 + (circle_offset + circle_offset / 2);;
+        p4.y      = circlesy;
+        start.x   = canvas.width / 2;
+        start.y   = inrectangle1y + outrecth / 4;
+        options.x = canvas.width / 2;
+        options.y = inrectangle2y + outrecth / 4;
+        
+        //add objects to menuStage
+        //add objects to stage
+        stage.addChild(outcircle1);
+        stage.addChild(outcircle2);
+        stage.addChild(outcircle3);
+        stage.addChild(outcircle4);
+        stage.addChild(incircle1);
+        stage.addChild(incircle2);
+        stage.addChild(incircle3);
+        stage.addChild(incircle4);
+        stage.addChild(outrectangle1);
+        stage.addChild(outrectangle2);
+        stage.addChild(inrectangle1);
+        stage.addChild(inrectangle2);
+        stage.addChild(p_num);
+        stage.addChild(p1);
+        stage.addChild(p2);
+        stage.addChild(p3);
+        stage.addChild(p4);
+        stage.addChild(start);
+        stage.addChild(options);
+        start.addEventListener("click", this.onStart);
+        game.getStage().update();
+}
+	
     // Player must be double clicked to go to next game segment
     this.doubleClick = function() {
 	  var scavHuntContainer;
@@ -209,7 +350,7 @@ function Game(easelStage) {
     }
 
     // Assign different code to different segments GameEvents
-    story[0] = new GameEvent(this.transition, this.singleClick);	// Single click to continue
+    story[0] = new GameEvent(this.transition, this.startMenu);	// Single click to continue
     story[1] = new GameEvent(this.transition, this.doubleClick);	// Now double click
     story[2] = new GameEvent(this.transition, this.singleClick);	// Back to single click
 	story[3] = new GameEvent(this.transition, this.doubleClick);	// Double
