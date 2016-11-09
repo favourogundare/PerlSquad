@@ -156,41 +156,40 @@ function Game(easelStage) {
     }
 
 	this.startMenu = function() {
-    var ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW = 180;
     var stage;
     
     this.one_player = function(event) {
-      outcircle1.graphics.clear().beginFill("#212121").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle1.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       //num_players = 1;
       game.getStage().update();
     }
     
     this.two_player = function(event) {
-      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle2.graphics.clear().beginFill("#212121").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       //num_players = 2;
       game.getStage().update();
     }
     
     this.three_player =  function(event) {
-      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle3.graphics.clear().beginFill("#212121").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       //num_players = 3;
       game.getStage().update();
     }
     
     this.four_player = function(event) {
-      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-      outcircle4.graphics.clear().beginFill("#212121").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       //num_players = 4;
       game.getStage().update();;
     }
@@ -227,12 +226,12 @@ function Game(easelStage) {
     var inrecth        = 30;
     var inrectangle1y  = 235;
     var inrectangle2y  = 310;
-    var outrectangle1y = 225;
-    var outrectangle2y = 300;
-    var outrectanglesx = 150 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-    var inrectanglesx  = 160 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
     var outrectw       = 300;
     var outrecth       = 50;
+    var outrectangle1y = 225;
+    var outrectangle2y = 300;
+    var outrectanglesx = canvas.width/2 - outrectw/2;
+    var inrectanglesx  = canvas.width/2 - outrectw/2 + 10;
     var circle_offset  = 2 * (outcirclesr + 10);
     
     //initialize containers
@@ -244,7 +243,7 @@ function Game(easelStage) {
     options_button = new createjs.Container();
     
     //initialize shapes
-    stage         = new createjs.Container();
+    stage             = new createjs.Container();
     game.getStage().addChild(stage);
     var outrectangles = new createjs.Graphics().beginFill("#212121").drawRect(outrectanglesx,0,outrectw,outrecth);
     var outcircle1    = new createjs.Shape();
@@ -291,14 +290,14 @@ function Game(easelStage) {
     options.textBaseline = "middle";
     
     //draw remaining shapes
-    outcircle1.graphics.beginFill("#212121").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-    outcircle2.graphics.beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-    outcircle3.graphics.beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-    outcircle4.graphics.beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
-    incircle1.graphics.beginFill("#f50057").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-    incircle2.graphics.beginFill("#00b0ff").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-    incircle3.graphics.beginFill("#00e676").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-    incircle4.graphics.beginFill("#ff9100").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+    outcircle1.graphics.beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+    outcircle2.graphics.beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
+    outcircle3.graphics.beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
+    outcircle4.graphics.beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+    incircle1.graphics.beginFill("#f50057").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, incirclesr);
+    incircle2.graphics.beginFill("#00b0ff").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, incirclesr);
+    incircle3.graphics.beginFill("#00e676").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, incirclesr);
+    incircle4.graphics.beginFill("#ff9100").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, incirclesr);
     inrectangle1.graphics.beginFill("#f44336").drawRect(inrectanglesx, inrectangle1y, inrectw, inrecth);
     inrectangle2.graphics.beginFill("#d500f9").drawRect(inrectanglesx, inrectangle2y, inrectw, inrecth);
     
@@ -313,9 +312,9 @@ function Game(easelStage) {
     p1.y      = circlesy;
     p2.x      = canvas.width/2 - (circle_offset / 2);
     p2.y      = circlesy;
-    p3.x      = canvas.width/2 + (circle_offset / 2);;
+    p3.x      = canvas.width/2 + (circle_offset / 2);
     p3.y      = circlesy;
-    p4.x      = canvas.width/2 + (circle_offset + circle_offset / 2);;
+    p4.x      = canvas.width/2 + (circle_offset + circle_offset / 2);
     p4.y      = circlesy;
     start.x   = canvas.width / 2;
     start.y   = inrectangle1y + outrecth / 4;
