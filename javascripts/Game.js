@@ -91,7 +91,7 @@ function Game(easelStage) {
     background.x = 0;
     background.y = 0;
     mainGameContainer.addChild(background);
-    stage.update();
+    game.getStage().update();
     // Load GameEvent objects
     game.loadStory();
     currentTurn = 0;
@@ -156,141 +156,190 @@ function Game(easelStage) {
     }
 
 	this.startMenu = function() {
-	var ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW = 180;
+    var ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW = 180;
     var stage;
-		
-    	//  Handle user clicking "start"
-    	this.onStart = function(event) {
-        	game.getStage().removeChild(stage);
-        	game.getStage().update();
-        	game.progress();
-    	}
     
-        // Change canvas color to off-white
-		var canvas = game.getStage();
-		var stage = canvas;
-        // canvas.style.backgroundColor = "#f5f5f5";
-        
-        //initialize variables
-        var incirclesr      = 40;
-        var outcirclesr    = 50;
-        var circlesy       = 150;
-        var inrectw        = 280;
-        var inrecth        = 30;
-        var inrectangle1y  = 235;
-        var inrectangle2y  = 310;
-        var outrectangle1y = 225;
-        var outrectangle2y = 300;
-        var outrectanglesx = 150 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-        var inrectanglesx  = 160 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-        var outrectw       = 300;
-        var outrecth       = 50;
-        
-        //initialize shapes
-        stage         = new createjs.Container();
-		game.getStage().addChild(stage);
-        var outrectangles = new createjs.Graphics().beginFill("#616161").drawRect(outrectanglesx,0,outrectw,outrecth);
-		var outcircles    = new createjs.Graphics().beginFill("#616161").drawCircle(0, circlesy, outcirclesr);
-        var outcircle1    = new createjs.Shape(outcircles);
-        var outcircle2    = new createjs.Shape(outcircles);
-        var outcircle3    = new createjs.Shape(outcircles);
-        var outcircle4    = new createjs.Shape(outcircles);
-        var incircle1     = new createjs.Shape();
-        var incircle2     = new createjs.Shape();
-        var incircle3     = new createjs.Shape();
-        var incircle4     = new createjs.Shape();
-        var outrectangle1 = new createjs.Shape(outrectangles);
-        var outrectangle2 = new createjs.Shape(outrectangles);
-        var inrectangle1  = new createjs.Shape();
-        var inrectangle2  = new createjs.Shape();
-        
-        //initialize text
-        var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#616161");
-        p_num.maxWidth = 1000;
-        p_num.textAlign = "center";
-        p_num.textBaseline = "middle";
-        var p1      = new createjs.Text("1", "36px Arial", "#fafafa");
-        p1.maxWidth = 1000;
-        p1.textAlign = "center";
-        p1.textBaseline = "middle";
-        var p2      = new createjs.Text("2", "36px Arial", "#fafafa");
-        p2.maxWidth = 1000;
-        p2.textAlign = "center";
-        p2.textBaseline = "middle";
-        var p3      = new createjs.Text("3", "36px Arial", "#fafafa");
-        p3.maxWidth = 1000;
-        p3.textAlign = "center";
-        p3.textBaseline = "middle";
-        var p4      = new createjs.Text("4", "36px Arial", "#fafafa");
-        p4.maxWidth = 1000;
-        p4.textAlign = "center";
-        p4.textBaseline = "middle";
-        var start   = new createjs.Text("Start", "36px Arial", "#fafafa");
-        start.maxWidth = 1000;
-        start.textAlign = "center";
-        start.textBaseline = "middle";
-        var options = new createjs.Text("Options", "36px Arial", "#fafafa");
-        options.maxWidth = 1000;
-        options.textAlign = "center";
-        options.textBaseline = "middle";
-        
-        //draw remaining shapes
-        incircle1.graphics.beginFill("#f50057").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-        incircle2.graphics.beginFill("#00b0ff").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-        incircle3.graphics.beginFill("#00e676").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-        incircle4.graphics.beginFill("#ff9100").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
-        inrectangle1.graphics.beginFill("#f44336").drawRect(inrectanglesx, inrectangle1y, inrectw, inrecth);
-        inrectangle2.graphics.beginFill("#d500f9").drawRect(inrectanglesx, inrectangle2y, inrectw, inrecth);
-        
-        //set remaining shape coords
-        outcircle1.x = 120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-        outcircle2.x = 240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-        outcircle3.x = 360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-        outcircle4.x = 480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
-        outrectangle1.y = outrectangle1y;
-        outrectangle2.y = outrectangle2y;
-        
-        //set text coords
-        var circle_offset = 2 * (outcirclesr + 10)
-        p_num.x   = canvas.width / 2;
-        p_num.y   = circlesy - 100;
-        p1.x      = canvas.width/2 - (circle_offset + circle_offset / 2);
-        p1.y      = circlesy;
-        p2.x      = canvas.width/2 - (circle_offset / 2);
-        p2.y      = circlesy;
-        p3.x      = canvas.width/2 + (circle_offset / 2);;
-        p3.y      = circlesy;
-        p4.x      = canvas.width/2 + (circle_offset + circle_offset / 2);;
-        p4.y      = circlesy;
-        start.x   = canvas.width / 2;
-        start.y   = inrectangle1y + outrecth / 4;
-        options.x = canvas.width / 2;
-        options.y = inrectangle2y + outrecth / 4;
-        
-        //add objects to menuStage
-        //add objects to stage
-        stage.addChild(outcircle1);
-        stage.addChild(outcircle2);
-        stage.addChild(outcircle3);
-        stage.addChild(outcircle4);
-        stage.addChild(incircle1);
-        stage.addChild(incircle2);
-        stage.addChild(incircle3);
-        stage.addChild(incircle4);
-        stage.addChild(outrectangle1);
-        stage.addChild(outrectangle2);
-        stage.addChild(inrectangle1);
-        stage.addChild(inrectangle2);
-        stage.addChild(p_num);
-        stage.addChild(p1);
-        stage.addChild(p2);
-        stage.addChild(p3);
-        stage.addChild(p4);
-        stage.addChild(start);
-        stage.addChild(options);
-        start.addEventListener("click", this.onStart);
+    this.one_player = function(event) {
+      outcircle1.graphics.clear().beginFill("#212121").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      //num_players = 1;
+      game.getStage().update();
+    }
+    
+    this.two_player = function(event) {
+      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#212121").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      //num_players = 2;
+      game.getStage().update();
+    }
+    
+    this.three_player =  function(event) {
+      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#212121").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      //num_players = 3;
+      game.getStage().update();
+    }
+    
+    this.four_player = function(event) {
+      outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      outcircle4.graphics.clear().beginFill("#212121").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+      //num_players = 4;
+      game.getStage().update();;
+    }
+     
+    //  Handle user clicking "start"
+    this.onStart = function(event) {
+        game.getStage().removeChild(stage);
         game.getStage().update();
-}
+        game.progress();
+    }
+     
+    this.options_menu = function(event) {
+      game.getStage().removeChild(stage);
+      game.getStage().update();
+      //options menu here
+    }
+        
+    var canvas = game.getStage();
+    var stage = canvas;
+    
+    //declare button containers
+    var p1_button;
+    var p2_button;
+    var p3_button;
+    var p4_button;
+    var start_button;
+    var options_button;
+    
+    //initialize variables
+    var incirclesr     = 40;
+    var outcirclesr    = 50;
+    var circlesy       = 150;
+    var inrectw        = 280;
+    var inrecth        = 30;
+    var inrectangle1y  = 235;
+    var inrectangle2y  = 310;
+    var outrectangle1y = 225;
+    var outrectangle2y = 300;
+    var outrectanglesx = 150 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+    var inrectanglesx  = 160 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW;
+    var outrectw       = 300;
+    var outrecth       = 50;
+    var circle_offset  = 2 * (outcirclesr + 10);
+    
+    //initialize containers
+    p1_button      = new createjs.Container();
+    p2_button      = new createjs.Container();
+    p3_button      = new createjs.Container();
+    p4_button      = new createjs.Container();
+    start_button   = new createjs.Container();
+    options_button = new createjs.Container();
+    
+    //initialize shapes
+    stage         = new createjs.Container();
+    game.getStage().addChild(stage);
+    var outrectangles = new createjs.Graphics().beginFill("#212121").drawRect(outrectanglesx,0,outrectw,outrecth);
+    var outcircle1    = new createjs.Shape();
+    var outcircle2    = new createjs.Shape();
+    var outcircle3    = new createjs.Shape();
+    var outcircle4    = new createjs.Shape();
+    var incircle1     = new createjs.Shape();
+    var incircle2     = new createjs.Shape();
+    var incircle3     = new createjs.Shape();
+    var incircle4     = new createjs.Shape();
+    var outrectangle1 = new createjs.Shape(outrectangles);
+    var outrectangle2 = new createjs.Shape(outrectangles);
+    var inrectangle1  = new createjs.Shape();
+    var inrectangle2  = new createjs.Shape();
+    
+    //initialize text
+    var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
+    p_num.maxWidth = 1000;
+    p_num.textAlign = "center";
+    p_num.textBaseline = "middle";
+    var p1      = new createjs.Text("1", "36px Arial", "#fafafa");
+    p1.maxWidth = 1000;
+    p1.textAlign = "center";
+    p1.textBaseline = "middle";
+    var p2      = new createjs.Text("2", "36px Arial", "#fafafa");
+    p2.maxWidth = 1000;
+    p2.textAlign = "center";
+    p2.textBaseline = "middle";
+    var p3      = new createjs.Text("3", "36px Arial", "#fafafa");
+    p3.maxWidth = 1000;
+    p3.textAlign = "center";
+    p3.textBaseline = "middle";
+    var p4      = new createjs.Text("4", "36px Arial", "#fafafa");
+    p4.maxWidth = 1000;
+    p4.textAlign = "center";
+    p4.textBaseline = "middle";
+    var start   = new createjs.Text("Start", "36px Arial", "#fafafa");
+    start.maxWidth = 1000;
+    start.textAlign = "center";
+    start.textBaseline = "middle";
+    var options = new createjs.Text("Options", "36px Arial", "#fafafa");
+    options.maxWidth = 1000;
+    options.textAlign = "center";
+    options.textBaseline = "middle";
+    
+    //draw remaining shapes
+    outcircle1.graphics.beginFill("#212121").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+    outcircle2.graphics.beginFill("#bdbdbd").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+    outcircle3.graphics.beginFill("#bdbdbd").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+    outcircle4.graphics.beginFill("#bdbdbd").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, outcirclesr);
+    incircle1.graphics.beginFill("#f50057").drawCircle(120 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+    incircle2.graphics.beginFill("#00b0ff").drawCircle(240 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+    incircle3.graphics.beginFill("#00e676").drawCircle(360 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+    incircle4.graphics.beginFill("#ff9100").drawCircle(480 + ALEX_IS_JUST_TRYING_TO_GET_THIS_TO_WORK_FOR_TOMORROW, circlesy, incirclesr);
+    inrectangle1.graphics.beginFill("#f44336").drawRect(inrectanglesx, inrectangle1y, inrectw, inrecth);
+    inrectangle2.graphics.beginFill("#d500f9").drawRect(inrectanglesx, inrectangle2y, inrectw, inrecth);
+    
+    //set remaining shape coords
+    outrectangle1.y = outrectangle1y;
+    outrectangle2.y = outrectangle2y;
+    
+    //set text coords
+    p_num.x   = canvas.width / 2;
+    p_num.y   = circlesy - 100;
+    p1.x      = canvas.width/2 - (circle_offset + circle_offset / 2);
+    p1.y      = circlesy;
+    p2.x      = canvas.width/2 - (circle_offset / 2);
+    p2.y      = circlesy;
+    p3.x      = canvas.width/2 + (circle_offset / 2);;
+    p3.y      = circlesy;
+    p4.x      = canvas.width/2 + (circle_offset + circle_offset / 2);;
+    p4.y      = circlesy;
+    start.x   = canvas.width / 2;
+    start.y   = inrectangle1y + outrecth / 4;
+    options.x = canvas.width / 2;
+    options.y = inrectangle2y + outrecth / 4;
+    
+    //add objects to menuStage
+    //add objects to stage
+    p1_button.addChildAt(outcircle1, incircle1, p1, 0);
+    p2_button.addChildAt(outcircle2, incircle2, p2, 0);
+    p3_button.addChildAt(outcircle3, incircle3, p3, 0);
+    p4_button.addChildAt(outcircle4, incircle4, p4, 0);
+    start_button.addChildAt(outrectangle1, inrectangle1, start, 0);
+    options_button.addChildAt(outrectangle2, inrectangle2, options, 0);
+    stage.addChildAt(p_num, p1_button, p2_button, p3_button, p4_button, start_button, options_button, 0);
+    game.getStage().update();
+    p1_button.addEventListener("click", this.one_player);
+    p2_button.addEventListener("click", this.two_player);
+    p3_button.addEventListener("click", this.three_player);
+    p4_button.addEventListener("click", this.four_player);
+    options_button.addEventListener("click", this.options_menu);
+    start_button.addEventListener("click", this.onStart);
+    game.getStage().update();
+  }
 	
     // Player must be double clicked to go to next game segment
     this.scavHunt = function() {
