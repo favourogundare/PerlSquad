@@ -1,13 +1,6 @@
 // Global variable for game object
-var game = new Game();
 const GAME_WIDTH = 960;
 const GAME_HEIGHT = 444;
-
-function init() {
-  var stage = new createjs.Stage("main");
-  game.setStage(stage);
-  game.start();
-}
 
 // This is a container for a single-player (for now), linear story based game. 
 // A game is seen as a series of "Game Events," represented by the GameEvent object.
@@ -44,7 +37,7 @@ function Game(easelStage) {
   // for multiplayer / teams. 
   var currentPlayer = player;
   // EaselJS Container object. Shape objects attached to this using 
-  // Game.getContainer.addChild(Shape) can be manipulated as a collection.
+  // Game.getMainContainer.addChild(Shape) can be manipulated as a collection.
   // Can be useful for encapsulating the main "playing field" from temporary
   // graphics or mini-games. 
   var mainGameContainer = new createjs.Container();
@@ -91,9 +84,9 @@ function Game(easelStage) {
     background.x = 0;
     background.y = 0;
     mainGameContainer.addChild(background);
-    game.getStage().update();
+    this.getStage().update();
     // Load GameEvent objects
-    game.loadStory();
+    this.loadStory();
     currentTurn = 0;
     currentGameEvent = story[0];
 
@@ -102,7 +95,7 @@ function Game(easelStage) {
     currentGameEvent.trigger();
   }
 
-  // Set / Get root EaselJS Shape object of the game
+  // Set / Get root EaselJS DisplayObject object of the game
   this.setStage = function(easelJSStage) {
     stage = easelJSStage;
 	stage.width = GAME_WIDTH;
@@ -110,6 +103,10 @@ function Game(easelStage) {
   }
   this.getStage = function() {
     return stage;
+  }
+  
+  this.getMainContainer = function() {
+	  return mainGameContainer;
   }
 
   //  Receive a reference to the player who's turn it currently is
@@ -339,58 +336,6 @@ function Game(easelStage) {
     start_button.addEventListener("click", this.onStart);
     game.getStage().update();
   }
-	
-    // Player must be double clicked to go to next game segment
-    this.scavHunt = function() {
-	  var scavHuntContainer;
-		
-	  this.onProceed = function(event) {
-        game.getStage().removeChild(scavHuntContainer);
-		game.progress();
-	  }
-		
-      // Public eventListener to handle double clicking on the player
-      this.handleDblClick = function(event) {
-        // Delete old text
-        mainGameContainer.removeChild(text)
-        scavHuntContainer = new createjs.Container();
-		scavHuntContainer.x = 100;
-		scavHuntContainer.y = 100;
-		var scavHuntBackground = new createjs.Shape();
-		scavHuntBackground.graphics.beginFill("#000000").drawRect(0, 0, 760, 244);
-		scavHuntContainer.addChild(scavHuntBackground);
-		var scavHuntAnimalPic = new createjs.Bitmap("images/tiger.png");
-		scavHuntAnimalPic.x = 50;
-		scavHuntAnimalPic.y = 25;
-		scavHuntContainer.addChild(scavHuntAnimalPic);
-		var scavHuntDivider = new createjs.Shape();
-		scavHuntDivider.graphics.beginFill("#FFFFFF").drawRect(269, 43, 3, 169);
-		scavHuntContainer.addChild(scavHuntDivider);
-		var scavHuntText = new createjs.Text("Text about a tiger...", "20px Arial", "#FFFFFF");
-		scavHuntText.x = 300;
-		scavHuntText.y = 122;
-		scavHuntContainer.addChild(scavHuntText);
-		var scavHuntProceed = new createjs.Text("Proceed", "20px Arial", "#FFFFFF");
-		scavHuntProceed.x = 680;
-		scavHuntProceed.y = 220;
-		scavHuntProceed.addEventListener("click", this.onProceed);
-		scavHuntContainer.addChild(scavHuntProceed);
-		game.getStage().addChild(scavHuntContainer);
-		game.getStage().update();
-		game.getStage().update();
-      }
-
-      // What will be executed when the GameEvent function pointer is triggered
-      var text = new createjs.Text("Double Click Now!", "20px Arial", "#ff7700");
-      text.x = 350;
-      text.y = 350;
-      mainGameContainer.addChild(text);
-      var playerIcon = game.getCurrentPlayer().getIcon();
-      playerIcon.x = playerIcon.x + 40 * (game.getCurrentTurn() + 1);
-      playerIcon.y = playerIcon.y + 100;
-      playerIcon.addEventListener("dblclick", this.handleDblClick);
-      stage.update();
-    }
 
     // Moves from one GameEvent to the other, simply takes away old eventListeners
     this.transition = function() {
@@ -400,8 +345,8 @@ function Game(easelStage) {
     // Assign different code to different segments GameEvents
     story[0] = new GameEvent(this.transition, this.startMenu);	// Single click to continue
     story[1] = new GameEvent(this.transition, this.singleClick);	// Now double click
-    story[2] = new GameEvent(this.transition, this.scavHunt);	// Back to single click
+    story[2] = new GameEvent(this.transition, eventScavengerHunt);
 	story[3] = new GameEvent(this.transition, this.singleClick);	// Double
-    story[4] = new GameEvent(this.transition, this.scavHunt);	// Back to single click
+    story[4] = new GameEvent(this.transition, eventScavengerHunt);	
   }
 }

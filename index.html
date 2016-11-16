@@ -1,9 +1,16 @@
 <html>
   <head>
+	<!-- Game Engine Libraries ------------------------------------>
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
 	<script src="javascripts/Player.js"></script>
 	<script src="javascripts/GameEvent.js"></script>
     <script src="javascripts/Game.js"></script>
+	<!-- Global Game object initialization ----------------------->
+	<script> var game = new Game(); </script>
+	<!-- Code for different segments of the game ----------------->
+    <script src="javascripts/ScavengerHunt.js"></script>
+	<!-- Start game ---------------------------------------------->
+	<script src="javascripts/init.js"></script>
   </head>
   <body onload="init();">
     <canvas id="main" width="960" height="444"></canvas>
