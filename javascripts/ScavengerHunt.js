@@ -35,6 +35,9 @@ function eventScavengerHunt() {
     var selectFrom = [1, 2, 3, 4, 5];
     var minSort;
     var color;
+    var scavHuntDivider;
+    var scavHuntPic;
+    var scavHuntText;
     
     /**  
      * @function this.onAnimal
@@ -115,6 +118,7 @@ function eventScavengerHunt() {
      * and calling game.progress().
      */
     this.onOK2 = function(event){
+        infoContainer.removeAllChildren();
         if (remaining){
             game.getStage().removeChild(infoContainer);
             
@@ -162,6 +166,8 @@ function eventScavengerHunt() {
         //OK section
         scavHuntBackground2 = new createjs.Shape();
         scavHuntBackground2.graphics.beginFill("#000000").drawRect(0, 0, BOX_WIDTH, BOX_HEIGHT);
+        scavHuntDivider = new createjs.Shape();
+        scavHuntDivider.graphics.beginFill("#FFFFFF").drawRect(269, 43, 3, 169);
         scavHuntOK2 = new createjs.Text("OK", "20px Arial", "#FFFFFF");
         scavHuntOK2.x = 9 * BOX_WIDTH / 10;
         scavHuntOK2.y = 4 * BOX_HEIGHT / 5;
@@ -171,25 +177,59 @@ function eventScavengerHunt() {
         if (selected == 1){
             scavHuntContainer.removeChild(scavHuntAnimal);
             selectFrom[0] = 6;
+            scavHuntPic = new createjs.Bitmap("Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png");
+            scavHuntPic.scaleX=.3;
+            scavHuntPic.scaleY=.3;
+            scavHuntPic.x = 50;
+            scavHuntPic.y = 25;
+            scavHuntText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
+            scavHuntText.x = 300;
+            scavHuntText.y = 100;
+            infoContainer.addChildAt(scavHuntBackground2, scavHuntPic, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
         }
         else if (selected == 2){
             scavHuntContainer.removeChild(scavHuntGrowingSeason);
             selectFrom[1] = 6;
+            scavHuntText = new createjs.Text("   Unlike some of the other biomes,\nthe rainforest's growing season lasts\nall year long.", "20px Arial", "#FFFFFF");
+            scavHuntText.x = 300;
+            scavHuntText.y = 100;
+            infoContainer.addChildAt(scavHuntBackground2, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
         }
         else if (selected == 3){
             scavHuntContainer.removeChild(scavHuntPlantLife);
             selectFrom[2] = 6;
+            scavHuntPic = new createjs.Bitmap("Pictures/Plants/Rainforest/Venus Fly Trap.jpg");
+            scavHuntPic.scaleX=.55;
+            scavHuntPic.scaleY=.55;
+            scavHuntPic.x = 70;
+            scavHuntPic.y = 25;
+            scavHuntText = new createjs.Text("   Some rainforest plants are adapted\nto obtain nutrients from animal matter.\nThe best known of these is probably\nthe Venus fly trap.", "20px Arial", "#FFFFFF");
+            scavHuntText.x = 300;
+            scavHuntText.y = 100;
+            infoContainer.addChildAt(scavHuntBackground2, scavHuntPic, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
         }
         else if (selected == 4){
             scavHuntContainer.removeChild(scavHuntPrecipitation);
             selectFrom[3] = 6;
+            scavHuntPic = new createjs.Bitmap("Pictures/Precipitation/Rainforest/Rain.jpg");
+            scavHuntPic.scaleX=.12;
+            scavHuntPic.scaleY=.12;
+            scavHuntPic.x = 50;
+            scavHuntPic.y = 45;
+            scavHuntText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
+            scavHuntText.x = 300;
+            scavHuntText.y = 100;
+            infoContainer.addChildAt(scavHuntBackground2, scavHuntPic, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
         }
         else if (selected == 5){
             scavHuntContainer.removeChild(scavHuntLatitude);
             selectFrom[4] = 6;
+            scavHuntText = new createjs.Text("   The rainforest is found between 10 degrees\nNorth and 10 degrees South.", "20px Arial", "#FFFFFF");
+            scavHuntText.x = 300;
+            scavHuntText.y = 100;
+            infoContainer.addChildAt(scavHuntBackground2, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
         }
         
-        infoContainer.addChildAt(scavHuntBackground2, scavHuntOK2, 0);
         game.getStage().addChild(infoContainer);
         game.getStage().update();
     }
@@ -210,18 +250,6 @@ function eventScavengerHunt() {
         /** background for scavHunt container section */
         scavHuntBackground = new createjs.Shape();
         scavHuntBackground.graphics.beginFill("#000000").drawRect(0, 0, BOX_WIDTH, BOX_HEIGHT);
-        
-        /*var scavHuntAnimalPic = new createjs.Bitmap("images/tiger.png");
-        scavHuntAnimalPic.x = 50;
-        scavHuntAnimalPic.y = 25;
-        scavHuntContainer.addChild(scavHuntAnimalPic);
-        var scavHuntDivider = new createjs.Shape();
-        scavHuntDivider.graphics.beginFill("#FFFFFF").drawRect(269, 43, 3, 169);
-        scavHuntContainer.addChild(scavHuntDivider);
-        var scavHuntText = new createjs.Text("Text about a tiger...", "20px Arial", "#FFFFFF");
-        scavHuntText.x = 300;
-        scavHuntText.y = 122;
-        scavHuntContainer.addChild(scavHuntText);*/
         
         /** initialize button containers */
         scavHuntAnimal        = new createjs.Container();
