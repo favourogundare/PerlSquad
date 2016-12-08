@@ -1,50 +1,58 @@
-// Global variable for game object
+/** Global variables for game object */
 const GAME_WIDTH = 960;
 const GAME_HEIGHT = 444;
 
-// This is a container for a single-player (for now), linear story based game. 
-// A game is seen as a series of "Game Events," represented by the GameEvent object.
-// Each GameEvent has two function pointers, moveFunc and actionFunc. The first is 
-// meant to handle the transition between the last GameEvent and the current one.
-// The second is meant to setup what actually happens at this point in the game.
-// This includes rendering shapes and setting up EventListeners for user interaction.
-// Meaning, what actually makes the game unique is the series of GameEvents and the code
-// their function pointers point to.
-// 
-// To create custom GameEvent objects and add them to the sequence of events, create
-// a priviledged member class (really a function obj) to Game.loadStory. This object should
-// contain constructor code, which will be triggered when it is the current GameEvent; 
-// eventListeners for user interaction and game progression, and any other data members needed  to do
-// what you want at that point in the game. All eventListeners should be public functions such that
-// CreateJS can launch them.
-//
-// Now, to assign one or more GameEvent's function pointers to point to this new function object,
-// simply make the assignment in the body of Game.loadStory(). A simple example is provided.
-// Each GameEvent will have to trigger Game.progress() at some point (most likely a listener function)
-// to conclude the current GameEvent and trigger the next one. This will continue until there are no
-// more GameEvent objects. Populate Game.start() and Game.finish() with code to handle
-// the beginning and ending of the game.
+/**
+ * @function Game
+ * This is a container for a single-player (for now), linear story based game. 
+ * A game is seen as a series of "Game Events," represented by the GameEvent object.
+ * Each GameEvent has two function pointers, moveFunc and actionFunc. The first is 
+ * meant to handle the transition between the last GameEvent and the current one.
+ * The second is meant to setup what actually happens at this point in the game.
+ * This includes rendering shapes and setting up EventListeners for user interaction.
+ * Meaning, what actually makes the game unique is the series of GameEvents and the code
+ * their function pointers point to.
+ * 
+ * To create custom GameEvent objects and add them to the sequence of events, create
+ * a priviledged member class (really a function obj) to Game.loadStory. This object should
+ * contain constructor code, which will be triggered when it is the current GameEvent; 
+ * eventListeners for user interaction and game progression, and any other data members needed  to do
+ * what you want at that point in the game. All eventListeners should be public functions such that
+ * CreateJS can launch them.
+ *
+ * Now, to assign one or more GameEvent's function pointers to point to this new function object,
+ * simply make the assignment in the body of Game.loadStory(). A simple example is provided.
+ * Each GameEvent will have to trigger Game.progress() at some point (most likely a listener function)
+ * to conclude the current GameEvent and trigger the next one. This will continue until there are no
+ * more GameEvent objects. Populate Game.start() and Game.finish() with code to handle
+ * the beginning and ending of the game.
+ */
 function Game(easelStage) {
   //-- Private --//
-  var stage = easelStage; // Reference to EaselJS Stage object
-  var story = Array(); // Array of GameEvent objects
-  var currentGameEvent; // A reference to the most recently visited GameEvent
-  // Turn counter, and with single-player it's'also the position in the story
+  var stage = easelStage; /** Reference to EaselJS Stage object */
+  var story = Array(); /** Array of GameEvent objects */
+  var currentGameEvent; /** A reference to the most recently visited GameEvent */
+  /** Turn counter, and with single-player it's'also the position in the story */
   var currentTurn;
-  // For now, there is only one player in the game
+  /** For now, there is only one player in the game */
   var player = new Player(new createjs.Bitmap("images/player.png"));
-  // A reference to the player with the current turn. Can be an array
-  // for multiplayer / teams. 
+  /** A reference to the player with the current turn. Can be an array for multiplayer/teams. */
   var currentPlayer = player;
-  // EaselJS Container object. Shape objects attached to this using 
-  // Game.getMainContainer.addChild(Shape) can be manipulated as a collection.
-  // Can be useful for encapsulating the main "playing field" from temporary
-  // graphics or mini-games. 
+  
+  /**
+   * EaselJS Container object. Shape objects attached to this using 
+   * Game.getMainContainer.addChild(Shape) can be manipulated as a collection.
+   * Can be useful for encapsulating the main "playing field" from temporary
+   * graphics or mini-games. 
+   */
   var mainGameContainer = new createjs.Container();
 
-  // Private function called by Game.progress() when the end of the game is reached
-  // Do anything to finish the game such as announce the winner, release
-  // resources, ask if they'd like to play again, change graphics, etc...
+  /**
+   * @function finish
+   * Private function called by Game.progress() when the end of the game is reached
+   * Do anything to finish the game such as announce the winner, release
+   * resources, ask if they'd like to play again, change graphics, etc...
+   */
   var finish = function() {
     var doneText = new createjs.Text("Game Finished!!", "20px Arial", "#ff7700");
     doneText.x = 100;
@@ -55,14 +63,20 @@ function Game(easelStage) {
 
   //-- Public --//
 	
-  // A generic container for game-scope data. Meaning, if it is needed
-  // throughout different parts of the game, put it here. If the data is
-  // needed for only one segment (i.e., GameEvent), bundle it with the object pointed to
-  // by the GameEvent's moveFunc() or actionFunc() member. 
+  /**
+   * @function this.globalData
+   * A generic container for game-scope data. Meaning, if it is needed
+   * throughout different parts of the game, put it here. If the data is
+   * needed for only one segment (i.e., GameEvent), bundle it with the object pointed to
+   * by the GameEvent's moveFunc() or actionFunc() member. 
+   */
   this.globalData = {};
 
-  // This is the most important function. Calling this transitions to the
-  // next GameEvent. 
+  /**
+   * @function this.progress
+   * This is the most important function.
+   * Calling this transitions to the next GameEvent.
+   */ 
   this.progress = function() {
     if (++currentTurn >= story.length) finish();
     else {
@@ -72,74 +86,100 @@ function Game(easelStage) {
     }
   }
 
-  // Called to start the game. Should initialize and render anything needed to start
-  // the game. Will return with -1 for error if a easelJS stage hasn't
-  // been provided using Game.setStage(Stage).  
+  /**
+   * @function this.start
+   * Called to start the game. Should initialize and render anything needed to start
+   * the game. Will return with -1 for error if a easelJS stage hasn't
+   * been provided using Game.setStage(Stage)
+   */.  
   this.start = function() {
-    // Attach container to main canvas stage
+    /** Attach container to main canvas stage */
     if (stage === undefined) return -1;
     else stage.addChild(mainGameContainer);
-    // Set background
+    /** Set background */
     var background = new createjs.Bitmap("images/background_map.png");
     background.x = 0;
     background.y = 0;
     mainGameContainer.addChild(background);
     this.getStage().update();
-    // Load GameEvent objects
+    /** Load GameEvent objects */
     this.loadStory();
     currentTurn = 0;
     currentGameEvent = story[0];
 
-    // Run first GameEvent
+    /** Run first GameEvent */
     currentPlayer.updateGamePosition(currentGameEvent);
     currentGameEvent.trigger();
   }
 
-  // Set / Get root EaselJS DisplayObject object of the game
+  /**
+   * @function this.setStage
+   * Set root EaselJS DisplayObject object of the game
+   */
   this.setStage = function(easelJSStage) {
     stage = easelJSStage;
 	stage.width = GAME_WIDTH;
 	stage.height = GAME_HEIGHT;
   }
+  
+  /**
+   * @function this.getStage
+   * Get root EaselJS DisplayObject object of the game
+   */
   this.getStage = function() {
     return stage;
   }
   
+  /**
+   * @function this.getMainContainer
+   */
   this.getMainContainer = function() {
 	  return mainGameContainer;
   }
 
-  //  Receive a reference to the player who's turn it currently is
+  /**
+   * @function this.getCurrentPlayer
+   * Receive a reference to the player who's turn it currently is
+   */
   this.getCurrentPlayer = function() {
     return currentPlayer;
   }
 
-  // Returns a reference to the current GameEvent object
+  /**
+   * @function this.getCurrentEvent  
+   * Returns a reference to the current GameEvent object
+   */
   this.getCurrentEvent = function() {
     return currentGameEvent
   }
 
+  /**
+   * @function this.getCurrentTurn
+   */
   this.getCurrentTurn = function() {
     return currentTurn;
   }
 
-  // All function objects to which GameEvent members will point to should be declared as public
-  // members of this class. Below is an example in which a player moves around the board after
-  // being appropriately clicked (i.e., single or double).
+  /**
+   * @function this.loadStory
+   * All function objects to which GameEvent members will point to should be declared as public
+   * members of this class. Below is an example in which a player moves around the board after
+   * being appropriately clicked (i.e., single or double).
+   */
   this.loadStory = function() {
 	  
-    // Player's avatar must be clicked to proceed
+    /** Player's avatar must be clicked to proceed */
     this.singleClick = function() {
       var text;
 
-      // Public eventListener to handle single clicking on the player
+      /** Public eventListener to handle single clicking on the player */
       this.handleClick = function(event) {
-        // Delete old text
+        /** Delete old text */
         mainGameContainer.removeChild(text)
         game.progress();
       }
 
-      // What will be executed when the GameEvent function pointer is triggered
+      /** What will be executed when the GameEvent function pointer is triggered */
       text = new createjs.Text("Click the Player", "20px Arial", "#ff7700");
       text.x = 350;
       text.y = 350;
@@ -152,62 +192,79 @@ function Game(easelStage) {
       stage.update();
     }
 
+    /**
+     * @function startMenu
+     */
 	this.startMenu = function() {
     var stage;
     
+    /**
+     * @function this.one_player
+     */
     this.one_player = function(event) {
       outcircle1.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
       outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
       outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
-      //num_players = 1;
       game.getStage().update();
     }
     
+    /**
+     * @function this.two_player
+     */
     this.two_player = function(event) {
       outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       outcircle2.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
       outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
       outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
-      //num_players = 2;
       game.getStage().update();
     }
     
+    /**
+     * @function this.three_player
+     */
     this.three_player =  function(event) {
       outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
       outcircle3.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
       outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
-      //num_players = 3;
       game.getStage().update();
     }
     
+    /**
+     * @function this.four_player
+     */
     this.four_player = function(event) {
       outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
       outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
       outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
       outcircle4.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
-      //num_players = 4;
       game.getStage().update();;
     }
      
-    //  Handle user clicking "start"
+    /**
+     * @function this.onStart
+     * Handle user clicking "start"
+     */
     this.onStart = function(event) {
         game.getStage().removeChild(stage);
         game.getStage().update();
         game.progress();
     }
      
+    /**
+     *@function this.options_menu
+     */
     this.options_menu = function(event) {
       game.getStage().removeChild(stage);
       game.getStage().update();
-      //options menu here
+      /** options menu here */
     }
         
     var canvas = game.getStage();
     var stage = canvas;
     
-    //declare button containers
+    /** declare button containers */
     var p1_button;
     var p2_button;
     var p3_button;
@@ -215,7 +272,7 @@ function Game(easelStage) {
     var start_button;
     var options_button;
     
-    //initialize variables
+    /** initialize variables */
     var incirclesr     = 40;
     var outcirclesr    = 50;
     var circlesy       = 150;
@@ -231,7 +288,7 @@ function Game(easelStage) {
     var inrectanglesx  = canvas.width/2 - outrectw/2 + 10;
     var circle_offset  = 2 * (outcirclesr + 10);
     
-    //initialize containers
+    /** initialize containers */
     p1_button      = new createjs.Container();
     p2_button      = new createjs.Container();
     p3_button      = new createjs.Container();
@@ -239,7 +296,7 @@ function Game(easelStage) {
     start_button   = new createjs.Container();
     options_button = new createjs.Container();
     
-    //initialize shapes
+    /** initialize shapes */
     stage             = new createjs.Container();
     game.getStage().addChild(stage);
     var outrectangles = new createjs.Graphics().beginFill("#212121").drawRect(outrectanglesx,0,outrectw,outrecth);
@@ -256,7 +313,7 @@ function Game(easelStage) {
     var inrectangle1  = new createjs.Shape();
     var inrectangle2  = new createjs.Shape();
     
-    //initialize text
+    /** initialize text */
     var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
     p_num.maxWidth = 1000;
     p_num.textAlign = "center";
@@ -286,7 +343,7 @@ function Game(easelStage) {
     options.textAlign = "center";
     options.textBaseline = "middle";
     
-    //draw remaining shapes
+    /** draw remaining shapes */
     outcircle1.graphics.beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
     outcircle2.graphics.beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
     outcircle3.graphics.beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
@@ -298,11 +355,11 @@ function Game(easelStage) {
     inrectangle1.graphics.beginFill("#f44336").drawRect(inrectanglesx, inrectangle1y, inrectw, inrecth);
     inrectangle2.graphics.beginFill("#d500f9").drawRect(inrectanglesx, inrectangle2y, inrectw, inrecth);
     
-    //set remaining shape coords
+    /** set remaining shape coords */
     outrectangle1.y = outrectangle1y;
     outrectangle2.y = outrectangle2y;
     
-    //set text coords
+    /** set text coords */
     p_num.x   = canvas.width / 2;
     p_num.y   = circlesy - 100;
     p1.x      = canvas.width/2 - (circle_offset + circle_offset / 2);
@@ -317,9 +374,8 @@ function Game(easelStage) {
     start.y   = inrectangle1y + outrecth / 4;
     options.x = canvas.width / 2;
     options.y = inrectangle2y + outrecth / 4;
-    
-    //add objects to menuStage
-    //add objects to stage
+
+    /** add objects to stage */
     p1_button.addChildAt(outcircle1, incircle1, p1, 0);
     p2_button.addChildAt(outcircle2, incircle2, p2, 0);
     p3_button.addChildAt(outcircle3, incircle3, p3, 0);
@@ -337,12 +393,15 @@ function Game(easelStage) {
     game.getStage().update();
   }
 
-    // Moves from one GameEvent to the other, simply takes away old eventListeners
+    /** 
+     * @function this.transition
+     * Moves from one GameEvent to the other, simply takes away old eventListeners
+     */
     this.transition = function() {
       game.getCurrentPlayer().getIcon().removeAllEventListeners();
     }
 
-    // Assign different code to different segments GameEvents
+    /** Assign different code to different segments GameEvents */
     story[0] = new GameEvent(this.transition, this.startMenu);	// Single click to continue
     story[1] = new GameEvent(this.transition, this.singleClick);	// Now double click
     story[2] = new GameEvent(this.transition, eventScavengerHunt);
