@@ -112,6 +112,15 @@ function Game(easelStage) {
         currentGameEvent.trigger();
     }
 
+	/**
+	* @function this.getCanvas
+	* Returns a reference to the underlying canvas
+	*/
+	this.getCanvas = function() {
+		return canvas;
+	}
+	
+	
     /**
     * @function this.setStage
     * Set root EaselJS DisplayObject object of the game
@@ -162,9 +171,7 @@ function Game(easelStage) {
 
     /**
     * @function this.loadStory
-    * All function objects to which GameEvent members will point to should be declared as public
-    * members of this class. Below is an example in which a player moves around the board after
-    * being appropriately clicked (i.e., single or double).
+    *  Assigns GameEvent objects their custom code
     */
     this.loadStory = function() {
       
@@ -402,10 +409,10 @@ function Game(easelStage) {
         }
 
         /** Assign different code to different segments GameEvents */
-        story[0] = new GameEvent(this.transition, this.startMenu);	// Single click to continue
-        story[1] = new GameEvent(this.transition, this.singleClick);	// Now double click
-        story[2] = new GameEvent(this.transition, eventScavengerHunt);
-        story[3] = new GameEvent(this.transition, this.singleClick);	// Double
-        story[4] = new GameEvent(this.transition, eventScavengerHunt);	
+        story[0] = new GameEvent(this.transition, this.startMenu);
+        story[1] = new GameEvent(this.transition, this.singleClick);
+        story[2] = new GameEvent(this.transition, eventScrollGame);
+        story[3] = new GameEvent(this.transition, eventScavengerHunt);
+
     }
 }
