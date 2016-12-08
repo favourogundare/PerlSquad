@@ -1,25 +1,25 @@
 function eventScrollGame() {
-    //standard canvas and stage variables
+    /** standard canvas and stage variables */
     var canvas;
     var stage;
-    //background image
+    /** background image*/
     var bg;
-    //keeps track of player score
+    /** keeps track of player score */
     var score;
-    // stores ship bitmaps
+    /** stores ship bitmaps */
     var bmpList = [];
     var bitmap;
-    // text display
+    /** text display */
     var txt;
     // is the game currently in play?
     var play;
-    // game over text
+    /** game over text */
     var gameTxt;
-    // the mouse's current target
+    /** the mouse's current target */
     var mouseTarget;
     // is the mouse being clicked?
     var clicked;
-    // initializes the ship game
+    /** initializes the ship game */
     
     canvas = document.getElementById("main");
     stage = new game.getStage();
@@ -42,6 +42,10 @@ function eventScrollGame() {
 	sheep.name = "sheep";
 	sheep.onload = createAnimals;
 
+    /**
+     * @function setBG
+     * Sets the background for the mini-game.
+     */
     function setBG(event){
         var bgrnd = new createjs.Bitmap(bg);
         stage.addChild(bgrnd);
@@ -54,6 +58,11 @@ function eventScrollGame() {
         play=true;
         stage.addChild(txt);
     }
+    
+    /**
+     * @function createAnimals
+     * Creates animal objects and enables clicking on them.
+     */
     function createAnimals(event){
         var image = event.target;
         var container = new createjs.Container();
@@ -73,14 +82,23 @@ function eventScrollGame() {
         
         createjs.Ticker.addEventListener("tick", tick);
     }
+    
+    /**
+     * @function resetAnimal
+     * Places animals randomly into the mini-game to be clicked/not clicked.
+     */
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
         animal.speed = (Math.random()*8)+6;
     }
-    // ticker function for animation
+    
+    /**
+     * @function tick
+     * Ticker function for animation.
+     */
     function tick(){
-        //check for clicking
+        /** check for clicking */
         if (!clicked && stage.mouseX && stage.mouseY){
             mouseTarget = stage.getObjectUnderPoint(stage.mouseX, stage.mouseY);
         }
@@ -89,7 +107,7 @@ function eventScrollGame() {
             if (tempText=="sheep"){
                 resetAnimal(mouseTarget);
                 score-=50;
-                if (score < 0){ // prevent negative score
+                if (score < 0){ /** prevent negative score */
                     score = 0;
                 }
                 clicked=false;
@@ -100,7 +118,7 @@ function eventScrollGame() {
                 clicked=false;
             }
         }
-        //moving the ships
+        /** moving the ships */
         if (play == true){
             var l=bmpList.length;
             for(var i=0; i<l; i++){
@@ -121,7 +139,10 @@ function eventScrollGame() {
         txt.text = "Score: "+score;
         stage.update();
     }
-    //function used for a game over
+    /**
+     * @function gameOver    
+     * Ends game and displays "Game Over" text. 
+     */
     function gameOver(){
         gameTxt = new createjs.Text("Game Over\n\n", "36px Arial", "#000");
         gameTxt.text += "Click to play again";
@@ -140,7 +161,10 @@ function eventScrollGame() {
         
     }
 
-    // response to a click after a game over
+    /**
+     * @function handleClick
+     * Handles a click after a game over
+     */
     var handleClick = function(){
         canvas.onclick=null;
         stage.removeChild(gameTxt);
@@ -149,12 +173,18 @@ function eventScrollGame() {
         play=true;
     }
 
-    //on a click down
+    /**
+     * @function onMouseDown
+     * Handles a click down.
+     */
     var onMouseDown = function(){
         if(!e){var e = window.event;}
         clicked = true;
     }
-    // on click release
+    /**
+     * @function onMouseUp
+     * Handles a click release.
+     */
     var onMouseUp = function (){
         clicked = false
     }
