@@ -200,7 +200,7 @@ function eventScavengerHunt() {
      */
     this.handleDblClick = function(event) {
         /** Delete old text */
-        game.getMainContainer().removeChild(text)
+        game.getMainContainer().removeChild(text);
         
         /** scavHunt container section */
         scavHuntContainer = new createjs.Container();
