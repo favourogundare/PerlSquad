@@ -1,7 +1,5 @@
 const DeciduousForest_Animals_Large =
-[
-	
-];
+[];
 
 const Desert_Animals_Large =
 [

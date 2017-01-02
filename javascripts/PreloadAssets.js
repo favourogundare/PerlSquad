@@ -16,12 +16,17 @@ function eventPreloadAssets() {
 	preload.on("fileload", handleFileLoad);
 	preload.on("complete", handleComplete);
     for (var i = 0; i < manifest.length; i++) {
-        if (ObjectIndex == 7) {
-            ObjectIndex = 0;
-            BiomeIndex++;
-        }
-        preload.loadManifest(manifest[i])
-        ObjectIndex++;
+		if (typeof manifest[i] !== 'undefined' && manifest[i] !== null && manifest[i].length > 0){
+			if (ObjectIndex == 7) {
+				ObjectIndex = 0;
+				BiomeIndex++;
+			}
+			preload.loadManifest(manifest[i])
+			ObjectIndex++;
+		}	else {
+			game.progress();
+			return;
+		}
     }
 	preload.loadManifest(manifest);
 }
@@ -53,5 +58,6 @@ function handleComplete() {
     Loading++;
     if (Loading == manifest.length){
         game.progress();   
+		return;
     }
 }

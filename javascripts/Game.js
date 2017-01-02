@@ -35,6 +35,17 @@ function Game(easelStage) {
     /** Turn counter, and with single-player it's'also the position in the story */
     var currentTurn;
     /** For now, there is only one player in the game */
+	var numPlayers = 1;
+	
+	//CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
+	//THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
+	var BiomeList = new DoublyLinkedCycle();
+	BiomeList.add("Deciduous Forest", 0, 0);
+	BiomeList.add("Desert", 0, 0);
+	BiomeList.add("Grassland", 0, 0);
+	BiomeList.add("Rainforest", 0, 0);
+	BiomeList.add("Tundra", 0, 0);
+	
     var player = new Player(new createjs.Bitmap("images/player.png"));
     /** A reference to the player with the current turn. Can be an array for multiplayer/teams. */
     var currentPlayer = player;
@@ -47,12 +58,12 @@ function Game(easelStage) {
     */
     var mainGameContainer = new createjs.Container();
 
-        /**
-        * @function finish
-        * Private function called by Game.progress() when the end of the game is reached
-        * Do anything to finish the game such as announce the winner, release
-        * resources, ask if they'd like to play again, change graphics, etc...
-        */
+	/**
+	* @function finish
+	* Private function called by Game.progress() when the end of the game is reached
+	* Do anything to finish the game such as announce the winner, release
+	* resources, ask if they'd like to play again, change graphics, etc...
+	*/
     var finish = function() {
         var doneText = new createjs.Text("Game Finished!!", "20px Arial", "#ff7700");
         doneText.x = 100;
@@ -209,6 +220,7 @@ function Game(easelStage) {
              * @function this.one_player
              */
             this.one_player = function(event) {
+				numPlayers = 1;
                 outcircle1.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
                 outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
                 outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
@@ -220,6 +232,7 @@ function Game(easelStage) {
             * @function this.two_player
             */
             this.two_player = function(event) {
+				numPlayers = 2;
                 outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
                 outcircle2.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
                 outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
@@ -231,7 +244,8 @@ function Game(easelStage) {
             * @function this.three_player
             */
             this.three_player =  function(event) {
-                outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+                numPlayers = 3;
+				outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
                 outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
                 outcircle3.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
                 outcircle4.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
@@ -242,7 +256,8 @@ function Game(easelStage) {
             * @function this.four_player
             */
             this.four_player = function(event) {
-                outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
+                numPlayers = 4;
+				outcircle1.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset + circle_offset / 2), circlesy, outcirclesr);
                 outcircle2.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 - (circle_offset / 2), circlesy, outcirclesr);
                 outcircle3.graphics.clear().beginFill("#bdbdbd").drawCircle(canvas.width/2 + (circle_offset / 2), circlesy, outcirclesr);
                 outcircle4.graphics.clear().beginFill("#212121").drawCircle(canvas.width/2 + (circle_offset + circle_offset / 2), circlesy, outcirclesr);
@@ -414,7 +429,5 @@ function Game(easelStage) {
         story[2] = new GameEvent(this.transition, this.singleClick);
         story[3] = new GameEvent(this.transition, eventScavengerHunt);
         story[4] = new GameEvent(this.transition, eventScrollGame);
-		
-
     }
 }
