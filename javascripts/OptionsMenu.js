@@ -7,7 +7,7 @@ function eventOptionsMenu() {
         options_title.textBaseline = "middle";
         game.startMenu.choose_biome();*/
         game.getStage().removeChild(options_page);
-        eventStartMenu();
+        eventSelectCategory();
     }
   
     this.edit_clicked = function(event){
@@ -17,7 +17,7 @@ function eventOptionsMenu() {
         options_title.textBaseline = "middle";
         game.startMenu.choose_biome();*/
         game.getStage().removeChild(options_page);
-        eventStartMenu();
+        eventSelectCategory();
     }
   
     this.done_clicked = function(event){
