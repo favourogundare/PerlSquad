@@ -3,6 +3,13 @@ var preload;
 var ObjectIndex;
 var BiomeIndex;
 var Loading;
+var progressText = new createjs.Text("", "20px Arial", "#000000");
+progressText.x = game.getStage().width;
+progressText.y = 20;
+progressText.textAlign = "center";
+progressText.textBaseline = "middle";
+game.getStage().addChild(progressText);
+game.getStage().update();
 function eventPreloadAssets() {
 	assets = [];
     ObjectIndex = 0;
@@ -12,7 +19,10 @@ function eventPreloadAssets() {
 	stage = new createjs.Stage("canvas");
 	var manifest = getManifest();
 
-	preload = new createjs.LoadQueue(true);
+	preload = new createjs.LoadQueue(false);
+    preload.on("error", handleError);
+    preload.on("fileerror", handleFileError);
+    preload.on("progress", handleFileProgress);
 	preload.on("fileload", handleFileLoad);
 	preload.on("complete", handleComplete);
     for (var i = 0; i < manifest.length; i++) {
@@ -30,7 +40,18 @@ function eventPreloadAssets() {
     }
 	preload.loadManifest(manifest);
 }
+function handleError(event) {
+    console.log("Error!",event.text);
+}
+function handleFileError() {
+    console.log("File error");
+}
+function handleFileProgress(event) {
+    progressText.text = (preload.progress*100|0) + "% Loaded";
+    game.getStage().update();
+}
 function handleFileLoad(event) {
+    console.log("Finished Loading: " + event.item.id);
 	assets[BiomeIndex][ObjectIndex].push(event);
 }
 function handleComplete() {

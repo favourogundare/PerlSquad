@@ -42,7 +42,7 @@ function eventSelectCategory() {
     
     /**  
      * @function this.onAnimal
-     * Extended function that handles when scavHuntAnimal container is clicked by highlighting "Animal" button.
+     * Extended function that handles when option1 container is clicked by highlighting "option1" button.
      */
     this.on1 =  function(event){
         selected = 1;
@@ -56,7 +56,7 @@ function eventSelectCategory() {
     
     /** 
      * @function this.onGrowingSeason
-     * Extended function that handles when scavHuntGrowingSeason container is clicked by highlighting "Growing Season" button.
+     * Extended function that handles when option2 container is clicked by highlighting "option2" button.
      */
     this.on2 = function(event){
         selected = 2;
@@ -70,7 +70,7 @@ function eventSelectCategory() {
     
     /** 
      * @function this.onPlantLife
-     * Extended function that handles when scavHuntPlantLife container is clicked by highlighting "Plant Life" button.
+     * Extended function that handles when option3 container is clicked by highlighting "option3" button.
      */
     this.on3 = function(event){
         selected = 3;
@@ -84,7 +84,7 @@ function eventSelectCategory() {
     
     /** 
      * @function this.onPrecipitation
-     * Extended function that handles when scavHuntPrecipitation container is clicked by highlighting "Precipitation" button.
+     * Extended function that handles when option4 container is clicked by highlighting "option4" button.
      */
     this.on4 = function(event){
         selected = 4;
@@ -99,7 +99,7 @@ function eventSelectCategory() {
     
     /** 
      * @function this.onLatitude
-     * Extended function that handles when scavHuntLatitude container is clicked by highlighting "Latitude" button.
+     * Extended function that handles when option5 container is clicked by highlighting "option5" button.
      */
     this.on5 = function(event){
         selected = 5;
@@ -113,7 +113,8 @@ function eventSelectCategory() {
 	
     /** 
      * @function this.onOK
-     * Extended function that handles when scavenger hunt OK is clicked by displaying the corresponding item info and removing the selected item from available options.
+     * Extended function that handles when selectCategoryOK is clicked. The first time it is clicked, it will store the selected option and then change the options to biomes. The 
+     * second time it is clicked, it will access the relative information based one the two category selections.
      */	
     this.onOK = function(event) {
         if (category == 1) {
@@ -140,12 +141,12 @@ function eventSelectCategory() {
     
     category = 1;
     
-    /** scavHunt container section */
+    /** SelectCategory container section */
     SelectCategoryContainer = new createjs.Container();
     SelectCategoryContainer.x = 100;
     SelectCategoryContainer.y = 100;
     
-    /** background for scavHunt container section */
+    /** background for SelectCategory container section */
     selectBackground = new createjs.Shape();
     selectBackground.graphics.beginFill("#000000").drawRect(0, 0, BOX_WIDTH, BOX_HEIGHT);
     
@@ -171,7 +172,7 @@ function eventSelectCategory() {
     /** initial default selection */
     selected = 1;
     
-    /** animal button container section*/
+    /** option1 button container section*/
     outcircle1.graphics.beginFill("#616161").drawCircle(1 * BOX_WIDTH/6, BOX_HEIGHT/3, 50);
     incircle1.graphics.beginFill("#f44336").drawCircle(1 * BOX_WIDTH/6, BOX_HEIGHT/3, 40);
     option1Text = new createjs.Text("Animal", "20px Arial", "#FFFFFF");
@@ -183,7 +184,7 @@ function eventSelectCategory() {
     option1.addEventListener("click", this.on1);
     option1.addChildAt(outcircle1, incircle1, option1Text, 0);
     
-    /** growing season button container section */
+    /** option2 button container section */
     outcircle2.graphics.beginFill("#bdbdbd").drawCircle(2 * BOX_WIDTH/6, BOX_HEIGHT/3, 50);
     incircle2.graphics.beginFill("#ff9100").drawCircle(2 * BOX_WIDTH/6, BOX_HEIGHT/3, 40);
     option2Text = new createjs.Text("Growing Season", "20px Arial", "#FFFFFF");
@@ -195,7 +196,7 @@ function eventSelectCategory() {
     option2.addEventListener("click", this.on2);
     option2.addChildAt(outcircle2, incircle2, option2Text, 0);
     
-    /** plant life button container section */
+    /** option3 button container section */
     outcircle3.graphics.beginFill("#bdbdbd").drawCircle(3 * BOX_WIDTH/6, BOX_HEIGHT/3, 50);
     incircle3.graphics.beginFill("#00e676").drawCircle(3 * BOX_WIDTH/6, BOX_HEIGHT/3, 40);
     option3Text = new createjs.Text("Plant Life", "20px Arial", "#FFFFFF");
@@ -207,7 +208,7 @@ function eventSelectCategory() {
     option3.addEventListener("click", this.on3);
     option3.addChildAt(outcircle3, incircle3, option3Text, 0);
     
-    /** precipitation button container section */
+    /** option4 button container section */
     outcircle4.graphics.beginFill("#bdbdbd").drawCircle(4 * BOX_WIDTH/6, BOX_HEIGHT/3, 50);
     incircle4.graphics.beginFill("#00b0ff").drawCircle(4 * BOX_WIDTH/6, BOX_HEIGHT/3, 40);
     option4Text = new createjs.Text("Precipitation", "20px Arial", "#FFFFFF");
@@ -219,7 +220,7 @@ function eventSelectCategory() {
     option4.addEventListener("click", this.on4);
     option4.addChildAt(outcircle4, incircle4, option4Text, 0);
     
-    /** latitude button container section */
+    /** option5 button container section */
     outcircle5.graphics.beginFill("#bdbdbd").drawCircle(5 * BOX_WIDTH/6, BOX_HEIGHT/3, 50);
     incircle5.graphics.beginFill("#d500f9").drawCircle(5 * BOX_WIDTH/6, BOX_HEIGHT/3, 40);
     option5Text = new createjs.Text("Latitude", "20px Arial", "#FFFFFF");
