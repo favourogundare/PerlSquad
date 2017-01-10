@@ -21,6 +21,22 @@ function eventScrollGame() {
     var clicked;
     /** initializes the ship game */
     
+    /**
+     * @function onMouseDown
+     * Handles a click down.
+     */
+    var onMouseDown = function(){
+        if(!e){var e = window.event;}
+        clicked = true;
+    }
+    /**
+     * @function onMouseUp
+     * Handles a click release.
+     */
+    var onMouseUp = function (){
+        clicked = false
+    }
+    
     canvas = document.getElementById("main");
     stage = new game.getStage();
 	score = 0;
@@ -171,21 +187,5 @@ function eventScrollGame() {
         score=0;
         
         play=true;
-    }
-
-    /**
-     * @function onMouseDown
-     * Handles a click down.
-     */
-    var onMouseDown = function(){
-        if(!e){var e = window.event;}
-        clicked = true;
-    }
-    /**
-     * @function onMouseUp
-     * Handles a click release.
-     */
-    var onMouseUp = function (){
-        clicked = false
     }
 }
