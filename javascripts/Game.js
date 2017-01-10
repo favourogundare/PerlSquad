@@ -47,20 +47,20 @@ function Game(easelStage) {
 		this.container.addEventListener(buttonEvent, buttonFunction);
 	} 
 	
-	this.CircleButton = function(buttonText, buttonColor, buttonX, buttonY, buttonR, selected, buttonEvent, buttonFunction) {
+	this.CircleButton = function(buttonText, buttonTextFormat, buttonTextX, buttonTextY, buttonColor, buttonX, buttonY, buttonR, selected, selectedColor, buttonEvent, buttonFunction) {
 		if (selected) {
-			this.outColor = "#212121";
+			this.outColor = selectedColor;
 		} else {
 			this.outColor = "#bdbdbd";
 		}
 		this.container        = new createjs.Container();
 		this.container.x      = buttonX;
 		this.container.y      = buttonY;
-		this.txt   		      = new createjs.Text(buttonText, "36px Arial", "#fafafa");
+		this.txt   		      = new createjs.Text(buttonText, buttonTextFormat, "#fafafa");
 		this.txt.textAlign    = "center";
 		this.txt.textBaseline = "middle";
-		this.txt.x 	          = 0;
-		this.txt.y            = 0;
+		this.txt.x 	          = buttonTextX;
+		this.txt.y            = buttonTextY;
 		this.outCircle          = new createjs.Shape();
 		this.outCircle.graphics.beginFill(this.outColor).drawCircle(0, 0, buttonR);
 		this.inCircle           = new createjs.Shape();		

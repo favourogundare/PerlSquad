@@ -11,12 +11,12 @@ function eventStartMenu() {
     start_page = new createjs.Container();
 	
     /** initialize buttons */
-    p1_button      = new game.CircleButton("1", "#f50057", game.getStage().width/2 - 180, 150, 50, true, "click", one_player);
-    p2_button      = new game.CircleButton("2", "#00b0ff", game.getStage().width/2 - 60, 150, 50, false, "click", two_player);
-    p3_button      = new game.CircleButton("3", "#00e676", game.getStage().width/2 + 60, 150, 50, false, "click", three_player);
-    p4_button      = new game.CircleButton("4", "#ff9100", game.getStage().width/2 + 180, 150, 50, false, "click", four_player);
-    var start_button   = new game.RectButton("Start", "#f44336", game.getStage().width/2 - 150, 225, 300, 50, "click", onStart);
-    var options_button = new game.RectButton("Options", "#d500f9", game.getStage().width/2 - 150, 300, 300, 50, "click", options_menu);
+    p1_button      = new CircleButton("1", "36px Arial", 0, 0, "#f50057", game.getStage().width/2 - 180, 150, 50, true, "#212121", "click", one_player);
+    p2_button      = new CircleButton("2", "36px Arial", 0, 0, "#00b0ff", game.getStage().width/2 - 60, 150, 50, false, "#212121", "click", two_player);
+    p3_button      = new CircleButton("3", "36px Arial", 0, 0, "#00e676", game.getStage().width/2 + 60, 150, 50, false, "#212121", "click", three_player);
+    p4_button      = new CircleButton("4", "36px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 180, 150, 50, false, "#212121", "click", four_player);
+    var start_button   = new RectButton("Start", "#f44336", game.getStage().width/2 - 150, 225, 300, 50, "click", onStart);
+    var options_button = new RectButton("Options", "#d500f9", game.getStage().width/2 - 150, 300, 300, 50, "click", options_menu);
 
     /** initialize page text */
     var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
