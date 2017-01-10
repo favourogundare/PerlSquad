@@ -2,7 +2,7 @@
  * @function eventScavengerHunt
  * Item gathering portion of game.
  */
-function eventSelectCategory() {
+function eventSelectCategory(chosen) {
     var BOX_WIDTH  = 760;
     var BOX_HEIGHT = 244;
     var SelectCategoryContainer;
@@ -135,7 +135,16 @@ function eventSelectCategory() {
         } else {
             console.log("selected[" + item + "][" + selected + "]");
             game.getStage().removeChild(SelectCategoryContainer);
-            eventStartMenu();
+			game.getStage().update();
+            //eventStartMenu();
+			console.log(item, selected);
+			switch (chosen){
+				case "add":
+					eventAddItem();
+					break;
+				case "edit":
+					eventEditItem();
+			}
         }
     }
     
