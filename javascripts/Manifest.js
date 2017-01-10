@@ -1,74 +1,78 @@
 const DeciduousForest_Animals_Large =
-[];
+[
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Deciduous_Forest/Animal - BlackBear - Large - Black.png", id: "blackbear"}
+];
 
 const Desert_Animals_Large =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Desert/Animal - Cougar - Large - Brown.png", id: "cougar"}	
 ];
 
 const Grassland_Animals_Large =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Grassland/Animal - Bobcat - Large - Brown.png", id: "bobcat"}
 ];
 
 const Rainforest_Animals_Large =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Rainforest/Animal - Jaguar - Large - Orange.png", id: "jaguar"}
 ];
 
 const Tundra_Animals_Large =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Tundra/Animal - PolarBear - Large - White.gif", id: "polarbear"}
 ];
 
 const DeciduousForest_Animals_Medium =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png", id: "deer"}
 ];
 
 const Desert_Animals_Medium =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Desert/Animal - Armadillo - Medium - Brown.gif", id: "armadillo"}
 ];
 
 const Grassland_Animals_Medium =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Grassland/Animal - PrarieDog - Medium - Brown.png", id: "prariedog"}
 ];
 
 const Rainforest_Animals_Medium =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Rainforest/Animal - Toucan - Medium - Black.png", id: "toucan"}
 ];
 
 const Tundra_Animals_Medium =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Tundra/Animal - ArcticHare - Medium - White.jpg", id: "arctichare"}
 ];
 
 const DeciduousForest_Animals_Small =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Deciduous_Forest/Animal - Salamander - Small - Black.png", id: "salamander"}
 ];
 
 const Desert_Animals_Small =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Desert/Animal - SandCat - Small - Brown.png", id: "sandcat"}
 ];
 
 const Grassland_Animals_Small =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Grassland/Animal - BumbleBee - Small - Yellow.png", id: "bumblebee"}
 ];
 
 const Rainforest_Animals_Small =
 [
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Rainforest/Animal - Butterfly - Small - Blue.png", id: "butterfly"}
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Rainforest/Animal - Rabbit - Small - Black.png", id: "rabbit"}
 	
 ];
 
 const Tundra_Animals_Small =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Tundra/Animal - Trout - Small - Blue.png", id: "trout"}
 ];
 
 const DeciduousForest_Precipitation =
@@ -88,7 +92,7 @@ const Grassland_Precipitation =
 
 const Rainforest_Precipitation =
 [
-	
+	{type: createjs.AbstractLoader.IMAGE, src: "../Pictures/Precipitation/Rainforest/Rain.jpg" id: "rain"}
 ];
 
 const Tundra_Precipitation =
@@ -207,7 +211,7 @@ const manifest =
     Desert_GrowingSeason,
     Grassland_GrowingSeason,
     Rainforest_GrowingSeason,
-    Tundra_GrowingSeason,
+    Tundra_GrowingSeason
 ];
 
 function getManifest()	{
