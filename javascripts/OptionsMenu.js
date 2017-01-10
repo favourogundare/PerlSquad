@@ -1,5 +1,5 @@
 function eventOptionsMenu() {
-  
+	var category;
     this.add_clicked = function(event){
         /*var choose_biome_title_text = new createjs.Text("Choose Biome for Adding Objects", "48px Arial", "#212121");
         options_title.maxWidth = 1000;
@@ -7,7 +7,7 @@ function eventOptionsMenu() {
         options_title.textBaseline = "middle";
         game.startMenu.choose_biome();*/
         game.getStage().removeChild(options_page);
-        eventSelectCategory();
+        eventSelectCategory("add");
     }
   
     this.edit_clicked = function(event){
@@ -17,7 +17,7 @@ function eventOptionsMenu() {
         options_title.textBaseline = "middle";
         game.startMenu.choose_biome();*/
         game.getStage().removeChild(options_page);
-        eventSelectCategory();
+        eventSelectCategory("edit");
     }
   
     this.done_clicked = function(event){
@@ -110,4 +110,17 @@ function eventOptionsMenu() {
     add_button.addEventListener("click", this.add_clicked);
     edit_button.addEventListener("click", this.edit_clicked);
     done_button.addEventListener("click", this.done_clicked);
+}
+
+function eventAddItem() {
+	console.log("adding");
+	//Description.style.display = 'inline';
+	var redRectButton = new game.RectButton("Works", "#f44336", game.getStage().width/2 - 150, 225, 300, 50);
+	console.log(redRectButton.container);
+	game.getStage().addChild(redRectButton.container);
+	game.getStage().update();
+}
+
+function eventEditItem() {
+	console.log("editing");
 }

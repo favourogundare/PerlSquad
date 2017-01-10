@@ -27,7 +27,48 @@ const GAME_HEIGHT = 444;
  * more GameEvent objects. Populate Game.start() and Game.finish() with code to handle
  * the beginning and ending of the game.
  */
+ 
 function Game(easelStage) {
+	
+	this.RectButton = function(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH, buttonEvent, buttonFunction) {
+		this.container        = new createjs.Container();
+		this.container.x      = buttonX;
+		this.container.y      = buttonY;
+		this.txt   		      = new createjs.Text(buttonText, "36px Arial", "#fafafa");
+		this.txt.textAlign    = "center";
+		this.txt.textBaseline = "middle";
+		this.txt.x 	          = buttonW/2;
+		this.txt.y            = 10 + buttonH/3;
+		this.outRect          = new createjs.Shape();
+		this.outRect.graphics.beginFill("#212121").drawRect(0, 0, buttonW, buttonH);
+		this.inRect           = new createjs.Shape();		
+		this.inRect.graphics.beginFill(buttonColor).drawRect(10, 10, buttonW - 20, buttonH - 20);
+		this.container.addChildAt(this.outRect, this.inRect, this.txt, 0);
+		this.container.addEventListener(buttonEvent, buttonFunction);
+	} 
+	
+	this.CircleButton = function(buttonText, buttonColor, buttonX, buttonY, buttonR, selected, buttonEvent, buttonFunction) {
+		if (selected) {
+			this.outColor = "#212121";
+		} else {
+			this.outColor = "#bdbdbd";
+		}
+		this.container        = new createjs.Container();
+		this.container.x      = buttonX;
+		this.container.y      = buttonY;
+		this.txt   		      = new createjs.Text(buttonText, "36px Arial", "#fafafa");
+		this.txt.textAlign    = "center";
+		this.txt.textBaseline = "middle";
+		this.txt.x 	          = buttonX;
+		this.txt.y            = buttonY;
+		this.outCircle          = new createjs.Shape();
+		this.outCircle.graphics.beginFill(this.outColor).drawCircle(0, 0, buttonR);
+		this.inCircle           = new createjs.Shape();		
+		this.inCircle.graphics.beginFill(buttonColor).drawCircle(0, 0, buttonR - 10);
+		this.container.addChildAt(this.outCircle, this.inCircle, this.txt, 0);
+		this.container.addEventListener(buttonEvent, buttonFunction);
+	}
+	
     //-- Private --//
     var stage = easelStage; /** Reference to EaselJS Stage object */
     var story = Array(); /** Array of GameEvent objects */
@@ -40,11 +81,16 @@ function Game(easelStage) {
 	//CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
 	//THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
 	var BiomeList = new DoublyLinkedCycle();
-	BiomeList.add("Deciduous Forest", 0, 0);
-	BiomeList.add("Desert", 0, 0);
-	BiomeList.add("Grassland", 0, 0);
-	BiomeList.add("Rainforest", 0, 0);
-	BiomeList.add("Tundra", 0, 0);
+	//dark green
+	BiomeList.add("Deciduous Forest", 160, 115);
+	//yellow
+	BiomeList.add("Desert", 450, 170);
+	//pink
+	BiomeList.add("Grassland", 630, 105);
+	//light green
+	BiomeList.add("Rainforest", 215, 270);
+	//weird green
+	BiomeList.add("Tundra", 310, 20);
 	
     var player = new Player(new createjs.Bitmap("images/player.png"));
     /** A reference to the player with the current turn. Can be an array for multiplayer/teams. */
@@ -204,7 +250,7 @@ function Game(easelStage) {
             mainGameContainer.addChild(text);
             var playerIcon = game.getCurrentPlayer().getIcon();
             playerIcon.x = 100 * (game.getCurrentTurn() + 1);
-            playerIcon.y = 100;
+			playerIcon.y = 100;
             playerIcon.addEventListener("click", this.handleClick);
             mainGameContainer.addChild(playerIcon);
             stage.update();
