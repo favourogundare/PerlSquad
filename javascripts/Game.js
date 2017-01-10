@@ -59,8 +59,8 @@ function Game(easelStage) {
 		this.txt   		      = new createjs.Text(buttonText, "36px Arial", "#fafafa");
 		this.txt.textAlign    = "center";
 		this.txt.textBaseline = "middle";
-		this.txt.x 	          = buttonX;
-		this.txt.y            = buttonY;
+		this.txt.x 	          = 0;
+		this.txt.y            = 0;
 		this.outCircle          = new createjs.Shape();
 		this.outCircle.graphics.beginFill(this.outColor).drawCircle(0, 0, buttonR);
 		this.inCircle           = new createjs.Shape();		
@@ -76,7 +76,7 @@ function Game(easelStage) {
     /** Turn counter, and with single-player it's'also the position in the story */
     var currentTurn;
     /** For now, there is only one player in the game */
-	var numPlayers = 1;
+	this.numPlayers = 1;
 	
 	//CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
 	//THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
