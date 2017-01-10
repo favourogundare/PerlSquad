@@ -113,11 +113,9 @@ function eventOptionsMenu() {
 }
 
 function eventAddItem() {
-	console.log("adding");
-	//Description.style.display = 'inline';
-	var redRectButton = new game.RectButton("Works", "#f44336", game.getStage().width/2 - 150, 225, 300, 50);
-	console.log(redRectButton.container);
-	game.getStage().addChild(redRectButton.container);
+	Description.style.display = 'inline';
+	/*var redRectButton = new game.RectButton("Works", "#f44336", game.getStage().width/2 - 150, 225, 300, 50);
+	game.getStage().addChild(redRectButton.container);*/
 	game.getStage().update();
 }
 
