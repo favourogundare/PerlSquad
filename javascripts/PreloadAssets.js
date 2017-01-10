@@ -1,16 +1,16 @@
-var assets;
-var preload;
-var ObjectIndex;
-var BiomeIndex;
-var Loading;
-var progressText = new createjs.Text("", "20px Arial", "#000000");
-progressText.x = game.getStage().width;
-progressText.y = 20;
-progressText.textAlign = "center";
-progressText.textBaseline = "middle";
-game.getStage().addChild(progressText);
-game.getStage().update();
 function eventPreloadAssets() {
+	var assets;
+	var preload;
+	var ObjectIndex;
+	var BiomeIndex;
+	var Loading;
+	var progressText = new createjs.Text("", "20px Arial", "#000000");
+	progressText.x = game.getStage().width;
+	progressText.y = 20;
+	progressText.textAlign = "center";
+	progressText.textBaseline = "middle";
+	game.getStage().addChild(progressText);
+	game.getStage().update();
 	assets = [];
     ObjectIndex = 0;
     BiomeIndex  = 0;
