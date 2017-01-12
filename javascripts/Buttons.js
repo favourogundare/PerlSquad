@@ -1,3 +1,15 @@
+/**
+ *  @function RectButton
+ *  @param buttonText
+ *  @param buttonColor
+ *  @param buttonX
+ *  @param buttonY
+ *  @param buttonW
+ *  @param buttonH
+ *  @param buttonEvent
+ *  @param buttonFunction
+ *  Rectangular button class.
+ */
 function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH, buttonEvent, buttonFunction) {
 	this.container        = new createjs.Container();
 	this.container.x      = buttonX;
@@ -15,6 +27,22 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 	this.container.addEventListener(buttonEvent, buttonFunction);
 } 
 
+/**
+ *  @function CircleButton
+ *  @param buttonText
+ *  @param buttonTextFormat
+ *  @param buttonTextX
+ *  @param buttonTextY
+ *  @param buttonColor
+ *  @param buttonX
+ *  @param buttonY
+ *  @param buttonR
+ *  @param selected
+ *  @param selectedColor
+ *  @param buttonEvent
+ *  @param buttonFunction
+ *  Circular button class.
+ */
 function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, buttonColor, buttonX, buttonY, buttonR, selected, selectedColor, buttonEvent, buttonFunction) {
 	if (selected) {
 		this.outColor = selectedColor;

@@ -1,3 +1,7 @@
+/**
+ * @function eventPreloadAssets
+ * Utilizes the manifest to preload assets into 
+ */
 function eventPreloadAssets() {
 	var assets;
 	var preload;

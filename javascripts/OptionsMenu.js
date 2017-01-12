@@ -112,13 +112,19 @@ function eventOptionsMenu() {
     done_button.addEventListener("click", this.done_clicked);
 }
 
+/**
+ *  @function eventAddItem
+ *  Section to add items to the game.
+ */
 function eventAddItem() {
 	Description.style.display = 'inline';
-	/*var redRectButton = new game.RectButton("Works", "#f44336", game.getStage().width/2 - 150, 225, 300, 50);
-	game.getStage().addChild(redRectButton.container);*/
 	game.getStage().update();
 }
 
+/**
+ *  @function eventEditItem
+ *  section to edit the items already in the game.
+ */
 function eventEditItem() {
 	console.log("editing");
 }

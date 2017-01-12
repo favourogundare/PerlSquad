@@ -66,13 +66,17 @@ function eventScrollGame() {
         var bgrnd = new createjs.Bitmap(bg);
         stage.addChild(bgrnd);
         stage.update();
+		
+		var scoreBox = new createjs.Shape();
+		scoreBox.graphics.beginFill("#212121").drawRect(game.getStage().width - 180, 0, 180, 60);
         
-        txt = new createjs.Text ("Score: 0", "24px Arial", "#000");
+        txt = new createjs.Text ("Score: 0", "24px Arial", "#fafafa");
         txt.textBaseline="top";
         txt.x = 800;
         txt.y = 20;
         play=true;
-        stage.addChild(txt);
+        stage.addChild(scoreBox);
+		stage.addChild(txt);
     }
     
     /**
@@ -161,7 +165,6 @@ function eventScrollGame() {
      */
     function gameOver(){
         gameTxt = new createjs.Text("Game Over\n\n", "36px Arial", "#000");
-        gameTxt.text += "Click to play again";
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
