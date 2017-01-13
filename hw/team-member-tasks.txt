@@ -1,0 +1,1 @@
+Scenario: walk the player icon around all 7 biomes on the globe, making sure they are within the appropriate biome at the appropriate step.
