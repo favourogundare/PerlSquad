@@ -3,3 +3,6 @@ Scenario: Player avatar walking around the globe, visiting each biome, according
 
 Eric Keep:
 Scenario: Player starts up the minigame, but has little to no knowledge of the biome, so they click on every animal they see. The minigame should inform the player about the “incorrect animals” they were clicking – it’s just information, it won’t inform the player that it is “incorrect” information
+
+Robert Smith:
+Scenario: Information screen needs to be presented to user in an interesting fashion... Task: Revamp current information scavenger hunt to more "scavenger-like" version.
