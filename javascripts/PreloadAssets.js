@@ -1,14 +1,15 @@
+var progressText;
+var assets;
+var preload;
+var ObjectIndex;
+var BiomeIndex;
+var Loading;
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets() {
-	var assets;
-	var preload;
-	var ObjectIndex;
-	var BiomeIndex;
-	var Loading;
-	var progressText = new createjs.Text("", "20px Arial", "#000000");
+	progressText = new createjs.Text("", "20px Arial", "#000000");
 	progressText.x = game.getStage().width;
 	progressText.y = 20;
 	progressText.textAlign = "center";
@@ -56,7 +57,12 @@ function handleFileProgress(event) {
 }
 function handleFileLoad(event) {
     console.log("Finished Loading: " + event.item.id);
-	assets[BiomeIndex][ObjectIndex].push(event);
+    if (!assets[BiomeIndex]){
+        assets[BiomeIndex] = [event];
+    }
+	else{
+        assets[BiomeIndex].push(event);
+    }
 }
 function handleComplete() {
 	/*
@@ -85,4 +91,8 @@ function handleComplete() {
         game.progress();   
 		return;
     }
+}
+
+function getPreload() {
+    return preload;
 }

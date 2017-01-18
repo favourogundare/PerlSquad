@@ -164,9 +164,20 @@ function SHonOK() {
 	if (selected == 1){
 		scavHuntContainer.removeChild(option1.container);
 		selectFrom[0] = 6;
-		scavHuntPic = new createjs.Bitmap("Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png");
-		scavHuntPic.scaleX=.3;
-		scavHuntPic.scaleY=.3;
+        
+        //get by id
+        var imageTest = getPreload().getResult("toucan");
+        var scavHuntPic = new createjs.Bitmap(imageTest);
+        console.log(scavHuntPic);
+
+        //reset bounds
+        var bounds = scavHuntPic.getBounds();
+        scavHuntPic.scaleY = 100/bounds.height;
+        scavHuntPic.scaleX = 100/bounds.width;
+        
+		//scavHuntPic = new createjs.Bitmap("Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png");
+		//scavHuntPic.scaleX=.3;
+		//scavHuntPic.scaleY=.3;
 		scavHuntPic.x = 50;
 		scavHuntPic.y = 25;
 		scavHuntText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");

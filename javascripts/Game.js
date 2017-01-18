@@ -226,9 +226,9 @@ function Game(easelStage) {
 
         /** Assign different code to different segments GameEvents */
         story[0] = new GameEvent(this.transition, eventStartMenu);
-        //story[1] = new GameEvent(this.transition, eventPreloadAssets);
-        story[1] = new GameEvent(this.transition, this.singleClick);
-        story[2] = new GameEvent(this.transition, eventScavengerHunt);
-        story[3] = new GameEvent(this.transition, eventScrollGame);
+        story[1] = new GameEvent(this.transition, eventPreloadAssets);
+        story[2] = new GameEvent(this.transition, this.singleClick);
+        story[3] = new GameEvent(this.transition, eventScavengerHunt);
+        story[4] = new GameEvent(this.transition, eventScrollGame);
     }
 }

@@ -1,115 +1,54 @@
+//declare options menu button containers
+var add_button;
+var edit_button;
+var done_button;
+var options_page;
+var options_title;
+var category;
 function eventOptionsMenu() {
-	var category;
-    this.add_clicked = function(event){
-        /*var choose_biome_title_text = new createjs.Text("Choose Biome for Adding Objects", "48px Arial", "#212121");
-        options_title.maxWidth = 1000;
-        options_title.textAlign = "center";
-        options_title.textBaseline = "middle";
-        game.startMenu.choose_biome();*/
-        game.getStage().removeChild(options_page);
-        eventSelectCategory("add");
-    }
-  
-    this.edit_clicked = function(event){
-        /*var choose_biome_title_text = new createjs.Text("Choose Biome for Editing Objects", "48px Arial", "#212121");
-        options_title.maxWidth = 1000;
-        options_title.textAlign = "center";
-        options_title.textBaseline = "middle";
-        game.startMenu.choose_biome();*/
-        game.getStage().removeChild(options_page);
-        eventSelectCategory("edit");
-    }
-  
-    this.done_clicked = function(event){
-        game.getStage().removeChild(options_page);
-        eventStartMenu();
-    }
-        
-    var canvas = game.getStage();
-    var options_page = canvas;
-        
-    //options_page button height changes
-    var inrectw        = 280;
-    var inrecth        = 30;
-    var outrectw       = 300;
-    var outrecth       = 50;
-    var inrectangle1y  = 160;
-    var inrectangle2y  = 235;
-    var inrectangle3y  = 310;
-    var outrectangle1y = 150;
-    var outrectangle2y = 225;
-    var outrectangle3y = 300;
-    var outrectanglesx = canvas.width/2 - outrectw/2;
-    var inrectanglesx  = canvas.width/2 - outrectw/2 + 10;
-
-    //declare options menu button containers
-    var add_button;
-    var edit_button;
-    var done_button;
-
-    //initialize options menu button containers
-    add_button  = new createjs.Container();
-    edit_button = new createjs.Container();
-    done_button = new createjs.Container();
+    add_button   = new RectButton("Add", "#00e676", game.getStage().width/2 - 150, 150, 300, 50, "click", add_clicked);
+    edit_button   = new RectButton("Edit", "#ff9100", game.getStage().width/2 - 150, 225, 300, 50, "click", edit_clicked);
+    done_button = new RectButton("Done", "#f44336", game.getStage().width/2 - 150, 300, 300, 50, "click", done_clicked);    
 
     //declare options menu shapes
     options_page = new createjs.Container();
-    game.getStage().addChild(options_page);
-    var outrectangles = new createjs.Graphics().beginFill("#212121").drawRect(outrectanglesx,0,outrectw,outrecth);
-    var outrectangle1 = new createjs.Shape(outrectangles);
-    var outrectangle2 = new createjs.Shape(outrectangles);
-    var outrectangle3 = new createjs.Shape(outrectangles);
-    var inrectangle1  = new createjs.Shape();
-    var inrectangle2  = new createjs.Shape();
-    var inrectangle3  = new createjs.Shape();
 
     //initialize options menu text 
-    var options_title   = new createjs.Text("Options Menu", "48px Arial", "#212121");
+    options_title   = new createjs.Text("Options Menu", "48px Arial", "#212121");
     options_title.maxWidth = 1000;
     options_title.textAlign = "center";
     options_title.textBaseline = "middle";
-    var add   = new createjs.Text("Add Objects", "36px Arial", "#fafafa");
-    add.maxWidth = 1000;
-    add.textAlign = "center";
-    add.textBaseline = "middle";
-    var edit = new createjs.Text("Edit Objects", "36px Arial", "#fafafa");
-    edit.maxWidth = 1000;
-    edit.textAlign = "center";
-    edit.textBaseline = "middle";
-    var done = new createjs.Text("Done", "36px Arial", "#fafafa");
-    done.maxWidth = 1000;
-    done.textAlign = "center";
-    done.textBaseline = "middle";
-
-    //draw remaining options menu shapes
-    inrectangle1.graphics.beginFill("#00e676").drawRect(inrectanglesx, inrectangle1y, inrectw, inrecth);
-    inrectangle2.graphics.beginFill("#ff9100").drawRect(inrectanglesx, inrectangle2y, inrectw, inrecth);
-    inrectangle3.graphics.beginFill("#f44336").drawRect(inrectanglesx, inrectangle3y, inrectw, inrecth);
-
-    //set remaining shape coords
-    outrectangle1.y = outrectangle1y;
-    outrectangle2.y = outrectangle2y;
-    outrectangle3.y = outrectangle3y;
-  
-    //set text coords
-    options_title.x = canvas.width / 2;
-    options_title.y = outrectangle1y - outrecth;
-    add.x           = canvas.width / 2;
-    add.y           = inrectangle1y + outrecth / 3;
-    edit.x          = canvas.width / 2;
-    edit.y          = inrectangle2y + outrecth / 3;
-    done.x          = canvas.width / 2;
-    done.y          = inrectangle3y + outrecth / 3;
-  
-    add_button.addChildAt(outrectangle1, inrectangle1, add, 0);
-    edit_button.addChildAt(outrectangle2, inrectangle2, edit, 0);
-    done_button.addChildAt(outrectangle3, inrectangle3, done, 0);
-    options_page.addChildAt(options_title, add_button, edit_button, done_button, 0);
-  
+    options_title.x = game.getStage().width / 2;
+    options_title.y = 100;
+    
+    options_page.addChildAt(options_title, add_button.container, edit_button.container, done_button.container, 0);
+    game.getStage().addChild(options_page); 
     game.getStage().update();
-    add_button.addEventListener("click", this.add_clicked);
-    edit_button.addEventListener("click", this.edit_clicked);
-    done_button.addEventListener("click", this.done_clicked);
+}
+
+function add_clicked(){
+    /*var choose_biome_title_text = new createjs.Text("Choose Biome for Adding Objects", "48px Arial", "#212121");
+    options_title.maxWidth = 1000;
+    options_title.textAlign = "center";
+    options_title.textBaseline = "middle";
+    game.startMenu.choose_biome();*/
+    options_page.removeAllChildren();
+    eventSelectCategory("add");
+}
+
+function edit_clicked(){
+    /*var choose_biome_title_text = new createjs.Text("Choose Biome for Editing Objects", "48px Arial", "#212121");
+    options_title.maxWidth = 1000;
+    options_title.textAlign = "center";
+    options_title.textBaseline = "middle";
+    game.startMenu.choose_biome();*/
+    options_page.removeAllChildren();
+    eventSelectCategory("edit");
+}
+
+function done_clicked(){
+    game.getStage().removeChild(options_page);
+    eventStartMenu();
 }
 
 /**
@@ -118,7 +57,31 @@ function eventOptionsMenu() {
  */
 function eventAddItem() {
 	Description.style.display = 'inline';
+    ImageSource.style.display = 'inline';
+    var done_button = new RectButton("Done", "#00e676", game.getStage().width/2 - 150, 295, 300, 50, "click", addDone);
+    var cancel_button = new RectButton("Cancel", "#f44336", game.getStage().width/2 - 150, 370, 300, 50, "click", addCancel);
+    options_page.addChild(done_button.container, cancel_button.container);
 	game.getStage().update();
+}
+
+function addDone() {
+    console.log(Description.value);
+    console.log(ImageSource.value);
+    Description.value = '';
+    ImageSource.value = '';
+    Description.style.display = 'none';
+    ImageSource.style.display = 'none';
+    options_page.removeAllChildren();
+    eventOptionsMenu();
+}
+
+function addCancel() {
+    Description.value = '';
+    ImageSource.value = '';
+    Description.style.display = 'none';
+    ImageSource.style.display = 'none';
+    options_page.removeAllChildren();
+    eventOptionsMenu();
 }
 
 /**

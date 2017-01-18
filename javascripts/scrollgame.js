@@ -20,6 +20,11 @@ function eventScrollGame() {
     // is the mouse being clicked?
     var clicked;
     /** initializes the ship game */
+	
+	var difficulty = 2;
+	/** difficulty of the minigame - 1 is easy, 2 is normal, 3 is hard 
+		defaults to normal
+		*/
     
     /**
      * @function onMouseDown
@@ -67,13 +72,12 @@ function eventScrollGame() {
         stage.addChild(bgrnd);
         stage.update();
 		
-		var scoreBox = new createjs.Shape();
-		scoreBox.graphics.beginFill("#212121").drawRect(game.getStage().width - 180, 0, 180, 60);
-        
+        /* hiding the score for now
         txt = new createjs.Text ("Score: 0", "24px Arial", "#fafafa");
         txt.textBaseline="top";
         txt.x = 800;
         txt.y = 20;
+		*/
         play=true;
         stage.addChild(scoreBox);
 		stage.addChild(txt);
@@ -110,7 +114,8 @@ function eventScrollGame() {
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
-        animal.speed = (Math.random()*8)+6;
+		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
+        animal.speed = (Math.random()*4)+ 2 + difficulty;
     }
     
     /**
@@ -126,7 +131,7 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if (tempText=="sheep"){
                 resetAnimal(mouseTarget);
-                score-=50;
+                score-=50*difficulty;
                 if (score < 0){ /** prevent negative score */
                     score = 0;
                 }
@@ -134,7 +139,7 @@ function eventScrollGame() {
             }
             else if (tempText=="toucan"){
                 resetAnimal(mouseTarget);
-                score+=50;
+                score+=50*difficulty;
                 clicked=false;
             }
         }
@@ -156,7 +161,7 @@ function eventScrollGame() {
                 }
             }
         }
-        txt.text = "Score: "+score;
+        //txt.text = "Score: "+score;
         stage.update();
     }
     /**
