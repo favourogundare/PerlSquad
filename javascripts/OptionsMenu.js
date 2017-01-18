@@ -32,7 +32,7 @@ function add_clicked(){
     options_title.textAlign = "center";
     options_title.textBaseline = "middle";
     game.startMenu.choose_biome();*/
-    game.getStage().removeChild(options_page);
+    options_page.removeAllChildren();
     eventSelectCategory("add");
 }
 
@@ -42,7 +42,7 @@ function edit_clicked(){
     options_title.textAlign = "center";
     options_title.textBaseline = "middle";
     game.startMenu.choose_biome();*/
-    game.getStage().removeChild(options_page);
+    options_page.removeAllChildren();
     eventSelectCategory("edit");
 }
 
@@ -57,7 +57,31 @@ function done_clicked(){
  */
 function eventAddItem() {
 	Description.style.display = 'inline';
+    ImageSource.style.display = 'inline';
+    var done_button = new RectButton("Done", "#00e676", game.getStage().width/2 - 150, 295, 300, 50, "click", addDone);
+    var cancel_button = new RectButton("Cancel", "#f44336", game.getStage().width/2 - 150, 370, 300, 50, "click", addCancel);
+    options_page.addChild(done_button.container, cancel_button.container);
 	game.getStage().update();
+}
+
+function addDone() {
+    console.log(Description.value);
+    console.log(ImageSource.value);
+    Description.value = '';
+    ImageSource.value = '';
+    Description.style.display = 'none';
+    ImageSource.style.display = 'none';
+    options_page.removeAllChildren();
+    eventOptionsMenu();
+}
+
+function addCancel() {
+    Description.value = '';
+    ImageSource.value = '';
+    Description.style.display = 'none';
+    ImageSource.style.display = 'none';
+    options_page.removeAllChildren();
+    eventOptionsMenu();
 }
 
 /**
