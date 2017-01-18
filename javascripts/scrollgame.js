@@ -72,8 +72,6 @@ function eventScrollGame() {
         stage.addChild(bgrnd);
         stage.update();
 		
-		var scoreBox = new createjs.Shape();
-		scoreBox.graphics.beginFill("#212121").drawRect(game.getStage().width - 180, 0, 180, 60);
         /* hiding the score for now
         txt = new createjs.Text ("Score: 0", "24px Arial", "#fafafa");
         txt.textBaseline="top";
