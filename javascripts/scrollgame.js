@@ -74,11 +74,12 @@ function eventScrollGame() {
 		
 		var scoreBox = new createjs.Shape();
 		scoreBox.graphics.beginFill("#212121").drawRect(game.getStage().width - 180, 0, 180, 60);
-        
+        /* hiding the score for now
         txt = new createjs.Text ("Score: 0", "24px Arial", "#fafafa");
         txt.textBaseline="top";
         txt.x = 800;
         txt.y = 20;
+		*/
         play=true;
         stage.addChild(scoreBox);
 		stage.addChild(txt);
@@ -115,8 +116,7 @@ function eventScrollGame() {
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
-		/* Generates a speed value between 3 and 8 - possible way of adding difficulty customization later
-			by using a different offset value other than 3 */
+		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
         animal.speed = (Math.random()*4)+ 2 + difficulty;
     }
     
@@ -163,7 +163,7 @@ function eventScrollGame() {
                 }
             }
         }
-        txt.text = "Score: "+score;
+        //txt.text = "Score: "+score;
         stage.update();
     }
     /**

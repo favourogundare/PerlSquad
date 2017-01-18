@@ -1,0 +1,5 @@
+Alex Mayle:
+Scenario: Player avatar walking around the globe, visiting each biome, according to user input  Test: Make sure the player avatar visits the biomes according to the user input, and they are actually standing in within the biome bounds
+
+Eric Keep:
+Scenario: Player starts up the minigame, but has little to no knowledge of the biome, so they click on every animal they see. The minigame should inform the player about the “incorrect animals” they were clicking – it’s just information, it won’t inform the player that it is “incorrect” information
