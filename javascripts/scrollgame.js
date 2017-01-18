@@ -20,6 +20,11 @@ function eventScrollGame() {
     // is the mouse being clicked?
     var clicked;
     /** initializes the ship game */
+	
+	var difficulty = 2;
+	/** difficulty of the minigame - 1 is easy, 2 is normal, 3 is hard 
+		defaults to normal
+		*/
     
     /**
      * @function onMouseDown
@@ -110,7 +115,9 @@ function eventScrollGame() {
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
-        animal.speed = (Math.random()*5)+3;
+		/* Generates a speed value between 3 and 8 - possible way of adding difficulty customization later
+			by using a different offset value other than 3 */
+        animal.speed = (Math.random()*4)+ 2 + difficulty;
     }
     
     /**
@@ -126,7 +133,7 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if (tempText=="sheep"){
                 resetAnimal(mouseTarget);
-                score-=50;
+                score-=50*difficulty;
                 if (score < 0){ /** prevent negative score */
                     score = 0;
                 }
@@ -134,7 +141,7 @@ function eventScrollGame() {
             }
             else if (tempText=="toucan"){
                 resetAnimal(mouseTarget);
-                score+=50;
+                score+=50*difficulty;
                 clicked=false;
             }
         }
