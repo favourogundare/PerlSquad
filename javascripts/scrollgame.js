@@ -110,7 +110,7 @@ function eventScrollGame() {
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
-        animal.speed = (Math.random()*8)+6;
+        animal.speed = (Math.random()*5)+3;
     }
     
     /**
