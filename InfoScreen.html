@@ -1,0 +1,91 @@
+
+<html>
+  <head>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script>      
+	function init(){
+		//var canvas;
+		var stage;
+		var background;
+		var text;
+		var mouseTarget;
+		//var bmpList = [];
+		var bitmap;
+		var update = true;
+		
+		//canvas = game.getCanvas();
+		//stage = new game.getStage();
+		
+		stage = new createjs.Stage("demoCanvas");
+		
+		/////////background = new createjs.Bitmap("rainforest.jpg");
+		//background.src = "rainforest.jpg";
+		//background.onload = setBG;
+	
+		//load toucan image
+		var toucan = new createjs.Bitmap("toucan.png");
+		//toucan.src = "toucan.png";
+		//toucan.name = "toucan";
+		//toucan.onload = createAnimals;
+		toucan.scaleX=.3;
+		toucan.scaleY=.3;
+		toucan.x = 50;
+		toucan.y = 25;
+	
+		//load sheep image
+		//////////////var sheep = new createjs.Bitmap("sheep.png");
+		//sheep.src = "sheep.png";
+		//sheep.name = "sheep";
+		//sheep.onload = createAnimals;
+		
+		createjs.Touch.enable(stage);
+		stage.enableMouseOver(10);
+		stage.mouseMoveOutside = true;
+		
+        var container = new createjs.Container();
+		//stage.addChild(container);
+        //container.addChild(bitmap);
+        //bitmap.name=image.name;
+        //resetAnimal(bitmap);
+        //bitmap.regX = bitmap.image.width/2|0;
+        //bitmap.regY = bitmap.image.height/2|0;
+        //bitmap.mouseEnabled = true;
+        //bmpList.push(bitmap);
+		
+		toucan.on("rollover", function (evt) {
+			this.scaleX = this.scaleY = this.scale * 1.2;
+			update = true;
+		});
+
+		toucan.on("rollout", function (evt) {
+			this.scaleX = this.scaleY = this.scale;
+			update = true;
+		});
+		
+		/** initialize page text */
+		/*
+		var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
+		p_num.textAlign = "center";
+		p_num.textBaseline = "middle";
+		p_num.x   = game.getStage().width / 2;
+		p_num.y   = 50; 
+		*/		
+		createjs.Ticker.addEventListener("tick", tick);
+		stage.addChild(toucan);
+		stage.update();
+	}
+	
+	function tick(event) {
+	// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
+		if (update) {
+			update = false; // only update once
+			stage.update(event);
+		}
+	}
+	
+	</script>
+  </head>
+  <body onload="init();">
+    <canvas id="demoCanvas" width="500" height="200"></canvas>
+  </body>
+</html>
