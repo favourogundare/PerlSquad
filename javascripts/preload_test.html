@@ -59,12 +59,13 @@
             function handleComplete() {
                 console.log("Loading Complete");
 				var offset = 0;
+                //var useThis = ["sun"];
 				for (i = 0; i < 2; i++){
 					//get from array
-					var result = assets[i].result;
+					//var result = assets[i].result;
 					//get by id
-					//var image = preload.getResult("sun");
-					var mybmp = new createjs.Bitmap(result);
+					var imageTest = preload.getResult("river");
+					var mybmp = new createjs.Bitmap(imageTest);
 					var bounds = mybmp.getBounds();
 					mybmp.scaleY = h/bounds.height;
 					mybmp.scaleX = w/bounds.width;
