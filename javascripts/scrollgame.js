@@ -53,6 +53,9 @@ function eventScrollGame() {
     bg.src = "rainforest.jpg";
     bg.onload = setBG;
     
+
+	//get by id
+    var toucan = getPreload().getResult("toucan");
     var toucan = new Image();
     toucan.src = "toucan.png";
     toucan.name = "toucan";

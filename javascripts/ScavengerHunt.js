@@ -165,15 +165,15 @@ function SHonOK() {
 		scavHuntContainer.removeChild(option1.container);
 		selectFrom[0] = 6;
         
-        //get by id
-        var imageTest = getPreload().getResult("toucan");
-        var scavHuntPic = new createjs.Bitmap(imageTest);
-        console.log(scavHuntPic);
+		//get by id
+		var imageTest = getPreload().getResult("toucan");
+		var scavHuntPic = new createjs.Bitmap(imageTest);
+		console.log(scavHuntPic);
 
-        //reset bounds
-        var bounds = scavHuntPic.getBounds();
-        scavHuntPic.scaleY = 100/bounds.height;
-        scavHuntPic.scaleX = 100/bounds.width;
+		//reset bounds
+		var bounds = scavHuntPic.getBounds();
+		scavHuntPic.scaleY = 100/bounds.height;
+		scavHuntPic.scaleX = 100/bounds.width;
         
 		//scavHuntPic = new createjs.Bitmap("Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png");
 		//scavHuntPic.scaleX=.3;
@@ -188,6 +188,17 @@ function SHonOK() {
 	else if (selected == 2){
 		scavHuntContainer.removeChild(option2.container);
 		selectFrom[1] = 6;
+
+	    var imageTest1 = getPreload().getResult("");
+		var scavHuntPic = new createjs.Bitmap(imageTest1);
+		console.log(scavHuntPic);
+
+		//reset bounds
+		var bounds = scavHuntPic.getBounds();
+		scavHuntPic.scaleY = 100/bounds.height;
+		scavHuntPic.scaleX = 100/bounds.width;
+
+
 		scavHuntText = new createjs.Text("   Unlike some of the other biomes,\nthe rainforest's growing season lasts\nall year long.", "20px Arial", "#FFFFFF");
 		scavHuntText.x = 300;
 		scavHuntText.y = 100;
@@ -196,22 +207,24 @@ function SHonOK() {
 	else if (selected == 3){
 		scavHuntContainer.removeChild(option3.container);
 		selectFrom[2] = 6;
-		scavHuntPic = new createjs.Bitmap("Pictures/Plants/Rainforest/Venus Fly Trap.jpg");
-		scavHuntPic.scaleX=.55;
-		scavHuntPic.scaleY=.55;
-		scavHuntPic.x = 70;
-		scavHuntPic.y = 25;
 		scavHuntText = new createjs.Text("   Some rainforest plants are adapted\nto obtain nutrients from animal matter.\nThe best known of these is probably\nthe Venus fly trap.", "20px Arial", "#FFFFFF");
 		scavHuntText.x = 300;
 		scavHuntText.y = 100;
-		infoContainer.addChildAt(scavHuntBackground2, scavHuntPic, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
+		infoContainer.addChildAt(scavHuntBackground2, scavHuntDivider, scavHuntText, scavHuntOK2, 0);
 	}
 	else if (selected == 4){
 		scavHuntContainer.removeChild(option4.container);
 		selectFrom[3] = 6;
-		scavHuntPic = new createjs.Bitmap("Pictures/Precipitation/Rainforest/Rain.jpg");
-		scavHuntPic.scaleX=.12;
-		scavHuntPic.scaleY=.12;
+		
+		var imageTest = getPreload().getResult("rain_precip");
+		var scavHuntPic = new createjs.Bitmap(imageTest);
+		console.log(scavHuntPic);
+
+		//reset bounds
+		var bounds = scavHuntPic.getBounds();
+		scavHuntPic.scaleY = 100/bounds.height;
+		scavHuntPic.scaleX = 100/bounds.width;
+
 		scavHuntPic.x = 50;
 		scavHuntPic.y = 45;
 		scavHuntText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
@@ -222,6 +235,16 @@ function SHonOK() {
 	else if (selected == 5){
 		scavHuntContainer.removeChild(option5.container);
 		selectFrom[4] = 6;
+		
+		var imageTest = getPreload().getResult("rain_temp");
+		var scavHuntPic = new createjs.Bitmap(imageTest);
+		console.log(scavHuntPic);
+
+		//reset bounds
+		var bounds = scavHuntPic.getBounds();
+		scavHuntPic.scaleY = 100/bounds.height;
+		scavHuntPic.scaleX = 100/bounds.width;
+
 		scavHuntText = new createjs.Text("   The rainforest is found between 10 degrees\nNorth and 10 degrees South.", "20px Arial", "#FFFFFF");
 		scavHuntText.x = 300;
 		scavHuntText.y = 100;
