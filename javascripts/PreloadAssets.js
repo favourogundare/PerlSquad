@@ -3,17 +3,25 @@ var assets;
 var preload;
 var ObjectIndex;
 var BiomeIndex;
+var loadItem;
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets() {
+    itemProgressText = new createjs.Text("", "32px Arial", "#000000");
+	itemProgressText.x = game.getStage().width/2;
+	itemProgressText.y = game.getStage().height/2+40;
+	itemProgressText.textAlign = "center";
+	itemProgressText.textBaseline = "middle";
+    
 	progressText = new createjs.Text("", "64px Arial", "#000000");
 	progressText.x = game.getStage().width/2;
 	progressText.y = game.getStage().height/2;
 	progressText.textAlign = "center";
 	progressText.textBaseline = "middle";
-	game.getStage().addChild(progressText);
+	
+    game.getStage().addChild(progressText, itemProgressText);
 	game.getStage().update();
 	assets = [];
     ObjectIndex = 0;
@@ -24,6 +32,8 @@ function eventPreloadAssets() {
 	preload = new createjs.LoadQueue(false);
     preload.on("error", handleError);
     preload.on("fileerror", handleFileError);
+    preload.on("filestart", function(event){loadItem = event.item.id;});
+    preload.on("fileprogress", handleItemProgress);
     preload.on("progress", handleFileProgress);
 	preload.on("fileload", handleFileLoad);
 	preload.on("complete", handleComplete);
@@ -47,7 +57,13 @@ function handleError(event) {
 function handleFileError() {
     console.log("File error");
 }
+function handleItemProgress(event) {
+    console.log(loadItem);
+    itemProgressText.text = loadItem + " " + (event.progress*100|0) + "% Loaded";
+    game.getStage().update();
+}
 function handleFileProgress(event) {
+    console.log("Loading " + event + "...");
     progressText.text = (preload.progress*100|0) + "% Loaded";
     game.getStage().update();
 }
@@ -87,7 +103,7 @@ function handleComplete() {
             offset += h;
         }
     */
-    game.getStage().removeChild(progressText);
+    game.getStage().removeChild(progressText, itemProgressText);
     game.progress();   
 }
 
