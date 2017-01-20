@@ -37,6 +37,7 @@ function Game(easelStage) {
     var currentTurn;
     /** For now, there is only one player in the game */
 	this.numPlayers = 1;
+    this.map;
 	
 	//CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
 	//THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
@@ -114,7 +115,7 @@ function Game(easelStage) {
         if (stage === undefined) return -1;
         else stage.addChild(mainGameContainer);
         /** Set background */
-        var background = new createjs.Bitmap("images/background_map.png");
+        var background = new createjs.Bitmap(this.map.result);
         background.x = 0;
         background.y = 0;
         mainGameContainer.addChild(background);
