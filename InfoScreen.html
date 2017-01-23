@@ -3,59 +3,27 @@
   <head>
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
     <script>      
+    var update;
+    var stage;
 	function init(){
-		//var canvas;
-		var stage;
 		var background;
 		var text;
 		var mouseTarget;
-		//var bmpList = [];
 		var bitmap;
-		var update = true;
-		
-		//canvas = game.getCanvas();
-		//stage = new game.getStage();
+        update = true;
 		
 		stage = new createjs.Stage("demoCanvas");
-		var container = new createjs.Container();
-		stage.addChild(container);
-		
-		/////////background = new createjs.Bitmap("rainforest.jpg");
-		//background.src = "rainforest.jpg";
-		//background.onload = setBG;
-	
-		//load toucan image
-		var toucan = new createjs.Bitmap("toucan.png");
-		container.addChild(toucan);
-		//toucan.src = "toucan.png";
-		//toucan.name = "toucan";
-		//toucan.onload = createAnimals;
-		toucan.scaleX=.5;
-		toucan.scaleY=.5;
-		toucan.x = 50;
-		toucan.y = 25;
-	
-		//load sheep image
-		//////////////var sheep = new createjs.Bitmap("sheep.png");
-		//sheep.src = "sheep.png";
-		//sheep.name = "sheep";
-		//sheep.onload = createAnimals;
-		
-		createjs.Touch.enable(stage);
+        createjs.Touch.enable(stage);
 		stage.enableMouseOver(10);
 		stage.mouseMoveOutside = true;
-		
-        var container = new createjs.Container();
-		//stage.addChild(container);
-        //container.addChild(bitmap);
-        //bitmap.name=image.name;
-        //resetAnimal(bitmap);
-        //bitmap.regX = bitmap.image.width/2|0;
-        //bitmap.regY = bitmap.image.height/2|0;
-        //bitmap.mouseEnabled = true;
-        //bmpList.push(bitmap);
-		
-		toucan.on("rollover", function (evt) {
+
+		//load toucan image
+		var toucan = new createjs.Bitmap("toucan.png");
+		toucan.scaleX = toucan.scaleY = toucan.scale = .5;
+		toucan.x = 50;
+		toucan.y = 25;
+        
+        toucan.on("rollover", function (evt) {
 			this.scaleX = this.scaleY = this.scale * 1.2;
 			update = true;
 		});
@@ -64,7 +32,20 @@
 			this.scaleX = this.scaleY = this.scale;
 			update = true;
 		});
-		
+        
+        var container = new createjs.Container();
+        container.addChild(toucan);
+		stage.addChild(container);
+		stage.update();
+        
+        createjs.Ticker.addEventListener("tick", tick);
+	
+		//load sheep image
+		//////////////var sheep = new createjs.Bitmap("sheep.png");
+		//sheep.src = "sheep.png";
+		//sheep.name = "sheep";
+		//sheep.onload = createAnimals;
+
 		/** initialize page text */
 		/*
 		var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
@@ -73,11 +54,7 @@
 		p_num.x   = game.getStage().width / 2;
 		p_num.y   = 50; 
 		*/		
-		createjs.Ticker.addEventListener("tick", tick);
-		stage.addChild(toucan);
-		stage.update();
 		
-		createjs.Ticker.addEventListener("tick", tick);
 	}
 	
 	function tick(event) {
