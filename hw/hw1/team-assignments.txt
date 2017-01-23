@@ -6,3 +6,13 @@ Scenario: Player starts up the minigame, but has little to no knowledge of the b
 
 Robert Smith:
 Scenario: Information screen needs to be presented to user in an interesting fashion... Task: Revamp current information scavenger hunt to more "scavenger-like" version.
+
+Brian Reynolds:
+Scenario: The target feature to be tested by Brian in the next milestone is the “eventAddItem” function as described in detail in the OptionsMenu documentation in the project repository (https://github.com/Sagerune/PerlSquad/tree/release/documentation/OptionsMenu.js.html). This function allows the user to add a new image and text description to the game.
+Step 1: Launch game.
+Step 2: Click "Options" button. This should pull up the options menu.
+Step 3: Click "Add" button. This should give you biomes to choose from.
+Step 4: Select biome. This should give you item types to choose from.
+Step 5: Select item type. This should provide a couple of dialogue boxes to enter an image path and text description.
+Step 6: Enter image path and text description. The text should be displayed in the dialogue box as it is typed.
+Step 7: Click "Done" button. The image and text description should be added to their respective manifests.

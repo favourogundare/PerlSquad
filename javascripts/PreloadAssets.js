@@ -3,30 +3,37 @@ var assets;
 var preload;
 var ObjectIndex;
 var BiomeIndex;
-var Loading;
+var loadItem;
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets() {
-	progressText = new createjs.Text("", "20px Arial", "#000000");
-	progressText.x = game.getStage().width;
-	progressText.y = 20;
+    itemProgressText = new createjs.Text("", "32px Arial", "#000000");
+	itemProgressText.x = game.getStage().width/2;
+	itemProgressText.y = game.getStage().height/2+40;
+	itemProgressText.textAlign = "center";
+	itemProgressText.textBaseline = "middle";
+    
+	progressText = new createjs.Text("", "64px Arial", "#000000");
+	progressText.x = game.getStage().width/2;
+	progressText.y = game.getStage().height/2;
 	progressText.textAlign = "center";
 	progressText.textBaseline = "middle";
-	game.getStage().addChild(progressText);
+	
+    game.getStage().addChild(progressText, itemProgressText);
 	game.getStage().update();
 	assets = [];
     ObjectIndex = 0;
     BiomeIndex  = 0;
-    Loading     = 0;
 	
-	stage = new createjs.Stage("canvas");
 	var manifest = getManifest();
 
 	preload = new createjs.LoadQueue(false);
     preload.on("error", handleError);
     preload.on("fileerror", handleFileError);
+    preload.on("filestart", function(event){loadItem = event.item.id;});
+    preload.on("fileprogress", handleItemProgress);
     preload.on("progress", handleFileProgress);
 	preload.on("fileload", handleFileLoad);
 	preload.on("complete", handleComplete);
@@ -39,7 +46,6 @@ function eventPreloadAssets() {
 			preload.loadManifest(manifest[i])
 			ObjectIndex++;
 		}	else {
-			game.progress();
 			return;
 		}
     }
@@ -51,17 +57,28 @@ function handleError(event) {
 function handleFileError() {
     console.log("File error");
 }
+function handleItemProgress(event) {
+    console.log(loadItem);
+    itemProgressText.text = loadItem + " " + (event.progress*100|0) + "% Loaded";
+    game.getStage().update();
+}
 function handleFileProgress(event) {
+    console.log("Loading " + event + "...");
     progressText.text = (preload.progress*100|0) + "% Loaded";
     game.getStage().update();
 }
 function handleFileLoad(event) {
     console.log("Finished Loading: " + event.item.id);
     if (!assets[BiomeIndex]){
-        assets[BiomeIndex] = [event];
+        assets[BiomeIndex] = [];
     }
-	else{
-        assets[BiomeIndex].push(event);
+    else {
+        if (!assets[BiomeIndex][ObjectIndex]){
+            assets[BiomeIndex][ObjectIndex] = [event];
+        }
+        else{
+            assets[BiomeIndex][ObjectIndex].push(event);
+        }
     }
 }
 function handleComplete() {
@@ -86,11 +103,8 @@ function handleComplete() {
             offset += h;
         }
     */
-    Loading++;
-    if (Loading == manifest.length){
-        game.progress();   
-		return;
-    }
+    game.getStage().removeChild(progressText, itemProgressText);
+    game.progress();   
 }
 
 function getPreload() {

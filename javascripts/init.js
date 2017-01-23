@@ -11,5 +11,6 @@ function init() {
 	Description.style.display = 'none';
     ImageSource.style.display = 'none';
     game.setStage(stage);
-    game.start();
+    eventLoadMap();
+    //game.start();
 }
