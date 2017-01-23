@@ -17,6 +17,8 @@
 		//stage = new game.getStage();
 		
 		stage = new createjs.Stage("demoCanvas");
+		var container = new createjs.Container();
+		stage.addChild(container);
 		
 		/////////background = new createjs.Bitmap("rainforest.jpg");
 		//background.src = "rainforest.jpg";
@@ -24,11 +26,12 @@
 	
 		//load toucan image
 		var toucan = new createjs.Bitmap("toucan.png");
+		container.addChild(toucan);
 		//toucan.src = "toucan.png";
 		//toucan.name = "toucan";
 		//toucan.onload = createAnimals;
-		toucan.scaleX=.3;
-		toucan.scaleY=.3;
+		toucan.scaleX=.5;
+		toucan.scaleY=.5;
 		toucan.x = 50;
 		toucan.y = 25;
 	
@@ -73,6 +76,8 @@
 		createjs.Ticker.addEventListener("tick", tick);
 		stage.addChild(toucan);
 		stage.update();
+		
+		createjs.Ticker.addEventListener("tick", tick);
 	}
 	
 	function tick(event) {
@@ -81,6 +86,10 @@
 			update = false; // only update once
 			stage.update(event);
 		}
+	}
+	
+	function stop() {
+		createjs.Ticker.removeEventListener("tick", tick);
 	}
 	
 	</script>
