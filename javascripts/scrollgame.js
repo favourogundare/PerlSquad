@@ -62,7 +62,7 @@ function eventScrollGame() {
     sheep.src = "sheep.png";
     sheep.name = "sheep";
     sheep.onload = createAnimals;
-    
+   
     /**
      * @function setBG
      * Sets the background for the mini-game.
@@ -71,15 +71,10 @@ function eventScrollGame() {
         var bgrnd = new createjs.Bitmap(bg);
         stage.addChild(bgrnd);
         stage.update();
-		
-        /* hiding the score for now
-        txt = new createjs.Text ("Score: 0", "24px Arial", "#fafafa");
-        txt.textBaseline="top";
-        txt.x = 800;
-        txt.y = 20;
-		*/
+/*		var easy_button = new CircleButton("Easy", "24px Arial", canvas.width/2 - 100, canvas.width/3, )
+		var med_button = new CircleButton("Medium", "24px Arial", )
+		var hard_button = new CircleButton("Hard", "24px Arial", )*/
         play=true;
-        stage.addChild(scoreBox);
 		stage.addChild(txt);
     }
     
@@ -169,7 +164,11 @@ function eventScrollGame() {
      * Ends game and displays "Game Over" text.
      */
     function gameOver(){
-        gameTxt = new createjs.Text("Game Over\n\n", "36px Arial", "#000");
+		var scoreBox = new createjs.Shape();
+		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 135, canvas.height/3 - 15, 280, 100);
+		stage.addChild(scoreBox);
+        gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
+		gameTxt.text += "Score: " + score + "\n";
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
