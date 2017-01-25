@@ -10,12 +10,14 @@
 		var text;
 		var mouseTarget;
 		var bitmap;
+		var infoText;
         update = true;
 		
 		stage = new createjs.Stage("demoCanvas");
-        createjs.Touch.enable(stage);
+        var container = new createjs.Container();
+        //createjs.Touch.enable(stage);
 		stage.enableMouseOver(10);
-		stage.mouseMoveOutside = true;
+		//stage.mouseMoveOutside = true;
 
 		//load toucan image
 		var toucan = new createjs.Bitmap("toucan.png");
@@ -25,15 +27,17 @@
         
         toucan.on("rollover", function (evt) {
 			this.scaleX = this.scaleY = this.scale * 1.2;
+			infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
+		    container.addChild(infoText);
 			update = true;
 		});
 
 		toucan.on("rollout", function (evt) {
 			this.scaleX = this.scaleY = this.scale;
+			container.removeChild(infoText);
 			update = true;
 		});
         
-        var container = new createjs.Container();
         container.addChild(toucan);
 		stage.addChild(container);
 		stage.update();

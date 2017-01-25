@@ -4,34 +4,43 @@ function eventInfoScreen(){
     var text;
     var mouseTarget;
     var bitmap;
+	var infoText;
     
     infoPage = new createjs.Container();
-    
-    /**createjs.Touch.enable(infoPage);
-    infoPage.enableMouseOver(10);
-    infoPage.mouseMoveOutside = true;*/
+	
+    //*createjs.Touch.enable(infoPage);
+    game.getStage().enableMouseOver(10);
+    //infoPage.mouseMoveOutside = true;*/
+
+	var back = new createjs.Bitmap("rainforest.jpg");
 
     //load toucan image
     var toucan = new createjs.Bitmap("toucan.png");
     toucan.scaleX = toucan.scaleY = toucan.scale = .5;
-    toucan.x = 50;
-    toucan.y = 25;
-    
+    toucan.x = 150;
+    toucan.y = 300;
+	    
     toucan.on("rollover", function (evt) {
         this.scaleX = this.scaleY = this.scale * 1.2;
-        game.getStage.update();
+		infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
+		infoText.x = 350;
+		infoText.y = 250;
+		infoPage.addChild(infoText);
+		game.getStage().update();
     });
 
     toucan.on("rollout", function (evt) {
         this.scaleX = this.scaleY = this.scale;
-        game.getStage.update();
+		infoPage.removeChild(infoText);
+        game.getStage().update();
     });
     
     /////////////////////HEY ROB HEY ROB HEY ROB HEY ROB HEY ROB!!!!! You don't really need this container unless you want to associate more things with the toucan... like if you wanted to put the text near the toucan. Instead, you can just add the toucan directly to the infoPage
-    var toucanContainer = new createjs.Container();
-    toucanContainer.addChild(toucan);
-    infoPage.addChild(toucanContainer);
-    stage.addChild(infoPage);
+    //var toucanContainer = new createjs.Container();
+	infoPage.addChild(back);
+    infoPage.addChild(toucan);
+   //infoPage.addChild(toucanContainer);
+    game.getStage().addChild(infoPage);
     game.getStage().update();
     
     //createjs.Ticker.addEventListener("tick", tick);
