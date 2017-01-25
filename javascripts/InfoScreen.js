@@ -1,5 +1,5 @@
+var infoPage;
 function eventInfoScreen(){
-    var infoPage;
     var background;
     var text;
     var mouseTarget;
@@ -15,13 +15,20 @@ function eventInfoScreen(){
 	var back = new createjs.Bitmap("rainforest.jpg");
 
     //load toucan image
-    var toucan = new createjs.Bitmap("toucan.png");
-    toucan.scaleX = toucan.scaleY = toucan.scale = .5;
+    var result = preload.getResult("toucan");
+    var toucan = new createjs.Bitmap(result);
+
+    //reset bounds
+    var bounds = toucan.getBounds();
+    var maxBound = Math.max(bounds.height, bounds.width);
+    toucan.scaleY = toucan.scaleBackY = 150/maxBound;
+    toucan.scaleX = toucan.scaleBackX = 150/maxBound;
     toucan.x = 150;
-    toucan.y = 300;
+    toucan.y = 260;
 	    
     toucan.on("rollover", function (evt) {
-        this.scaleX = this.scaleY = this.scale * 1.2;
+        this.scaleX = this.scaleBackX * 1.1;
+        this.scaleY = this.scaleBackY * 1.1;
 		infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
 		infoText.x = 350;
 		infoText.y = 250;
@@ -30,15 +37,22 @@ function eventInfoScreen(){
     });
 
     toucan.on("rollout", function (evt) {
-        this.scaleX = this.scaleY = this.scale;
+        this.scaleX = this.scaleBackX;
+        this.scaleY = this.scaleBackY;
 		infoPage.removeChild(infoText);
         game.getStage().update();
     });
     
+    
+    infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
+	infoOK.x = game.getStage().width-80;
+	infoOK.y = game.getStage().height-60;
+	infoOK.addEventListener("click", onInfoOK);
+    
     /////////////////////HEY ROB HEY ROB HEY ROB HEY ROB HEY ROB!!!!! You don't really need this container unless you want to associate more things with the toucan... like if you wanted to put the text near the toucan. Instead, you can just add the toucan directly to the infoPage
     //var toucanContainer = new createjs.Container();
-	infoPage.addChild(back);
-    infoPage.addChild(toucan);
+    infoPage.addChild(back);
+    infoPage.addChild(toucan, infoOK);
    //infoPage.addChild(toucanContainer);
     game.getStage().addChild(infoPage);
     game.getStage().update();
@@ -60,6 +74,11 @@ function eventInfoScreen(){
     p_num.y   = 50; 
     */		
     
+}
+
+function onInfoOK() {
+    game.getStage().removeChild(infoPage);
+    game.progress();
 }
 
 /**function tick(event) {
