@@ -96,14 +96,14 @@ function eventScrollGame() {
 	}
 	
 	function pick_medium () {
-		difficulty = 3;
+		difficulty = 2;
 		play = true;
 		stage.addChild(anim_contain);
 		stage.removeChild(start_contain);
 	}
 	
 	function pick_hard () {
-		difficulty = 5;
+		difficulty = 4;
 		play = true;
 		stage.addChild(anim_contain);
 		stage.removeChild(start_contain);
