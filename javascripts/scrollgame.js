@@ -73,11 +73,11 @@ function eventScrollGame() {
         var bgrnd = new createjs.Bitmap(bg);
         stage.addChild(bgrnd);
 		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
-		start_text.x = game.getStage().width/2 - 120;
+		start_text.x = game.getStage().width/2 - 135;
 		start_text.y = game.getStage().height/3 - 10;
 		start_text.align = "center"
 		var start_box = new createjs.Shape();
-		start_box.graphics.beginFill("#212121").drawRect(canvas.width/2 - 135, canvas.height/3 - 15, 340, 40);
+		start_box.graphics.beginFill("#212121").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
 		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_easy);
 		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_medium);
 		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, false, "212121", "click", pick_hard);
@@ -86,21 +86,26 @@ function eventScrollGame() {
 		stage.update();
     }
 	
+	var anim_contain = new createjs.Container();
+	
 	function pick_easy () {
 		difficulty = 1;
 		play = true;
+		stage.addChild(anim_contain);
 		stage.removeChild(start_contain);
 	}
 	
 	function pick_medium () {
 		difficulty = 3;
 		play = true;
+		stage.addChild(anim_contain);
 		stage.removeChild(start_contain);
 	}
 	
 	function pick_hard () {
 		difficulty = 5;
 		play = true;
+		stage.addChild(anim_contain);
 		stage.removeChild(start_contain);
 	}
     
@@ -108,16 +113,17 @@ function eventScrollGame() {
      * @function createAnimals
      * Creates animal objects and enables clicking on them.
      */
+	 
+	 var anim_contain = new createjs.Container();
+	 
     function createAnimals(event){
         var image = event.target;
-        var container = new createjs.Container();
-        stage.addChild(container);
-        var l = 4;
+		var l = 4;
         for (var i=0; i<l; i++){
             bitmap = new createjs.Bitmap(image);
-            container.addChild(bitmap);
+            anim_contain.addChild(bitmap);
             bitmap.name=image.name;
-            resetAnimal(bitmap);
+			resetAnimal(bitmap);
             bitmap.regX = bitmap.image.width/2|0;
             bitmap.regY = bitmap.image.height/2|0;
             bitmap.mouseEnabled = true;
@@ -127,11 +133,11 @@ function eventScrollGame() {
         
         createjs.Ticker.addEventListener("tick", tick);
     }
-    
+  
     /**
      * @function resetAnimal
      * Places animals randomly into the mini-game to be clicked/not clicked.
-     */
+     */	 
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
@@ -150,7 +156,7 @@ function eventScrollGame() {
         }
         if (clicked && mouseTarget){
             var tempText = String(mouseTarget.name);
-            if (tempText=="sheep"){
+            if (tempText=="sheep" && play == true){
                 resetAnimal(mouseTarget);
                 score-=50*difficulty;
                 if (score < 0){ /** prevent negative score */
@@ -158,13 +164,13 @@ function eventScrollGame() {
                 }
                 clicked=false;
             }
-            else if (tempText=="toucan"){
+            else if (tempText=="toucan"&& play == true){
                 resetAnimal(mouseTarget);
                 score+=50*difficulty;
                 clicked=false;
             }
         }
-        /** moving the ships */
+        /** moving the animals */
         if (play == true){
             var l=bmpList.length;
             for(var i=0; i<l; i++){
