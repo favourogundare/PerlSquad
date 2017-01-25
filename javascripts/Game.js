@@ -96,10 +96,15 @@ function Game(easelStage) {
     * Calling this transitions to the next GameEvent.
     */ 
     this.progress = function() {
-        if (++currentTurn >= story.length) finish();
+        //if (++currentTurn >= story.length) finish();
+        if (++currentTurn >= story.length){
+            currentTurn = 2;
+            currentGameEvent = story[2];
+            currentGameEvent.trigger();
+        }
         else {
             currentGameEvent = story[currentTurn];
-            currentPlayer.updateGamePosition(currentGameEvent);
+            //currentPlayer.updateGamePosition(currentGameEvent);
             currentGameEvent.trigger();
         }
     }
@@ -192,31 +197,6 @@ function Game(easelStage) {
     *  Assigns GameEvent objects their custom code
     */
     this.loadStory = function() {
-      
-        /** Player's avatar must be clicked to proceed */
-        this.singleClick = function() {
-            var text;
-
-            /** Public eventListener to handle single clicking on the player */
-            this.handleClick = function(event) {
-                /** Delete old text */
-                mainGameContainer.removeChild(text);
-                game.progress();
-            }
-
-            /** What will be executed when the GameEvent function pointer is triggered */
-            text = new createjs.Text("Click the Player", "20px Arial", "#ff7700");
-            text.x = 350;
-            text.y = 350;
-            mainGameContainer.addChild(text);
-            var playerIcon = game.getCurrentPlayer().getIcon();
-            playerIcon.x = 100 * (game.getCurrentTurn() + 1);
-			playerIcon.y = 100;
-            playerIcon.addEventListener("click", this.handleClick);
-            mainGameContainer.addChild(playerIcon);
-            stage.update();
-        }   
-
         /** 
         * @function this.transition
         * Moves from one GameEvent to the other, simply takes away old eventListeners
@@ -228,8 +208,9 @@ function Game(easelStage) {
         /** Assign different code to different segments GameEvents */
         story[0] = new GameEvent(this.transition, eventStartMenu);
         story[1] = new GameEvent(this.transition, eventPreloadAssets);
-        story[2] = new GameEvent(this.transition, this.singleClick);
-        story[3] = new GameEvent(this.transition, eventScavengerHunt);
+        story[2] = new GameEvent(this.transition, eventMoveAroundEarth);
+        //story[2] = new GameEvent(this.transition, this.singleClick);
+        story[3] = new GameEvent(this.transition, eventInfoScreen);
         story[4] = new GameEvent(this.transition, eventScrollGame);
     }
 }

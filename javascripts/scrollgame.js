@@ -1,3 +1,9 @@
+/**
+ * @function eventScrollGame
+ * Mini-game portion of the game. Players collect objects
+ * that belong to the biome and avoid ones that don't.
+ */
+var bgrnd;
 function eventScrollGame() {
     /** standard canvas and stage variables */
     var canvas;
@@ -43,7 +49,8 @@ function eventScrollGame() {
     }
     
     canvas = document.getElementById("main");
-    stage = new game.getStage();
+    //stage = new game.getStage();
+    stage = new createjs.Container();
     score = 0;
     
     canvas.onmousedown = onMouseDown;
@@ -70,8 +77,8 @@ function eventScrollGame() {
      * Sets the background for the mini-game.
      */
     function setBG(event){
-        var bgrnd = new createjs.Bitmap(bg);
-        stage.addChild(bgrnd);
+        bgrnd = new createjs.Bitmap(bg);
+        game.getStage().addChild(bgrnd, stage);
 		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
 		start_text.x = game.getStage().width/2 - 135;
 		start_text.y = game.getStage().height/3 - 10;
@@ -83,7 +90,7 @@ function eventScrollGame() {
 		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, false, "212121", "click", pick_hard);
         start_contain.addChildAt(start_box, start_text, easy_button.container, med_button.container, hard_button.container, 0);
 		stage.addChild(start_contain);
-		stage.update();
+		game.getStage().update();
     }
 	
 	var anim_contain = new createjs.Container();
@@ -151,8 +158,8 @@ function eventScrollGame() {
      */
     function tick(){
         /** check for clicking */
-        if (!clicked && stage.mouseX && stage.mouseY){
-            mouseTarget = stage.getObjectUnderPoint(stage.mouseX, stage.mouseY);
+        if (!clicked && game.getStage().mouseX && game.getStage().mouseY){
+            mouseTarget = game.getStage().getObjectUnderPoint(game.getStage().mouseX, game.getStage().mouseY);
         }
         if (clicked && mouseTarget){
             var tempText = String(mouseTarget.name);
@@ -189,18 +196,20 @@ function eventScrollGame() {
             }
         }
         //txt.text = "Score: "+score;
-        stage.update();
+        game.getStage().update();
     }
     /**
      * @function gameOver
      * Ends game and displays "Game Over" text.
      */
     function gameOver(){
+        stage.removeAllChildren();
 		var scoreBox = new createjs.Shape();
-		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 135, canvas.height/3 - 15, 280, 100);
+		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 225, canvas.height/3 - 30, 450, 150);
 		stage.addChild(scoreBox);
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
 		gameTxt.text += "Score: " + score + "\n";
+        gameTxt.text += "Click to Try Another Biome\n";
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
@@ -211,9 +220,13 @@ function eventScrollGame() {
             var bmp = bmpList[i];
             resetAnimal(bmp);
         }
-        stage.update();
-        canvas.onclick = game.progress();
-        
+        game.getStage().update();
+        stage.on("click", function(event) {
+            console.log("Clicked!");
+            game.getStage().removeChild(stage);
+            game.getStage().removeChild(bgrnd);
+            game.progress();
+        });
     }
     
     /**

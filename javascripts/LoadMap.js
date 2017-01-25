@@ -24,7 +24,3 @@ function handleMapLoad(event) {
 function handleMapLoaded() {
     game.start();
 }
-
-function getPreload() {
-    return preload;
-}

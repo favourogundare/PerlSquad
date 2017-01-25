@@ -46,27 +46,47 @@ function eventPreloadAssets() {
 			preload.loadManifest(manifest[i])
 			ObjectIndex++;
 		}	else {
-			return;
+			ObjectIndex++;
 		}
     }
 	preload.loadManifest(manifest);
 }
+/**
+ * @function handleError
+ * Logs an error if the loading fails.
+ */
 function handleError(event) {
     console.log("Error!",event.text);
 }
+/**
+ * @function handleFileError
+ * Logs an error if an individual file load fails.
+ */
 function handleFileError() {
     console.log("File error");
 }
+/**
+ * @function handleItemProgress
+ * Displays loading progress for files that take longer to load.
+ */
 function handleItemProgress(event) {
     console.log(loadItem);
     itemProgressText.text = loadItem + " " + (event.progress*100|0) + "% Loaded";
     game.getStage().update();
 }
+/**
+ * @function handleFileProgress
+ * Displays loading progress for total loading.
+ */
 function handleFileProgress(event) {
     console.log("Loading " + event + "...");
     progressText.text = (preload.progress*100|0) + "% Loaded";
     game.getStage().update();
 }
+/**
+ * @function handleFileLoad
+ * Stores asset in array once loaded.
+ */
 function handleFileLoad(event) {
     console.log("Finished Loading: " + event.item.id);
     if (!assets[BiomeIndex]){
@@ -81,6 +101,10 @@ function handleFileLoad(event) {
         }
     }
 }
+/**
+ * @function handleComplete
+ * Calls game.progress() once loading is complete.
+ */
 function handleComplete() {
 	/*
         var offset = 0;
