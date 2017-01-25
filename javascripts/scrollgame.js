@@ -21,8 +21,8 @@ function eventScrollGame() {
     var clicked;
     /** initializes the ship game */
 	
-	var difficulty = 2;
-	/** difficulty of the minigame - 1 is easy, 2 is normal, 3 is hard 
+	var difficulty = 1;
+	/** difficulty of the minigame - 1 is easy, 3 is normal, 5 is hard 
 		defaults to normal
 		*/
     
@@ -62,6 +62,8 @@ function eventScrollGame() {
     sheep.src = "sheep.png";
     sheep.name = "sheep";
     sheep.onload = createAnimals;
+	
+	var start_contain = new createjs.Container();
    
     /**
      * @function setBG
@@ -70,13 +72,37 @@ function eventScrollGame() {
     function setBG(event){
         var bgrnd = new createjs.Bitmap(bg);
         stage.addChild(bgrnd);
-        stage.update();
-/*		var easy_button = new CircleButton("Easy", "24px Arial", canvas.width/2 - 100, canvas.width/3, )
-		var med_button = new CircleButton("Medium", "24px Arial", )
-		var hard_button = new CircleButton("Hard", "24px Arial", )*/
-        play=true;
-		stage.addChild(txt);
+		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
+		start_text.x = game.getStage().width/2 - 120;
+		start_text.y = game.getStage().height/3 - 10;
+		start_text.align = "center"
+		var start_box = new createjs.Shape();
+		start_box.graphics.beginFill("#212121").drawRect(canvas.width/2 - 135, canvas.height/3 - 15, 340, 40);
+		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_easy);
+		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_medium);
+		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, false, "212121", "click", pick_hard);
+        start_contain.addChildAt(start_box, start_text, easy_button.container, med_button.container, hard_button.container, 0);
+		stage.addChild(start_contain);
+		stage.update();
     }
+	
+	function pick_easy () {
+		difficulty = 1;
+		play = true;
+		stage.removeChild(start_contain);
+	}
+	
+	function pick_medium () {
+		difficulty = 3;
+		play = true;
+		stage.removeChild(start_contain);
+	}
+	
+	function pick_hard () {
+		difficulty = 5;
+		play = true;
+		stage.removeChild(start_contain);
+	}
     
     /**
      * @function createAnimals
