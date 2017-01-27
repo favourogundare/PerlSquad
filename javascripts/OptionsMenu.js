@@ -71,6 +71,8 @@ function addDone() {
     ImageSource.value = '';
     Description.style.display = 'none';
     ImageSource.style.display = 'none';
+	console.log(app.methodReturningString());
+	app.copyFile();
     options_page.removeAllChildren();
     eventOptionsMenu();
 }
