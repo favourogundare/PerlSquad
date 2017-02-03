@@ -12,6 +12,7 @@ function eventScrollGame() {
     var bg;
     /** keeps track of player score */
     var score;
+	var points_lost = 0;
     /** stores ship bitmaps */
     var bmpList = [];
     var bitmap;
@@ -45,7 +46,7 @@ function eventScrollGame() {
      * Handles a click release.
      */
     var onMouseUp = function (){
-        clicked = false
+        clicked = false;
     }
     
     canvas = document.getElementById("main");
@@ -166,6 +167,7 @@ function eventScrollGame() {
             if (tempText=="sheep" && play == true){
                 resetAnimal(mouseTarget);
                 score-=50*difficulty;
+				points_lost +=50*difficulty;
                 if (score < 0){ /** prevent negative score */
                     score = 0;
                 }
@@ -210,6 +212,9 @@ function eventScrollGame() {
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
 		gameTxt.text += "Score: " + score + "\n";
         gameTxt.text += "Click to Try Another Biome\n";
+		if (points_lost > 6*50*difficulty){
+			gameTxt.text += "\n\n Hint: click on animals that belong in the rainforest!"
+		}
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
