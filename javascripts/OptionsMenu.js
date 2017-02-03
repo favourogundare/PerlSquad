@@ -5,6 +5,8 @@ var done_button;
 var options_page;
 var options_title;
 var category;
+var fileText;
+var manifestBlob;
 function eventOptionsMenu() {
     add_button   = new RectButton("Add", "#00e676", game.getStage().width/2 - 150, 150, 300, 50, "click", add_clicked);
     edit_button   = new RectButton("Edit", "#ff9100", game.getStage().width/2 - 150, 225, 300, 50, "click", edit_clicked);
@@ -49,6 +51,8 @@ function edit_clicked(){
 function done_clicked(){
     game.getStage().removeChild(options_page);
     eventStartMenu();
+	/*window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, readFile, readFileFail);
+    window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, editFile, editFileFail);*/
 }
 
 /**
@@ -67,6 +71,10 @@ function eventAddItem() {
 function addDone() {
     console.log(Description.value);
     console.log(ImageSource.value);
+	//game.modified = true;
+	readTextFile("javascripts/testread.txt");
+    manifestBlob = new Blob([fileText], {type: "text/plain;charset=utf-8"});
+	saveAs(manifestBlob, "Manifest.js");
     Description.value = '';
     ImageSource.value = '';
     Description.style.display = 'none';
@@ -91,3 +99,51 @@ function addCancel() {
 function eventEditItem() {
 	console.log("editing");
 }
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                fileText = rawFile.responseText;
+                console.log(fileText); 
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
+//////////////////////////////////////////////////////
+/*function editFile(fs) {
+    
+  fs.root.getFile('javascripts/Manifest.js', {create: true}, function(fileEntry) {
+
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(function(fileWriter) {
+
+      fileWriter.onwriteend = function(e) {
+        console.log('Write completed.');
+      };
+
+      fileWriter.onerror = function(e) {
+        console.log('Write failed: ' + e.toString());
+      };
+
+      // Create a new Blob and write it to log.txt.
+      var blob = new Blob(['Lorem Ipsum'], {type: 'text/plain'});
+
+      fileWriter.write(blob);
+
+    }, editFileFail);
+
+  }, editFileFail);
+
+}
+function editFileFail(evt) {
+    console.log(evt.target.error.code);
+}*/
