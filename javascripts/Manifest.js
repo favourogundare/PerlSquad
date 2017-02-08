@@ -86,7 +86,7 @@ const Grassland_Precipitation =
 
 const Rainforest_Precipitation =
 [
-	{type: createjs.AbstractLoader.IMAGE, src: "./Pictures/Precipitation/Rainforest/Rain.jpg", id: "rain"}
+	{type: createjs.AbstractLoader.IMAGE, src: "./Pictures/icons/precipitation.png", id: "precipitation"}
 ];
 
 const Tundra_Precipitation =
@@ -102,7 +102,9 @@ const Grassland_AverageTemperature =
 [];
 
 const Rainforest_AverageTemperature =
-[];
+[
+	{type: createjs.AbstractLoader.IMAGE, src: "./Pictures/icons/precipitation.png", id: "temperature"}
+];
 
 const Tundra_AverageTemperature =
 [];
