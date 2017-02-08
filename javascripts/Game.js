@@ -116,6 +116,9 @@ function Game(easelStage) {
     * been provided using Game.setStage(Stage)
     */  
     this.start = function() {
+	// Analytics
+	analytics.identify();
+	
         /** Attach container to main canvas stage */
         if (stage === undefined) return -1;
         else stage.addChild(mainGameContainer);
