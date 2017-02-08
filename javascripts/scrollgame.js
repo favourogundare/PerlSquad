@@ -5,6 +5,7 @@
  */
 var bgrnd;
 function eventScrollGame() {
+    analytics.track("scroll-game");
     /** standard canvas and stage variables */
     var canvas;
     var stage;
