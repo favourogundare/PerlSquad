@@ -1,0 +1,21 @@
+Alex Mayle
+Handling analytics implementation. Believe I am going to use a technology
+called Segment to send users' game data to ourselves from within the app.
+
+Brian Reynolds
+Get add, edit, and help options working. Add option needs to edit manifest 
+to include new image paths. Edit needs to be able to edit text for an image
+and/or select different text. Help needs to explain to the clients how to do
+simple tasks in game.
+
+Robert Smith
+Need to finish implementing the new info screen for the rainforest biome
+and generalize it for easy implementation of the rest of the biomes
+
+Favour Ogundare
+Finish manifest for image library, add images for all biomes and preload
+all images used ingame
+
+Eric Keep
+Working on scroll game enhancements, including adding more animal images, 
+and implementing a feedback screen 
