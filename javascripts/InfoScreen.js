@@ -93,7 +93,7 @@ function eventInfoScreen(){
  */
 function onInfoOK() {
     // Analytics
-    analytics.track("info-screen", timestamp, {biome: "rain-forest"});
+    sendUserTimeInfo("info-screen", timestamp, {biome: "rain-forest"});
     
     game.getStage().removeChild(infoPage);
     game.progress();
