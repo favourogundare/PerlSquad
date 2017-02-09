@@ -1,3 +1,6 @@
+
+var timestamp;
+
 /**
  * @function eventScrollGame
  * Mini-game portion of the game. Players collect objects
@@ -5,7 +8,8 @@
  */
 var bgrnd;
 function eventScrollGame() {
-    analytics.track("scroll-game");
+    timestamp = new Date();
+    
     /** standard canvas and stage variables */
     var canvas;
     var stage;
@@ -228,6 +232,8 @@ function eventScrollGame() {
         }
         game.getStage().update();
         big_contain.on("click", function(event) {
+	    sendUserTimeInfo("scroll-game", timestamp, {biome: "rain-forest"});
+	    
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
             game.getStage().removeChild(bgrnd);

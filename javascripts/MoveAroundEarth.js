@@ -2,8 +2,11 @@
  * @function eventMoveAroundEarth
  * Allows player to pick a biome to visit.
  */
+
+var timestamp;
+
 function eventMoveAroundEarth() {
-    analytics.track("biome-selection");
+    timestamp = new Date();
     
         var moveText;
 	var handleClick = function(event) {
@@ -15,6 +18,9 @@ function eventMoveAroundEarth() {
         game.getStage().update();
     }
     var onMoveOK = function(event) {
+	// Analytics
+	sendUserTimeInfo("biome-selection", timestamp);
+	
         game.getMainContainer().removeChild(moveText);
         game.getMainContainer().removeChild(playerIcon);
         game.getMainContainer().removeChild(moveOK);

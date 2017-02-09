@@ -1,11 +1,14 @@
 var infoPage;
+
+var timestamp;
+
 /**  
  * @function eventInfoScreen
  * Info Screen portion of the game. Displays objects that belong in the biome.
  * Scroll over objects for information.
  */
 function eventInfoScreen(){
-    analytics.track("info-screen");
+    timestamp = new Date();
     
     var mouseTarget;
     var bitmap;
@@ -89,6 +92,9 @@ function eventInfoScreen(){
  * Removes the infoPage container and calls game.progress()
  */
 function onInfoOK() {
+    // Analytics
+    analytics.track("info-screen", timestamp, {biome: "rain-forest"});
+    
     game.getStage().removeChild(infoPage);
     game.progress();
 }

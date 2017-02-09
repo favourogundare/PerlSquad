@@ -2,3 +2,29 @@
   analytics.load("6Ngmjpw0BXprlRJjgy4GdlmWm6O87yCc");
   analytics.page();
   }}();
+
+
+/* 
+ * @function sendUserTimeInfo()
+ * Helper function to send data using Segment's API's. 
+ * This is meant to take a timestamp and a bundle of
+ * optional information to produce stats for when
+ * the user entered and exited the specific section of
+ * the game as specified by name, as well as the 
+ * difference between these two times. The optional 
+ * information is sent to the Segment servers along with
+ * the timing info. 
+ *
+ * @param name:      Name of the game segment
+ * @param timestamp: This will be used to declare when the user
+ *                   entered the specific section of the game
+ * @param traits:    An object of additional info to send
+ */
+function sendUserTimeInfo(name, timestamp, traits) {
+    
+    if (traits === undefined) traits = {};
+    traits["entered"] = timestamp;
+    traits["duration"] = new Date() - timestamp;
+    traits["exited"] = new Date();
+    analytics.track(name, traits);
+}

@@ -3,11 +3,13 @@ var p2_button;
 var p3_button;
 var p4_button;
 
+var timestamp;
+
 /**
  * @function eventStartMenu
  */
 function eventStartMenu() {
-    analytics.track("start-menu");
+    timestamp = new Date();
     
 	/** initialize page container */
     start_page = new createjs.Container();
@@ -86,17 +88,20 @@ function four_player() {
 * Handle user clicking "start"
 */
 function onStart() {
-	game.getStage().removeChild(start_page);
-	game.getStage().update();
-	game.progress();
+    // Analytics
+    sendUserTimeInfo("start-game", timestamp);
+    
+    game.getStage().removeChild(start_page);
+    game.getStage().update();
+    game.progress();
 }
 	
 /**
 *@function options_menu
 */
 function options_menu() {
-	game.getStage().removeChild(start_page);
-	game.getStage().update();
-	eventOptionsMenu();
-	/** options menu here */
+    game.getStage().removeChild(start_page);
+    game.getStage().update();
+    eventOptionsMenu();
+    /** options menu here */
 }	

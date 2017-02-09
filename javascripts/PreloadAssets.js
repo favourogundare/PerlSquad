@@ -4,12 +4,16 @@ var preload;
 var ObjectIndex;
 var BiomeIndex;
 var loadItem;
+
+var timestamp;
+
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets() {
-    analytics.track("preloading");
+    // Analytics
+    timestamp = new Date();
     
     itemProgressText = new createjs.Text("", "32px Arial", "#000000");
 	itemProgressText.x = game.getStage().width/2;
@@ -128,7 +132,11 @@ function handleComplete() {
             stage.addChild(mybmp);
             offset += h;
         }
-    */
+	*/
+    
+    // Analytics - how long did it take to load?
+    sendUserTimeInfo("preloading", timestamp);
+    
     game.getStage().removeChild(progressText, itemProgressText);
     game.progress();   
 }

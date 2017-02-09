@@ -116,13 +116,13 @@ function Game(easelStage) {
     * been provided using Game.setStage(Stage)
     */  
     this.start = function() {
-	// Analytics
+	// Generate a userID for the user so that analytical data may be
+	// associated to this user later
 	var userID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
 	    return v.toString(16);
 	});
 	analytics.identify(userID);
-	analytics.track("game-engine-start");
 	
         /** Attach container to main canvas stage */
         if (stage === undefined) return -1;
