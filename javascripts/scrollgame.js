@@ -232,7 +232,11 @@ function eventScrollGame() {
         }
         game.getStage().update();
         big_contain.on("click", function(event) {
-	    sendUserTimeInfo("scroll-game", timestamp, {biome: "rain-forest"});
+	    var additionalInfo = {};
+	    additionalInfo["biome"] = "rain-forest";
+	    additionalInfo["score"] = score;
+	    sendUserTimeInfo("scroll-game", timestamp, additionalInfo);
+							
 	    
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
