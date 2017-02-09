@@ -1,18 +1,6 @@
-/**
- *  @function init
- *  Initializes the game and hides the Description div.
- */
 function init() {
-    var stage = new createjs.Stage("main");
-    Description.value = '';
-    ImageSource.value = '';
-    console.log(Description.value);
-    console.log(ImageSource.value);
-	Description.style.display = 'none';
-    ImageSource.style.display = 'none';
 	var fileInput = $('#files');
 	var uploadButton = $('#upload');
-	
 
 	uploadButton.on('click', function() {
 		if (!window.FileReader) {
@@ -23,8 +11,6 @@ function init() {
 
 		// Create a reader object
 		var reader = new FileReader();
-		reader.top = 100;
-		reader.left = 100;
 		if (input.files.length) {
 			var textFile = input.files[0];
 			// Read the file
@@ -35,9 +21,6 @@ function init() {
 			alert('Please upload a file before continuing')
 		} 
 	});
-    game.setStage(stage);
-    eventLoadMap();
-    //game.start();
 }
 
 function processFile(e) {

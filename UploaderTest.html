@@ -1,0 +1,26 @@
+<html>
+  <head>
+	<meta charset="utf-8"/>
+	<style>
+		input[type="file"] {
+			display: none;
+		}
+		.custom-file-upload {
+			top: 200px
+			left: 100px
+			display: inline-block;
+		}
+	</style>
+	<script src="javascripts/jquery-3.1.1.min.js"></script>
+	<script src="javascripts/uploaderTest.js"></script>
+  </head>
+  <body onload = "init();">
+	<canvas id="main" width="960" height="444"></canvas>
+	<button for="files" class="custom-file-upload">Browse Files</button>
+	<input type=file id=files />
+	<button id=upload>Upload</button>
+	<br/><br/>
+	<input type=text id=name /><br/>
+	<input type=text id=age />
+  </body>
+</html>
