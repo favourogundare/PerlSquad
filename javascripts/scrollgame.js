@@ -74,6 +74,16 @@ function eventScrollGame() {
     sheep.name = "sheep";
     sheep.onload = createAnimals;
 	
+	var butterfly = new Image();
+	butterfly.src = "butterfly.png";
+	butterfly.name = "butterfly";
+	butterfly.onload = createAnimals;
+	
+	var bumblebee = new Image();
+	bumblebee.src = "bumblebee.png";
+	bumblebee.name = "bumblebee";
+	bumblebee.onload = createAnimals;
+	
 	var start_contain = new createjs.Container();
    
     /**
@@ -129,18 +139,25 @@ function eventScrollGame() {
 	 
     function createAnimals(event){
         var image = event.target;
-		var l = 4;
+		var l = 2;
         for (var i=0; i<l; i++){
             bitmap = new createjs.Bitmap(image);
             anim_contain.addChild(bitmap);
             bitmap.name=image.name;
+			if (bitmap.name == "butterfly"){
+				bitmap.scaleX = 0.33;
+				bitmap.scaleY = 0.33;
+			}
+			if (bitmap.name == "bumblebee"){
+				bitmap.scaleX = 0.16;
+				bitmap.scaleY = 0.16;
+			}
 			resetAnimal(bitmap);
             bitmap.regX = bitmap.image.width/2|0;
             bitmap.regY = bitmap.image.height/2|0;
             bitmap.mouseEnabled = true;
             bmpList.push(bitmap);
         }
-        
         
         createjs.Ticker.addEventListener("tick", tick);
     }
@@ -167,7 +184,7 @@ function eventScrollGame() {
         }
         if (clicked && mouseTarget){
             var tempText = String(mouseTarget.name);
-            if (tempText=="sheep" && play == true){
+            if ((tempText=="sheep" || tempText=="bumblebee") && play == true){
                 resetAnimal(mouseTarget);
                 score-=50*difficulty;
 				points_lost +=50*difficulty;
@@ -176,7 +193,7 @@ function eventScrollGame() {
                 }
                 clicked=false;
             }
-            else if (tempText=="toucan"&& play == true){
+            else if ((tempText=="toucan" || tempText=="butterfly" )&& play == true){
                 resetAnimal(mouseTarget);
                 score+=50*difficulty;
                 clicked=false;
@@ -190,7 +207,7 @@ function eventScrollGame() {
                 if (bmp.x > -200){
                     bmp.x -= bmp.speed;
                 }else{
-                    if (bmp.name == "toucan"){
+                    if (bmp.name == "toucan" || bmp.name == "butterfly"){
                         gameOver();
                         console.log("game over");
                     }
@@ -200,7 +217,6 @@ function eventScrollGame() {
                 }
             }
         }
-        //txt.text = "Score: "+score;
         game.getStage().update();
     }
     /**
