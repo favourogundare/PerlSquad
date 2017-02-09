@@ -27,7 +27,7 @@ const GAME_HEIGHT = 444;
  * more GameEvent objects. Populate Game.start() and Game.finish() with code to handle
  * the beginning and ending of the game.
  */
- 
+
 function Game(easelStage) {
     //-- Private --//
     var stage = easelStage; /** Reference to EaselJS Stage object */
@@ -116,6 +116,14 @@ function Game(easelStage) {
     * been provided using Game.setStage(Stage)
     */  
     this.start = function() {
+	// Analytics
+	var userID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+	    return v.toString(16);
+	});
+	analytics.identify(userID);
+	analytics.track("game-engine-start");
+	
         /** Attach container to main canvas stage */
         if (stage === undefined) return -1;
         else stage.addChild(mainGameContainer);

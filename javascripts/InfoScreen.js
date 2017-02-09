@@ -5,6 +5,8 @@ var infoPage;
  * Scroll over objects for information.
  */
 function eventInfoScreen(){
+    analytics.track("info-screen");
+    
     var mouseTarget;
     var bitmap;
 	var infoText;

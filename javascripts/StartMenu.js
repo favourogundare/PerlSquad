@@ -7,6 +7,8 @@ var p4_button;
  * @function eventStartMenu
  */
 function eventStartMenu() {
+    analytics.track("start-menu");
+    
 	/** initialize page container */
     start_page = new createjs.Container();
 	

@@ -3,7 +3,9 @@
  * Allows player to pick a biome to visit.
  */
 function eventMoveAroundEarth() {
-	var moveText;
+    analytics.track("biome-selection");
+    
+        var moveText;
 	var handleClick = function(event) {
         currentBiome = currentBiome.next;
         moveText.text = "Biome: " + currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit";

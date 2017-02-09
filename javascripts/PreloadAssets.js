@@ -9,6 +9,8 @@ var loadItem;
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets() {
+    analytics.track("preloading");
+    
     itemProgressText = new createjs.Text("", "32px Arial", "#000000");
 	itemProgressText.x = game.getStage().width/2;
 	itemProgressText.y = game.getStage().height/2+40;

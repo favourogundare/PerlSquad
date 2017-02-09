@@ -5,6 +5,7 @@
  */
 var bgrnd;
 function eventScrollGame() {
+    analytics.track("scroll-game");
     /** standard canvas and stage variables */
     var canvas;
     var stage;
@@ -12,6 +13,7 @@ function eventScrollGame() {
     var bg;
     /** keeps track of player score */
     var score;
+	var points_lost = 0;
     /** stores ship bitmaps */
     var bmpList = [];
     var bitmap;
@@ -29,7 +31,7 @@ function eventScrollGame() {
 	
 	var difficulty = 1;
 	/** difficulty of the minigame - 1 is easy, 3 is normal, 5 is hard 
-		defaults to normal
+		defaults to easy so that first objects generated are slower to ease player into the game
 		*/
     
     /**
@@ -45,12 +47,12 @@ function eventScrollGame() {
      * Handles a click release.
      */
     var onMouseUp = function (){
-        clicked = false
+        clicked = false;
     }
     
     canvas = document.getElementById("main");
     //stage = new game.getStage();
-    stage = new createjs.Container();
+    big_contain = new createjs.Container();
     score = 0;
     
     canvas.onmousedown = onMouseDown;
@@ -78,7 +80,7 @@ function eventScrollGame() {
      */
     function setBG(event){
         bgrnd = new createjs.Bitmap(bg);
-        game.getStage().addChild(bgrnd, stage);
+        game.getStage().addChild(bgrnd, big_contain);
 		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
 		start_text.x = game.getStage().width/2 - 135;
 		start_text.y = game.getStage().height/3 - 10;
@@ -89,7 +91,7 @@ function eventScrollGame() {
 		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_medium);
 		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, false, "212121", "click", pick_hard);
         start_contain.addChildAt(start_box, start_text, easy_button.container, med_button.container, hard_button.container, 0);
-		stage.addChild(start_contain);
+		big_contain.addChild(start_contain);
 		game.getStage().update();
     }
 	
@@ -98,22 +100,22 @@ function eventScrollGame() {
 	function pick_easy () {
 		difficulty = 1;
 		play = true;
-		stage.addChild(anim_contain);
-		stage.removeChild(start_contain);
+		big_contain.addChild(anim_contain);
+		big_contain.removeChild(start_contain);
 	}
 	
 	function pick_medium () {
 		difficulty = 2;
 		play = true;
-		stage.addChild(anim_contain);
-		stage.removeChild(start_contain);
+		big_contain.addChild(anim_contain);
+		big_contain.removeChild(start_contain);
 	}
 	
 	function pick_hard () {
 		difficulty = 4;
 		play = true;
-		stage.addChild(anim_contain);
-		stage.removeChild(start_contain);
+		big_contain.addChild(anim_contain);
+		big_contain.removeChild(start_contain);
 	}
     
     /**
@@ -166,6 +168,7 @@ function eventScrollGame() {
             if (tempText=="sheep" && play == true){
                 resetAnimal(mouseTarget);
                 score-=50*difficulty;
+				points_lost +=50*difficulty;
                 if (score < 0){ /** prevent negative score */
                     score = 0;
                 }
@@ -203,17 +206,20 @@ function eventScrollGame() {
      * Ends game and displays "Game Over" text.
      */
     function gameOver(){
-        stage.removeAllChildren();
+        big_contain.removeAllChildren();
 		var scoreBox = new createjs.Shape();
 		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 225, canvas.height/3 - 30, 450, 150);
-		stage.addChild(scoreBox);
+		big_contain.addChild(scoreBox);
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
 		gameTxt.text += "Score: " + score + "\n";
         gameTxt.text += "Click to Try Another Biome\n";
+		if (points_lost > 6*50*difficulty){
+			gameTxt.text += "\n\n Hint: click on animals that belong in the biome!"
+		}
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
-        stage.addChild(gameTxt);
+        big_contain.addChild(gameTxt);
         play=false;
         var l=bmpList.length;
         for(var i=0; i<l; i++){
@@ -221,9 +227,9 @@ function eventScrollGame() {
             resetAnimal(bmp);
         }
         game.getStage().update();
-        stage.on("click", function(event) {
+        big_contain.on("click", function(event) {
             console.log("Clicked!");
-            game.getStage().removeChild(stage);
+            game.getStage().removeChild(big_contain);
             game.getStage().removeChild(bgrnd);
             game.progress();
         });
@@ -235,7 +241,7 @@ function eventScrollGame() {
      */
     var handleClick = function(){
         canvas.onclick=null;
-        stage.removeChild(gameTxt);
+        big_contain.removeChild(gameTxt);
         score=0;
         
         play=true;
