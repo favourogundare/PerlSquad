@@ -24,33 +24,57 @@ function eventInfoScreen(){
         //load toucan image
         var result = preload.getResult("toucan");
         var toucan = new createjs.Bitmap(result);
+		result = preload.getResult("precipitation");
+		var precip = new createjs.Bitmap(result);
+		result = preload.getResult("temperature");
+		var temperature = new createjs.Bitmap(result);
+		result = preload.getResult("butterfly");
+		var butterfly = new createjs.Bitmap(result);
+		result = preload.getResult("jaguar");
+		var jaguar = new createjs.Bitmap(result);
 
-        //reset bounds
-        var bounds = toucan.getBounds();
-        var maxBound = Math.max(bounds.height, bounds.width);
-        toucan.scaleY = toucan.scaleBackY = 150/maxBound;
-        toucan.scaleX = toucan.scaleBackX = 150/maxBound;
+		var biomestuff = [precip, temperature, butterfly, toucan, jaguar]
+
+		biomestuff.forEach(function(item, index, array){
+			
+			//reset bounds
+			var bounds = item.getBounds();
+			var maxBound = Math.max(bounds.height, bounds.width);
+			item.scaleY = item.scaleBackY = 150/maxBound;
+			item.scaleX = item.scaleBackX = 150/maxBound;
+
+			item.on("rollover", function (evt) {
+				this.scaleX = this.scaleBackX * 1.1;
+				this.scaleY = this.scaleBackY * 1.1;
+				infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
+				infoText.x = 350;
+				infoText.y = 250;
+				infoPage.addChild(infoText);
+				game.getStage().update();
+			});
+
+			item.on("rollout", function (evt) {
+				this.scaleX = this.scaleBackX;
+				this.scaleY = this.scaleBackY;
+				infoPage.removeChild(infoText);
+				game.getStage().update();
+			});
+        
         toucan.x = 150;
         toucan.y = 260;
-            
-        toucan.on("rollover", function (evt) {
-            this.scaleX = this.scaleBackX * 1.1;
-            this.scaleY = this.scaleBackY * 1.1;
-            infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
-            infoText.x = 350;
-            infoText.y = 250;
-            infoPage.addChild(infoText);
-            game.getStage().update();
-        });
-
-        toucan.on("rollout", function (evt) {
-            this.scaleX = this.scaleBackX;
-            this.scaleY = this.scaleBackY;
-            infoPage.removeChild(infoText);
-            game.getStage().update();
-        });
-        
-        
+                   
+		temperature.x = 50;
+		temperature.y = 50;
+		
+		precipitation.x = 50;
+		precipitation.y = 75;
+		
+		butterfly.x = 400;
+		butterfly.y = 450;
+		
+		jaguar.x = 250;
+		jaguar.y = 20;
+		
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
         infoOK.x = game.getStage().width-80;
         infoOK.y = game.getStage().height-60;
