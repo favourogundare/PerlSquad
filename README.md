@@ -29,8 +29,8 @@ Simply download the repository and click [code]index.html[/code] to launch the g
 default web browser. Nothing else required.
 
 ### Where Everything Is
-If you are looking for meeting logs, sprint or homework related materials, check the artifacts
-folder. 
+If you are looking for sprint or homework related materials, such as team member responsibilities
+check the artifacts folder. 
 
 ### Repo Structure
 - javascripts: bulk of the game, including the game engine and code for each piece of the game
