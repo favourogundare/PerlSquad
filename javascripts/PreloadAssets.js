@@ -3,7 +3,7 @@ var preload;
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
-function eventPreloadAssets() {
+function eventPreloadAssets(manifest, start) {
 	var progressText;
 	var assets;
 	var ObjectIndex;
@@ -28,8 +28,6 @@ function eventPreloadAssets() {
     ObjectIndex = 0;
     BiomeIndex  = 0;
 	
-	var manifest = getManifest();
-
 	preload = new createjs.LoadQueue(false);
     preload.on("error", handleError);
     preload.on("fileerror", handleFileError);
@@ -90,7 +88,7 @@ function eventPreloadAssets() {
 	 */
 	function handleFileLoad(event) {
 		console.log("Finished Loading: " + event.item.id);
-		if (!assets[BiomeIndex]){
+		/*if (!assets[BiomeIndex]){
 			assets[BiomeIndex] = [];
 		}
 		else {
@@ -100,7 +98,7 @@ function eventPreloadAssets() {
 			else{
 				assets[BiomeIndex][ObjectIndex].push(event);
 			}
-		}
+		}*/
 	}
 	/**
 	 * @function handleComplete
@@ -129,7 +127,12 @@ function eventPreloadAssets() {
 			}
 		*/
 		game.getStage().removeChild(progressText, itemProgressText);
-		game.progress();   
+		if (start == false) {
+			eventOptionsMenu();
+		} 
+		else {
+			game.progress();
+		}   
 	}
 }
 

@@ -176,6 +176,6 @@ const manifest =
     Tundra_GrowingSeason
 ];
 
-function getManifest()	{
+function getDefaultManifest()	{
 	return manifest;
 }

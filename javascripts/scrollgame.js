@@ -84,10 +84,10 @@ function eventScrollGame() {
 		start_text.y = game.getStage().height/3 - 10;
 		start_text.align = "center"
 		var start_box = new createjs.Shape();
-		start_box.graphics.beginFill("#212121").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
-		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_easy);
-		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_medium);
-		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, false, "212121", "click", pick_hard);
+		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
+		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_easy);
+		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_medium);
+		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_hard);
         start_contain.addChildAt(start_box, start_text, easy_button.container, med_button.container, hard_button.container, 0);
 		stage.addChild(start_contain);
 		game.getStage().update();

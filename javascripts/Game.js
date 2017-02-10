@@ -38,6 +38,8 @@ function Game(easelStage) {
     /** For now, there is only one player in the game */
 	this.numPlayers = 1;
     this.map;
+	this.fileInput = $('#files');
+	this.imageText;
 	
 	//CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
 	//THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
@@ -98,8 +100,8 @@ function Game(easelStage) {
     this.progress = function() {
         //if (++currentTurn >= story.length) finish();
         if (++currentTurn >= story.length){
-            currentTurn = 2;
-            currentGameEvent = story[2];
+            currentTurn = 1;
+            currentGameEvent = story[1];
             currentGameEvent.trigger();
         }
         else {
@@ -126,7 +128,9 @@ function Game(easelStage) {
         mainGameContainer.addChild(background);
         this.getStage().update();
         /** Load GameEvent objects */
+		console.log("here");
         this.loadStory();
+		console.log("there");
         currentTurn = 0;
         currentGameEvent = story[0];
 
@@ -207,10 +211,9 @@ function Game(easelStage) {
 
         /** Assign different code to different segments GameEvents */
         story[0] = new GameEvent(this.transition, eventStartMenu);
-        story[1] = new GameEvent(this.transition, eventPreloadAssets);
-        story[2] = new GameEvent(this.transition, eventMoveAroundEarth);
+        story[1] = new GameEvent(this.transition, eventMoveAroundEarth);
         //story[2] = new GameEvent(this.transition, this.singleClick);
-        story[3] = new GameEvent(this.transition, eventInfoScreen);
-        story[4] = new GameEvent(this.transition, eventScrollGame);
+        story[2] = new GameEvent(this.transition, eventInfoScreen);
+        story[3] = new GameEvent(this.transition, eventScrollGame);
     }
 }

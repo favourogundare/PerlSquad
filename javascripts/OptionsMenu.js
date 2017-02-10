@@ -5,9 +5,9 @@ function eventOptionsMenu() {
 	var edit_button;
 	var done_button;
 	var options_title;
-    add_button   = new RectButton("Add", "#00e676", game.getStage().width/2 - 150, 150, 300, 50, "click", add_clicked);
-    edit_button   = new RectButton("Edit", "#ff9100", game.getStage().width/2 - 150, 225, 300, 50, "click", edit_clicked);
-    done_button = new RectButton("Done", "#f44336", game.getStage().width/2 - 150, 300, 300, 50, "click", done_clicked);    
+    add_button   = new RectButton("Add Image", "#00e676", game.getStage().width/2 - 150, 150, 300, 50, "#212121", "click", add_clicked);
+    edit_button   = new RectButton("Edit Images", "#ff9100", game.getStage().width/2 - 150, 225, 300, 50, "#212121", "click", edit_clicked);
+    done_button = new RectButton("Done", "#f44336", game.getStage().width/2 - 150, 300, 300, 50, "#212121", "click", done_clicked);    
 
     //declare options menu shapes
     options_page = new createjs.Container();
@@ -61,8 +61,8 @@ function eventAddItem() {
 	var manifestBlob;
 	Description.style.display = 'inline';
     ImageSource.style.display = 'inline';
-    var done_button = new RectButton("Done", "#00e676", game.getStage().width/2 - 150, 295, 300, 50, "click", addDone);
-    var cancel_button = new RectButton("Cancel", "#f44336", game.getStage().width/2 - 150, 370, 300, 50, "click", addCancel);
+    var done_button = new RectButton("Done", "#00e676", game.getStage().width/2 - 150, 295, 300, 50, "#212121", "click", addDone);
+    var cancel_button = new RectButton("Cancel", "#f44336", game.getStage().width/2 - 150, 370, 300, 50, "#212121", "click", addCancel);
     options_page.addChild(done_button.container, cancel_button.container);
 	game.getStage().update();
 	

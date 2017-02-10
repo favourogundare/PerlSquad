@@ -14,6 +14,7 @@
     <script src="javascripts/InfoScreen.js"></script>
     <script src="javascripts/LoadMap.js"></script>
 	<script src="javascripts/Manifest.js"></script>
+	<script src="javascripts/SelectManifest.js"></script>
 	<!-- Global Game object initialization ----------------------->
 	<script> var game = new Game(); </script>
 	<!-- Code for different segments of the game ----------------->
@@ -28,8 +29,7 @@
   </head>
   <body onload="init();">
 	<canvas id="main" width="960" height="444"></canvas>
-	<div style="position:absolute;left:100px;top:45px;"><input type=file id=files /></div>
-	<button id=upload style="position:absolute;left:305px;top:45px;">Upload</button>
+	<div id = browseButton style="position:absolute;left:100px;top:45px;"><input type=file id=files /></div>
 	<br/><br/>
 	<input type=text id=name /><br/>
 	<input type=text id=age />

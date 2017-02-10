@@ -40,11 +40,11 @@ function eventSelectCategory(chosen) {
     selectCategoryOK.addEventListener("click", SConOK);
     
 	/** initialize buttons */
-    option1      = new CircleButton("Animal", "20px Arial", 0, 70, "#f44336", 1 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, true, "#616161", "click", SCon1);
-    option2      = new CircleButton("Growing Season", "20px Arial", 0, 70, "#ff9100", 2 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, false, "#616161", "click", SCon2);
-    option3      = new CircleButton("Plant Life", "20px Arial", 0, 70, "#00e676", 3 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, false, "#616161", "click", SCon3);
-    option4      = new CircleButton("Precipitation", "20px Arial", 0, 70, "#00b0ff", 4 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, false, "#616161", "click", SCon4);
-	option5      = new CircleButton("Latitude", "20px Arial", 0, 70, "#d500f9", 5 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, false, "#616161", "click", SCon5);
+    option1      = new CircleButton("Animal", "20px Arial", 0, 70, "#f44336", 1 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#616161", "click", SCon1);
+    option2      = new CircleButton("Growing Season", "20px Arial", 0, 70, "#ff9100", 2 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon2);
+    option3      = new CircleButton("Plant Life", "20px Arial", 0, 70, "#00e676", 3 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon3);
+    option4      = new CircleButton("Precipitation", "20px Arial", 0, 70, "#00b0ff", 4 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon4);
+	option5      = new CircleButton("Latitude", "20px Arial", 0, 70, "#d500f9", 5 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon5);
 	
     /** Build and update stage */
     SelectCategoryContainer.addChildAt(selectBackground, option1.container, option2.container, option3.container, option4.container, option5.container, selectCategoryOK, 0);

@@ -23,12 +23,30 @@ function init() {
 	});
 }
 
-function processFile(e) {
-	var file = e.target.result,
-		results;
+function processFile(event) {
+	var file = event.target.result, results;
+	var numImages;
+	var numDescriptions;
 	if (file && file.length) {
 		results = file.split("\n");
-		$('#name').val(results[0]);
-		$('#age').val(results[1]);
+		for (var i=0; i<results.length; i++) {
+			if (isNumber(results[i])) {
+				console.log("New Biome!!!!!!!!!");
+				numImages = results[i];
+				while(numImages>0) {
+					console.log("Image:" + results[++i]);
+					numDescriptions = results[++i];
+					while(numDescriptions>0) {
+						console.log("Description" + results[++i])
+						numDescriptions--;
+					}
+					numImages--;
+				}
+			}
+		}
 	}
+}
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }
