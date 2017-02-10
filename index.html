@@ -1,24 +1,33 @@
 <html>
   <head>
 	<meta charset="utf-8"/>
+	<style>
+	.hidden{
+		display : none;
+	}
+	</style>
 	<!-- Game Engine Libraries ------------------------------------>
-	<script src="javascripts/createjs-2015.11.26.min.js"></script>
+    <script src="javascripts/createjs-2015.11.26.min.js"></script>
+	<script src="javascripts/jquery-3.1.1.min.js"></script>
+	<script src="javascripts/FileSaver.min.js"></script>
+    <script src="javascripts/Blob.js"></script>
 	<script src="javascripts/Player.js"></script>
 	<script src="javascripts/Buttons.js"></script>
 	<script src="javascripts/DoublyLinkedCycle.js"></script>
 	<script src="javascripts/GameEvent.js"></script>
-	<script src="javascripts/Game.js"></script>
-	<script src="javascripts/InfoScreen.js"></script>
-	<script src="javascripts/LoadMap.js"></script>
+    <script src="javascripts/Game.js"></script>
+    <script src="javascripts/InfoScreen.js"></script>
+    <script src="javascripts/LoadMap.js"></script>
 	<script src="javascripts/Manifest.js"></script>
+	<script src="javascripts/SelectManifest.js"></script>
 	<!-- Global Game object initialization ----------------------->
 	<script> var game = new Game(); </script>
 	<!-- Code for different segments of the game ----------------->
 	<script src="javascripts/PreloadAssets.js"></script>
-	<script src="javascripts/StartMenu.js"></script>
-	<script src="javascripts/MoveAroundEarth.js"></script>
-	<script src="javascripts/OptionsMenu.js"></script>
-	<script src="javascripts/SelectCategory.js"></script>
+    <script src="javascripts/StartMenu.js"></script>
+    <script src="javascripts/MoveAroundEarth.js"></script>
+    <script src="javascripts/OptionsMenu.js"></script>
+    <script src="javascripts/SelectCategory.js"></script>
 	<script src="javascripts/scrollgame.js"></script>
 	<!-- Start game ---------------------------------------------->
 	<script src="javascripts/init.js"></script>
@@ -27,7 +36,8 @@
   </head>
   <body onload="init();">
 	<canvas id="main" width="960" height="444"></canvas>
-    <textarea id = "ImageSource" placeholder="Insert image link or filepath here." style="position:absolute;left:305px;top:45px;width:350px; height:26px"></textarea>
-    <textarea id = "Description" placeholder="Insert item description here." style="position:absolute;left:305px;top:85px;width:350px; height:200px"></textarea>
+	<div class = "hidden" id = browseButton style="position:absolute;left:100px;top:45px;"><input type=file id=files /></div>
+    <textarea class = "hidden" id = "ImageSource" placeholder="Insert image link or filepath here." style="position:absolute;left:305px;top:45px;width:350px; height:26px"></textarea>
+    <textarea class = "hidden" id = "Description" placeholder="Insert item description here." style="position:absolute;left:305px;top:85px;width:350px; height:200px"></textarea>
   </body>
 </html>

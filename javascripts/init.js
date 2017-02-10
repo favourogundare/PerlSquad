@@ -10,7 +10,7 @@ function init() {
     console.log(ImageSource.value);
 	Description.style.display = 'none';
     ImageSource.style.display = 'none';
+	browseButton.style.display = 'none';
     game.setStage(stage);
     eventLoadMap();
-    //game.start();
 }

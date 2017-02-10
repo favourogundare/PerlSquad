@@ -1,6 +1,4 @@
-
 var timestamp;
-
 /**
  * @function eventScrollGame
  * Mini-game portion of the game. Players collect objects
@@ -8,8 +6,7 @@ var timestamp;
  */
 var bgrnd;
 function eventScrollGame() {
-    timestamp = new Date();
-    
+	timestamp = new Date();
     /** standard canvas and stage variables */
     var canvas;
     var stage;
@@ -36,6 +33,7 @@ function eventScrollGame() {
 	var difficulty = 1;
 	/** difficulty of the minigame - 1 is easy, 3 is normal, 5 is hard 
 		defaults to easy so that first objects generated are slower to ease player into the game
+
 		*/
     
     /**
@@ -90,10 +88,10 @@ function eventScrollGame() {
 		start_text.y = game.getStage().height/3 - 10;
 		start_text.align = "center"
 		var start_box = new createjs.Shape();
-		start_box.graphics.beginFill("#212121").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
-		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_easy);
-		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, false, "#212121", "click", pick_medium);
-		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, false, "212121", "click", pick_hard);
+		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
+		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_easy);
+		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_medium);
+		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_hard);
         start_contain.addChildAt(start_box, start_text, easy_button.container, med_button.container, hard_button.container, 0);
 		big_contain.addChild(start_contain);
 		game.getStage().update();
@@ -232,12 +230,10 @@ function eventScrollGame() {
         }
         game.getStage().update();
         big_contain.on("click", function(event) {
-	    var additionalInfo = {};
+		var additionalInfo = {};
 	    additionalInfo["biome"] = "rain-forest";
 	    additionalInfo["score"] = score;
 	    sendUserTimeInfo("scroll-game", timestamp, additionalInfo);
-							
-	    
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
             game.getStage().removeChild(bgrnd);

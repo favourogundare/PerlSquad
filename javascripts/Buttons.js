@@ -10,7 +10,7 @@
  *  @param buttonFunction
  *  Rectangular button class.
  */
-function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH, buttonEvent, buttonFunction) {
+function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH, outColor, buttonEvent, buttonFunction) {
 	this.container        = new createjs.Container();
 	this.container.x      = buttonX;
 	this.container.y      = buttonY;
@@ -20,7 +20,7 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 	this.txt.x 	          = buttonW/2;
 	this.txt.y            = 10 + buttonH/3;
 	this.outRect          = new createjs.Shape();
-	this.outRect.graphics.beginFill("#212121").drawRect(0, 0, buttonW, buttonH);
+	this.outRect.graphics.beginFill(outColor).drawRect(0, 0, buttonW, buttonH);
 	this.inRect           = new createjs.Shape();		
 	this.inRect.graphics.beginFill(buttonColor).drawRect(10, 10, buttonW - 20, buttonH - 20);
 	this.container.addChildAt(this.outRect, this.inRect, this.txt, 0);
@@ -43,12 +43,7 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
  *  @param buttonFunction
  *  Circular button class.
  */
-function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, buttonColor, buttonX, buttonY, buttonR, selected, selectedColor, buttonEvent, buttonFunction) {
-	if (selected) {
-		this.outColor = selectedColor;
-	} else {
-		this.outColor = "#bdbdbd";
-	}
+function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, buttonColor, buttonX, buttonY, buttonR, outColor, buttonEvent, buttonFunction) {
 	this.container        = new createjs.Container();
 	this.container.x      = buttonX;
 	this.container.y      = buttonY;
@@ -58,7 +53,7 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 	this.txt.x 	          = buttonTextX;
 	this.txt.y            = buttonTextY;
 	this.outCircle          = new createjs.Shape();
-	this.outCircle.graphics.beginFill(this.outColor).drawCircle(0, 0, buttonR);
+	this.outCircle.graphics.beginFill(outColor).drawCircle(0, 0, buttonR);
 	this.inCircle           = new createjs.Shape();		
 	this.inCircle.graphics.beginFill(buttonColor).drawCircle(0, 0, buttonR - 10);
 	this.container.addChildAt(this.outCircle, this.inCircle, this.txt, 0);

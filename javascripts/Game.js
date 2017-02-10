@@ -27,6 +27,7 @@ const GAME_HEIGHT = 444;
  * more GameEvent objects. Populate Game.start() and Game.finish() with code to handle
  * the beginning and ending of the game.
  */
+ 
 
 function Game(easelStage) {
     //-- Private --//
@@ -38,6 +39,9 @@ function Game(easelStage) {
     /** For now, there is only one player in the game */
 	this.numPlayers = 1;
     this.map;
+	this.fileInput = $('#files');
+	this.imageText;
+	this.assets = [];
 	
 	//CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
 	//THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
@@ -98,8 +102,8 @@ function Game(easelStage) {
     this.progress = function() {
         //if (++currentTurn >= story.length) finish();
         if (++currentTurn >= story.length){
-            currentTurn = 2;
-            currentGameEvent = story[2];
+            currentTurn = 1;
+            currentGameEvent = story[1];
             currentGameEvent.trigger();
         }
         else {
@@ -215,10 +219,11 @@ function Game(easelStage) {
 
         /** Assign different code to different segments GameEvents */
         story[0] = new GameEvent(this.transition, eventStartMenu);
-        story[1] = new GameEvent(this.transition, eventPreloadAssets);
-        story[2] = new GameEvent(this.transition, eventMoveAroundEarth);
+        story[1] = new GameEvent(this.transition, eventMoveAroundEarth);
+
         //story[2] = new GameEvent(this.transition, this.singleClick);
-        story[3] = new GameEvent(this.transition, eventInfoScreen);
-        story[4] = new GameEvent(this.transition, eventScrollGame);
+        story[2] = new GameEvent(this.transition, eventInfoScreen);
+        story[3] = new GameEvent(this.transition, eventScrollGame);
     }
+	this.defaultManifest = "3\n./Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png\n0\n./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png\n0\n./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n0\n3\n./Pictures/Animals/Desert/Animal - Cougar - Large - Brown.png\n0\n./Pictures/Animals/Desert/Animal - Armadillo - Medium - Brown.gif\n0\n./Pictures/Animals/Desert/Animal - SandCat - Small - Brown.png\n0\n3\n./Pictures/Animals/Grassland/Animal - Bobcat - Large - Brown.png\n0\n./Pictures/Animals/Grassland/Animal - PrarieDog - Medium - Brown.png\n0\n./Pictures/Animals/Grassland/Animal - BumbleBee - Small - Yellow.png\n0\n3\n./Pictures/Animals/Rainforest/Animal - Jaguar - Large - Orange.png\n0\n./Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png\n1\n   Known for its large and colorful bill, the toucan stands out among the birds of the tropical and subtropical rainforests.\n./Pictures/Animals/Rainforest/Animal - Butterfly - Small - Blue.png\n0\n3\n./Pictures/Animals/Tundra/Animal - PolarBear - Large - White.gif\n0\n./Pictures/Animals/Tundra/Animal - ArcticHare - Medium - White.jpg\n0\n./Pictures/Animals/Tundra/Animal - Trout - Small - Blue.png\n0"; 
 }

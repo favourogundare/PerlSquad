@@ -13,6 +13,7 @@ function eventInfoScreen(){
     var mouseTarget;
     var bitmap;
 	var infoText;
+	var prec, temp;
     function setInfoBG(event) {
         var bgrnd = new createjs.Bitmap(back);
         infoPage = new createjs.Container();
@@ -22,16 +23,11 @@ function eventInfoScreen(){
         //infoPage.mouseMoveOutside = true;*/
 
         //load toucan image
-        var result = preload.getResult("toucan");
-        var toucan = new createjs.Bitmap(result);
-		result = preload.getResult("precipitation");
-		var precip = new createjs.Bitmap(result);
-		result = preload.getResult("temperature");
-		var temperature = new createjs.Bitmap(result);
-		result = preload.getResult("butterfly");
-		var butterfly = new createjs.Bitmap(result);
-		result = preload.getResult("jaguar");
-		var jaguar = new createjs.Bitmap(result);
+        var toucan = new createjs.Bitmap(game.assets[3][1].result);
+		var precip = new createjs.Bitmap(prec);
+		var temperature = new createjs.Bitmap(temp);
+		var butterfly = new createjs.Bitmap(game.assets[3][2].result);
+		var jaguar = new createjs.Bitmap(game.assets[3][0].result);
 
 		var biomestuff = [precip, temperature, butterfly, toucan, jaguar];
 		
@@ -137,7 +133,15 @@ function eventInfoScreen(){
     }
     var back = new Image();
     back.src = "rainforest.jpg";
-    back.onload = setInfoBG;
+    back.onload = function() {
+		prec = new Image();
+		prec.src = "Pictures/icons/precipitation.png";
+		prec.onload = function() {
+			temp = new Image();
+			temp.src = "Pictures/icons/temperature.png";
+			temp.onload = setInfoBG;
+		};
+	};
 }
 
 /**  
