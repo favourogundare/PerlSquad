@@ -34,20 +34,21 @@ function eventSelectCategory(chosen) {
     selected = 1;
     
     /** OK button section */
-    selectCategoryOK = new createjs.Text("OK", "20px Arial", "#FFFFFF");
+	var selectCategoryOK   = new RectButton("OK", "#000000", 9 * BOX_WIDTH / 10, 4 * BOX_HEIGHT / 5 - 5, 50, 50, "#000000", "click", SConOK);
+    /*selectCategoryOK = new createjs.Text("OK", "20px Arial", "#FFFFFF");
     selectCategoryOK.x = 9 * BOX_WIDTH / 10;
     selectCategoryOK.y = 4 * BOX_HEIGHT / 5;
-    selectCategoryOK.addEventListener("click", SConOK);
+    selectCategoryOK.addEventListener("click", SConOK);*/
     
 	/** initialize buttons */
-    option1      = new CircleButton("Animal", "20px Arial", 0, 70, "#f44336", 1 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#616161", "click", SCon1);
-    option2      = new CircleButton("Growing Season", "20px Arial", 0, 70, "#ff9100", 2 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon2);
-    option3      = new CircleButton("Plant Life", "20px Arial", 0, 70, "#00e676", 3 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon3);
-    option4      = new CircleButton("Precipitation", "20px Arial", 0, 70, "#00b0ff", 4 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon4);
-	option5      = new CircleButton("Latitude", "20px Arial", 0, 70, "#d500f9", 5 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon5);
+    option1      = new CircleButton("Deciduous Forest", "20px Arial", 0, 70, "#f44336", 1 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#616161", "click", SCon1);
+    option2      = new CircleButton("Desert", "20px Arial", 0, 70, "#ff9100", 2 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon2);
+    option3      = new CircleButton("Grassland", "20px Arial", 0, 70, "#00e676", 3 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon3);
+    option4      = new CircleButton("Rainforest", "20px Arial", 0, 70, "#00b0ff", 4 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon4);
+	option5      = new CircleButton("Tundra", "20px Arial", 0, 70, "#d500f9", 5 * BOX_WIDTH / 6, BOX_HEIGHT / 3, 50, "#bdbdbd", "click", SCon5);	
 	
     /** Build and update stage */
-    SelectCategoryContainer.addChildAt(selectBackground, option1.container, option2.container, option3.container, option4.container, option5.container, selectCategoryOK, 0);
+    SelectCategoryContainer.addChildAt(selectBackground, option1.container, option2.container, option3.container, option4.container, option5.container, selectCategoryOK.container, 0);
     game.getStage().addChild(SelectCategoryContainer);
     game.getStage().update();
 }
@@ -123,31 +124,14 @@ function SCon5() {
  * second time it is clicked, it will access the relative information based one the two category selections.
  */	
 function SConOK() {
-	if (category == 1) {
-		item = selected;
-		option1.txt.text = "Deciduous Forest";
-		option2.txt.text = "Desert";
-		option3.txt.text = "Grassland";
-		option4.txt.text = "Rainforest";
-		option5.txt.text = "Tundra";
-		category++;
-		selected = 1;
-		option1.outCircle.graphics.clear().beginFill("#616161").drawCircle(0, 0, 50);
-		option2.outCircle.graphics.clear().beginFill("#bdbdbd").drawCircle(0, 0, 50);
-		option3.outCircle.graphics.clear().beginFill("#bdbdbd").drawCircle(0, 0, 50);
-		option4.outCircle.graphics.clear().beginFill("#bdbdbd").drawCircle(0, 0, 50);
-		option5.outCircle.graphics.clear().beginFill("#bdbdbd").drawCircle(0, 0, 50);
-		game.getStage().update();
-	} else {
-		console.log("selected[" + item + "][" + selected + "]");
-		game.getStage().removeChild(SelectCategoryContainer);
-		game.getStage().update();
-		switch (globChosen){
-			case "add":
-				eventAddItem();
-				break;
-			case "edit":
-				eventEditItem();
-		}
+	console.log("selected[" + selected + "]");
+	game.getStage().removeChild(SelectCategoryContainer);
+	game.getStage().update();
+	switch (globChosen){
+		case "add":
+			eventAddItem();
+			break;
+		case "edit":
+			eventEditItem();
 	}
 }

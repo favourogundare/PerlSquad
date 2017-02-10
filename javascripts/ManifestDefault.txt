@@ -1,8 +1,3 @@
-//deciduous forest animals
-//desert animals
-//grassland animals
-//rainforest animals
-//tundra animals
 3
 ./Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png
 0
@@ -29,7 +24,7 @@
 0
 ./Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png
 1
-"   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests."
+   Known for its large and colorful bill, the toucan stands out among the birds of the tropical and subtropical rainforests.
 ./Pictures/Animals/Rainforest/Animal - Butterfly - Small - Blue.png
 0
 3

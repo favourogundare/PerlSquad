@@ -1,5 +1,4 @@
-function eventSelectManifest(purpose, checkStart) {
-	
+function eventSelectManifest(purpose, checkStart) {	
 	var selectManifestText = new createjs.Text("Select Manifest to " + purpose, "46px Arial", "#000000");
 	selectManifestText.x = game.getStage().width/2;
 	selectManifestText.y = 110;
@@ -25,7 +24,7 @@ function eventSelectManifest(purpose, checkStart) {
 	
 	function defaultClicked() {
 		game.getStage().removeChild(select_manifest_page);
-		eventPreloadAssets(getDefaultManifest(), checkStart);
+		parseManifest(game.defaultManifest);
 	}
 	
 	function browseClicked() {
@@ -101,8 +100,9 @@ function eventSelectManifest(purpose, checkStart) {
 					while(numDescriptions>0) {
 						imageNum = i;
 						i++;
+						game.getStage().update();
 						if (game.imageText[index][imageNum]) {
-							game.imageText[index][imageNum].push(results[i]);
+							game.imageText[index][imageNum].push(prettifyText(results[i]));
 						}
 						else {
 							game.imageText[index][imageNum] = [results[i]];
@@ -121,4 +121,40 @@ function eventSelectManifest(purpose, checkStart) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 }
+
+function prettifyText(inputText) {
+	var checkpoint = 39;
+	var checking;
+	var temp;
+	while (checkpoint < inputText.length) {
+		checking = checkpoint;
+		while (inputText.charAt(checking) != " ") {
+			checking--;
+			if (checking == checkpoint - 39) {
+				alert("Text issue encountered!!!");
+				return inputText;
+			}
+		}
+		if (inputText.length > checking) {
+			temp = inputText.substring(0,checking) + "\n" + inputText.substring(checking+1,inputText.length+1);
+			inputText = temp;
+		}
+		checkpoint += 40;
+	}
+	return inputText;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

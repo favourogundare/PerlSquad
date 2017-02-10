@@ -25,7 +25,6 @@ function eventPreloadAssets(manifest, start) {
     game.getStage().addChild(progressText, itemProgressText);
 	game.getStage().update();
 	assets = [];
-    ObjectIndex = 0;
     BiomeIndex  = 0;
 	
 	preload = new createjs.LoadQueue(false);
@@ -36,19 +35,10 @@ function eventPreloadAssets(manifest, start) {
     preload.on("progress", handleFileProgress);
 	preload.on("fileload", handleFileLoad);
 	preload.on("complete", handleComplete);
-    for (var i = 0; i < manifest.length; i++) {
-		if (typeof manifest[i] !== 'undefined' && manifest[i] !== null && manifest[i].length > 0){
-			if (ObjectIndex == 7) {
-				ObjectIndex = 0;
-				BiomeIndex++;
-			}
-			preload.loadManifest(manifest[i])
-			ObjectIndex++;
-		}	else {
-			ObjectIndex++;
-		}
+	if (typeof manifest[0] !== 'undefined' && manifest[0] !== null && manifest[0].length > 0){
+		preload.loadManifest(manifest[BiomeIndex]);
     }
-	preload.loadManifest(manifest);
+	//preload.loadManifest(manifest);
 	
 	/**
 	 * @function handleError
@@ -78,8 +68,26 @@ function eventPreloadAssets(manifest, start) {
 	 * Displays loading progress for total loading.
 	 */
 	function handleFileProgress(event) {
+		var BiomeName;
+		switch (BiomeIndex) {
+			case 0:
+				BiomeName = "Deciduous Forest ";
+				break;
+			case 1:
+				BiomeName = "Desert ";
+				break;
+			case 2:
+				BiomeName = "Grassland ";
+				break;
+			case 3:
+				BiomeName = "Rainforest ";
+				break;
+			case 4:
+				BiomeName = "Tundra ";
+				break;
+		}
 		console.log("Loading " + event + "...");
-		progressText.text = (preload.progress*100|0) + "% Loaded";
+		progressText.text = BiomeName + (preload.progress*100|0) + "% Loaded";
 		game.getStage().update();
 	}
 	/**
@@ -88,51 +96,32 @@ function eventPreloadAssets(manifest, start) {
 	 */
 	function handleFileLoad(event) {
 		console.log("Finished Loading: " + event.item.id);
-		/*if (!assets[BiomeIndex]){
-			assets[BiomeIndex] = [];
+		if (!assets[BiomeIndex]){
+			assets[BiomeIndex] = [event];
 		}
 		else {
-			if (!assets[BiomeIndex][ObjectIndex]){
-				assets[BiomeIndex][ObjectIndex] = [event];
-			}
-			else{
-				assets[BiomeIndex][ObjectIndex].push(event);
-			}
-		}*/
+			assets[BiomeIndex].push(event);
+		}
 	}
 	/**
 	 * @function handleComplete
 	 * Calls game.progress() once loading is complete.
 	 */
 	function handleComplete() {
-		/*
-			var offset = 0;
-			for (i = 0; i < 2; i++){
-				
-				//get from array
-				var events = assets[i];
-				var result = events.result;
-
-				//get by id
-				var image = preload.getResult(id);
-				var mybmp = new createjs.Bitmap(result);
-
-				//reset bounds
-				var bounds = mybmp.getBounds();
-				mybmp.scaleY = new.h/bounds.height;
-				mybmp.scaleX = new.w/bounds.width;
-				mybmp.y = offset;
-				stage.addChild(mybmp);
-				offset += h;
+		if (BiomeIndex < 4) {
+			if (typeof manifest[0] !== 'undefined' && manifest[0] !== null && manifest[0].length > 0){
+				preload.loadManifest(manifest[++BiomeIndex]);
 			}
-		*/
-		game.getStage().removeChild(progressText, itemProgressText);
-		if (start == false) {
-			eventOptionsMenu();
-		} 
+		}
 		else {
-			game.progress();
-		}   
+			game.getStage().removeChild(progressText, itemProgressText);
+			if (start == false) {
+				eventOptionsMenu();
+			} 
+			else {
+				game.progress();
+			}   
+		}
 	}
 }
 
