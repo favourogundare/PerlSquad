@@ -6,6 +6,7 @@ var p4_button;
 var timestamp;
 /**
  * @function eventStartMenu
+ * Opens up the start menu, the beginning point of the game.
  */
 function eventStartMenu() {
 	timestamp = new Date();
@@ -25,7 +26,8 @@ function eventStartMenu() {
 
 /**
 * @function onStart
-* Handle user clicking "start"
+* Handle user clicking "start". Once this is clicked the game begins
+* and cannot be restarted without refreshing.
 */
 function onStart() {
 	// Analytics
@@ -36,7 +38,10 @@ function onStart() {
 }
 	
 /**
-*@function options_menu
+* @function options_menu
+* Handle user clicking "options". Leads to the editing portion of the game
+* where users can select a manifest to edit and then download a new version
+* of the manifest.
 */
 function onOptions() {
 	game.getStage().removeChild(start_page);
@@ -45,6 +50,11 @@ function onOptions() {
 	/** options menu here */
 }	
 
+/**
+ * @function onHelp
+ * Handle user clicking "help". Will provide some details regarding how to
+ * efficiently and effectively use certain portions of the game.
+ */
 function onHelp() {
 	game.getStage.update();
 }

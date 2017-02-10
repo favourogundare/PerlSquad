@@ -1,3 +1,11 @@
+/**
+ *  @function eventSelectManifest
+ *  @param purpose
+ *  @param checkStart
+ *  Allows the user to select which manifest they would like
+ *  to use or edit and then calls on the preloading to load 
+ *  that manifest
+ */
 function eventSelectManifest(purpose, checkStart) {	
 	var selectManifestText = new createjs.Text("Select Manifest to " + purpose, "46px Arial", "#000000");
 	selectManifestText.x = game.getStage().width/2;
@@ -22,11 +30,20 @@ function eventSelectManifest(purpose, checkStart) {
 	
 	var fileChosen = false;
 	
+	/**
+	 *  @function defaultClicked
+	 *  Handles when the user opts to load the default manifest.
+	 */
 	function defaultClicked() {
 		game.getStage().removeChild(select_manifest_page);
 		parseManifest(game.defaultManifest);
 	}
 	
+	/**
+	 *  @function browseClicked
+	 *  Handles when the user decides to browse files to choose
+	 *  a manifest file.
+	 */
 	function browseClicked() {
 		document.getElementById("files").click();
 		document.getElementById("files").onchange = function() {
@@ -36,10 +53,18 @@ function eventSelectManifest(purpose, checkStart) {
 			game.getStage().update();};
 	}
 	
+	/**
+	 *  @function uploadClicked
+	 *  Uploads the selected file once one has been selected.
+	 */
 	function uploadClicked() {
 		if (fileChosen) {
 			game.getStage().removeChild(select_manifest_page);
 			getUploadedManifest();
+			/**
+			 *  @function getUploadedManifest
+			 *  Retrieves the file from the upload stack.
+			 */
 			function getUploadedManifest() {
 				if (!window.FileReader) {
 					alert('Your browser is not supported');
@@ -61,6 +86,11 @@ function eventSelectManifest(purpose, checkStart) {
 				} else {
 					alert('Please upload a file before continuing');
 				}
+				
+				/**
+				 *  @function processFile
+				 *  Processes the input as text
+				 */
 				function processFile(event) {
 					var file = event.target.result, results;
 					if (file && file.length) {
@@ -71,6 +101,10 @@ function eventSelectManifest(purpose, checkStart) {
 		}
 	}
 	
+	/**
+	 *  @function parseManifest
+	 *  Parses manifest and stores values into array for preloading.
+	 */
 	function parseManifest(file) {
 		var numImages;
 		var numDescriptions;
@@ -117,11 +151,21 @@ function eventSelectManifest(purpose, checkStart) {
 		eventPreloadAssets(imageManifest, checkStart);
 	}
 	
+	/**
+	 *  @function isNumber
+	 *  @param n
+	 *  Checks if a value is a number
+	 */
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 }
 
+/**
+ *  @function prettifyText
+ *  @param inputText
+ *  Rewrites text input from manifest to be multilined.
+ */
 function prettifyText(inputText) {
 	var checkpoint = 39;
 	var checking;
