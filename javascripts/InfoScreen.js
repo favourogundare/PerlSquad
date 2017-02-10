@@ -24,32 +24,81 @@ function eventInfoScreen(){
         //load toucan image
         var result = preload.getResult("toucan");
         var toucan = new createjs.Bitmap(result);
+		result = preload.getResult("precipitation");
+		var precip = new createjs.Bitmap(result);
+		result = preload.getResult("temperature");
+		var temperature = new createjs.Bitmap(result);
+		result = preload.getResult("butterfly");
+		var butterfly = new createjs.Bitmap(result);
+		result = preload.getResult("jaguar");
+		var jaguar = new createjs.Bitmap(result);
 
-        //reset bounds
-        var bounds = toucan.getBounds();
-        var maxBound = Math.max(bounds.height, bounds.width);
-        toucan.scaleY = toucan.scaleBackY = 150/maxBound;
-        toucan.scaleX = toucan.scaleBackX = 150/maxBound;
+		var biomestuff = [precip, temperature, butterfly, toucan, jaguar];
+		
+		biomestuff.forEach(function(item, index, array){		
+			item.on("rollover", function (evt) {
+				this.scaleX = this.scaleBackX * 1.1;
+				this.scaleY = this.scaleBackY * 1.1;
+				if (index == 0) {
+					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#000000");					
+				} else if (index == 1){
+					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#000000");
+				} else if (index == 2){
+					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#000000");					
+				} else if (index == 3){
+					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
+				} else if (index == 4){
+					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#000000");
+				}
+				infoText.x = 350;
+				infoText.y = 250;
+				infoPage.addChild(infoText);
+				game.getStage().update();
+			});
+
+			item.on("rollout", function (evt) {
+				this.scaleX = this.scaleBackX;
+				this.scaleY = this.scaleBackY;
+				infoPage.removeChild(infoText);
+				game.getStage().update();
+			});
+        });
+			
+		//reset bounds
+		var bounds = toucan.getBounds();
+		var maxBound = Math.max(bounds.height, bounds.width);
+		toucan.scaleY = toucan.scaleBackY = 150/maxBound;
+		toucan.scaleX = toucan.scaleBackX = 150/maxBound;		
         toucan.x = 150;
         toucan.y = 260;
-            
-        toucan.on("rollover", function (evt) {
-            this.scaleX = this.scaleBackX * 1.1;
-            this.scaleY = this.scaleBackY * 1.1;
-            infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
-            infoText.x = 350;
-            infoText.y = 250;
-            infoPage.addChild(infoText);
-            game.getStage().update();
-        });
 
-        toucan.on("rollout", function (evt) {
-            this.scaleX = this.scaleBackX;
-            this.scaleY = this.scaleBackY;
-            infoPage.removeChild(infoText);
-            game.getStage().update();
-        });
-        
+		bounds = temperature.getBounds();
+		maxBound = Math.max(bounds.height, bounds.width);
+		temperature.scaleX = temperature.scaleBackX = 70/maxBound;
+		temperature.scaleY = temperature.scaleBackY = 70/maxBound;
+	    temperature.x = 20;
+		temperature.y = 20;
+		
+		bounds = precip.getBounds();
+		maxBound = Math.max(bounds.height, bounds.width);
+		precip.scaleX = precip.scaleBackX = 65/maxBound;
+		precip.scaleY = precip.scaleBackY = 65/maxBound;
+		precip.x = 20;
+		precip.y = 350;
+		
+		bounds = butterfly.getBounds();
+		maxBound = Math.max(bounds.height, bounds.width);
+		butterfly.scaleX = butterfly.scaleBackX = 70/maxBound;
+		butterfly.scaleY = butterfly.scaleBackY = 70/maxBound;
+		butterfly.x = 600;
+		butterfly.y = 100;
+		
+		bounds = jaguar.getBounds();
+		maxBound = Math.max(bounds.height, bounds.width);
+		jaguar.scaleX = jaguar.scaleBackX = 200/maxBound;
+		jaguar.scaleY = jaguar.scaleBackY = 200/maxBound;		
+		jaguar.x = 750;
+		jaguar.y = 250;
         
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
         infoOK.x = game.getStage().width-80;
@@ -60,7 +109,12 @@ function eventInfoScreen(){
         //var toucanContainer = new createjs.Container();
         infoPage.addChild(bgrnd);
         infoPage.addChild(toucan, infoOK);
-       //infoPage.addChild(toucanContainer);
+		infoPage.addChild(temperature, infoOK);
+        infoPage.addChild(precip, infoOK);
+        infoPage.addChild(butterfly, infoOK);
+        infoPage.addChild(jaguar, infoOK);       
+		
+		//infoPage.addChild(toucanContainer);
         game.getStage().addChild(infoPage);
         game.getStage().update();
         

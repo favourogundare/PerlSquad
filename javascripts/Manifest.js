@@ -103,7 +103,7 @@ const Grassland_AverageTemperature =
 
 const Rainforest_AverageTemperature =
 [
-	{type: createjs.AbstractLoader.IMAGE, src: "./Pictures/icons/precipitation.png", id: "temperature"}
+	{type: createjs.AbstractLoader.IMAGE, src: "./Pictures/icons/temperature.png", id: "temperature"}
 ];
 
 const Tundra_AverageTemperature =
