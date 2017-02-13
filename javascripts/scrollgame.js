@@ -109,6 +109,10 @@ function eventScrollGame() {
 	
 	var anim_contain = new createjs.Container();
 	
+	/**
+	 *  @function pick_easy
+	 *  Sets the minigame to the easiest settings
+	 */
 	function pick_easy () {
 		difficulty = 1;
 		play = true;
@@ -116,6 +120,10 @@ function eventScrollGame() {
 		big_contain.removeChild(start_contain);
 	}
 	
+	/**
+	 *  @function pick_medium
+	 *  Sets the minigame to the medium settings
+	 */
 	function pick_medium () {
 		difficulty = 2;
 		play = true;
@@ -123,6 +131,10 @@ function eventScrollGame() {
 		big_contain.removeChild(start_contain);
 	}
 	
+	/**
+	 *  @function pick_hard
+	 *  Sets the minigame to the hardest settings
+	 */
 	function pick_hard () {
 		difficulty = 4;
 		play = true;
