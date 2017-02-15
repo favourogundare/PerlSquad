@@ -43,14 +43,14 @@ function eventScrollGame() {
     var onMouseDown = function(){
         if(!e){var e = window.event;}
         clicked = true;
-    }
+    };
     /**
      * @function onMouseUp
      * Handles a click release.
      */
     var onMouseUp = function (){
         clicked = false;
-    }
+    };
     
     canvas = document.getElementById("main");
     //stage = new game.getStage();
@@ -96,7 +96,7 @@ function eventScrollGame() {
 		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
 		start_text.x = game.getStage().width/2 - 135;
 		start_text.y = game.getStage().height/3 - 10;
-		start_text.align = "center"
+		start_text.align = "center";
 		var start_box = new createjs.Shape();
 		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
 		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_easy);
@@ -106,8 +106,6 @@ function eventScrollGame() {
 		big_contain.addChild(start_contain);
 		game.getStage().update();
     }
-	
-	var anim_contain = new createjs.Container();
 	
 	/**
 	 *  @function pick_easy
