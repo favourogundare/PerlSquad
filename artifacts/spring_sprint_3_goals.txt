@@ -1,0 +1,14 @@
+Alex Mayle
+
+
+Brian Reynolds
+
+
+Robert Smith
+
+
+Favour Ogundare
+
+
+Eric Keep
+Implement preloading into the scrollgame, work on generalizing the code to work with custom images and the like
