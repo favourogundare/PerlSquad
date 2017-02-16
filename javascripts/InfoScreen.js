@@ -10,17 +10,13 @@ var timestamp;
 function eventInfoScreen(){
     timestamp = new Date();
     
-    var mouseTarget;
-    var bitmap;
 	var infoText;
 	var prec, temp;
     function setInfoBG(event) {
         var bgrnd = new createjs.Bitmap(back);
         infoPage = new createjs.Container();
         
-        //*createjs.Touch.enable(infoPage);
         game.getStage().enableMouseOver(10);
-        //infoPage.mouseMoveOutside = true;*/
 
         //load toucan image
         var toucan = new createjs.Bitmap(game.assets[3][1].result);
@@ -35,7 +31,7 @@ function eventInfoScreen(){
 			item.on("rollover", function (evt) {
 				this.scaleX = this.scaleBackX * 1.1;
 				this.scaleY = this.scaleBackY * 1.1;
-				if (index == 0) {
+				if (index === 0) {
 					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#000000");					
 				} else if (index == 1){
 					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#000000");
@@ -101,8 +97,6 @@ function eventInfoScreen(){
         infoOK.y = game.getStage().height-60;
         infoOK.addEventListener("click", onInfoOK);
         
-        /////////////////////HEY ROB HEY ROB HEY ROB HEY ROB HEY ROB!!!!! You don't really need this container unless you want to associate more things with the toucan... like if you wanted to put the text near the toucan. Instead, you can just add the toucan directly to the infoPage
-        //var toucanContainer = new createjs.Container();
         infoPage.addChild(bgrnd);
         infoPage.addChild(toucan, infoOK);
 		infoPage.addChild(temperature, infoOK);
@@ -110,26 +104,10 @@ function eventInfoScreen(){
         infoPage.addChild(butterfly, infoOK);
         infoPage.addChild(jaguar, infoOK);       
 		
-		//infoPage.addChild(toucanContainer);
         game.getStage().addChild(infoPage);
         game.getStage().update();
         
-        //createjs.Ticker.addEventListener("tick", tick);
 
-        //load sheep image
-        //////////////var sheep = new createjs.Bitmap("sheep.png");
-        //sheep.src = "sheep.png";
-        //sheep.name = "sheep";
-        //sheep.onload = createAnimals;
-
-        /** initialize page text */
-        /*
-        var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
-        p_num.textAlign = "center";
-        p_num.textBaseline = "middle";
-        p_num.x   = game.getStage().width / 2;
-        p_num.y   = 50; 
-        */		
     }
     var back = new Image();
     back.src = "rainforest.jpg";
@@ -157,14 +135,3 @@ function onInfoOK() {
     game.progress();
 }
 
-/**function tick(event) {
-// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
-    if (update) {
-        update = false; // only update once
-        stage.update(event);
-    }
-}
-
-function stop() {
-    createjs.Ticker.removeEventListener("tick", tick);
-}*/
