@@ -16,7 +16,7 @@ function Player(easelJSShape) {
      */
     this.getIcon = function() {
         if (icon !== undefined) return icon;
-    }
+    };
 
     /**
      * @function this.setIcon
@@ -24,7 +24,7 @@ function Player(easelJSShape) {
      */
     this.setIcon = function(easelJSShape) {
         if (easelJsShape !== undefined) icon = easelJSShape;
-    }
+    };
 
     /** 
      * @function this.updateGamePosition
@@ -32,7 +32,7 @@ function Player(easelJSShape) {
      */
     this.updateGamePosition = function(GameEvent) {
         currentEvent = GameEvent;
-    }
+    };
 }
 
 
