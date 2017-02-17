@@ -1,12 +1,15 @@
+/* jshint strict: true */
 var preload;
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets(manifest, start) {
+	"use strict";
 	// Analytics
     timestamp = new Date();
 	
+	var itemProgressText;
 	var progressText;
 	var ObjectIndex;
 	var BiomeIndex;
@@ -133,5 +136,6 @@ function eventPreloadAssets(manifest, start) {
 }
 
 function getPreload() {
+	"use strict";
     return preload;
 }

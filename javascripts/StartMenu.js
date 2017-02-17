@@ -56,5 +56,5 @@ function onOptions() {
  * efficiently and effectively use certain portions of the game.
  */
 function onHelp() {
-	game.getStage.update();
+	game.getStage().update();
 }

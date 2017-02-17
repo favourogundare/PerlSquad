@@ -1,3 +1,5 @@
+/* jshint strict: true */
+
 /**
  *  @function eventSelectManifest
  *  @param purpose
@@ -7,6 +9,7 @@
  *  that manifest
  */
 function eventSelectManifest(purpose, checkStart) {	
+	"use strict";
 	var selectManifestText = new createjs.Text("Select Manifest to " + purpose, "46px Arial", "#000000");
 	selectManifestText.x = game.getStage().width/2;
 	selectManifestText.y = 110;
@@ -96,60 +99,62 @@ function eventSelectManifest(purpose, checkStart) {
 		 */
 		function processFile(event) {
 			var file = event.target.result, results;
+			
+			/**
+			 *  @function parseManifest
+			 *  Parses manifest and stores values into array for preloading.
+			 */
+			function parseManifest(file) {
+				var numImages;
+				var numDescriptions;
+				var source;
+				var imageManifest = [];
+				var index = -1;
+				game.imageText = [];
+				results = file.split("\n");
+				for (var i=0; i<results.length; i++) {
+					if (isNumber(results[i])) {
+						console.log("New Biome!!!!!!!!!");
+						index++;
+						numImages = results[i];
+						game.imageText[index] = [];
+						while(numImages>0) {
+							i++;
+							source = results[i];
+							if (imageManifest[index]) {
+								imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source});
+							}
+							else {
+								imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source}];
+							}
+							console.log("Image:" + results[i]);
+							numDescriptions = results[++i];
+							console.log("numDescriptions = " + numDescriptions);
+							var imageNum;
+							while(numDescriptions>0) {
+								imageNum = i;
+								i++;
+								game.getStage().update();
+								if (game.imageText[index][imageNum]) {
+									game.imageText[index][imageNum].push(prettifyText(results[i]));
+								}
+								else {
+									game.imageText[index][imageNum] = [results[i]];
+								}
+								console.log("Description" + results[i]);
+								numDescriptions--;
+							}
+							numImages--;
+						}
+					}
+				}
+				eventPreloadAssets(imageManifest, checkStart);
+			}
+			
 			if (file && file.length) {
 				parseManifest(file);
 			}
 		}
-	}
-	
-	/**
-	 *  @function parseManifest
-	 *  Parses manifest and stores values into array for preloading.
-	 */
-	function parseManifest(file) {
-		var numImages;
-		var numDescriptions;
-		var source;
-		var imageManifest = [];
-		var index = -1;
-		game.imageText = [];
-		results = file.split("\n");
-		for (var i=0; i<results.length; i++) {
-			if (isNumber(results[i])) {
-				console.log("New Biome!!!!!!!!!");
-				index++;
-				numImages = results[i];
-				game.imageText[index] = [];
-				while(numImages>0) {
-					i++;
-					source = results[i];
-					if (imageManifest[index]) {
-						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source});
-					}
-					else {
-						imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source}];
-					}
-					console.log("Image:" + results[i]);
-					numDescriptions = results[++i];
-					console.log("numDescriptions = " + numDescriptions);
-					while(numDescriptions>0) {
-						imageNum = i;
-						i++;
-						game.getStage().update();
-						if (game.imageText[index][imageNum]) {
-							game.imageText[index][imageNum].push(prettifyText(results[i]));
-						}
-						else {
-							game.imageText[index][imageNum] = [results[i]];
-						}
-						console.log("Description" + results[i]);
-						numDescriptions--;
-					}
-					numImages--;
-				}
-			}
-		}
-		eventPreloadAssets(imageManifest, checkStart);
 	}
 	
 	/**
@@ -168,6 +173,7 @@ function eventSelectManifest(purpose, checkStart) {
  *  Rewrites text input from manifest to be multilined.
  */
 function prettifyText(inputText) {
+	"use strict";
 	var checkpoint = 39;
 	var checking;
 	var temp;
