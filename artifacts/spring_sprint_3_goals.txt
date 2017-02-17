@@ -1,14 +1,16 @@
 Alex Mayle
-
+Clean up git repo and add in/improve commenting. Generate documentation and work on rewriting deliverables. Add in
+more analytics sections as becomes necessary.
 
 Brian Reynolds
-
+Finish edit and add features and add in help section. Time permitted, make a full-blown customization section
+which would allow users to have full control over customization.
 
 Robert Smith
-
+Make info screen prettier and implement and implement info screen for other biomes if clients like it.
 
 Favour Ogundare
-
+Find more images for game and add them to the manifest with descriptions.
 
 Eric Keep
 Implement preloading into the scrollgame, work on generalizing the code to work with custom images and the like

@@ -11,7 +11,6 @@ function eventPreloadAssets(manifest, start) {
 	
 	var itemProgressText;
 	var progressText;
-	var ObjectIndex;
 	var BiomeIndex;
 	var loadItem;
 	
