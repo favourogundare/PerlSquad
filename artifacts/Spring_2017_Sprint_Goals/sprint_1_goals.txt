@@ -1,0 +1,18 @@
+Alex Mayle
+Implement Biome Selection and multi-player(no longer a specification)
+
+Brian Reynolds
+Expand options menu to include add and edit options. Add option will require a way to provide an
+image source and description to add to the manifest. Edit option will require a way to select an
+image and edit the text for that image or remove that image from the manifest. Set up preloading
+of images upon start.
+
+Robert Smith
+Replace scavenger hunt section of game with hover-over info screen, improving game immersion and
+encouraging voluntary user interaction.
+
+Favour Ogundare
+Switch out on-the-spot image loading for access to preloaded images.
+
+Eric Keep
+Add in different difficulties for minigame and a way to select the level of difficulty.
