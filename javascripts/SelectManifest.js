@@ -60,43 +60,44 @@ function eventSelectManifest(purpose, checkStart) {
 	function uploadClicked() {
 		if (fileChosen) {
 			game.getStage().removeChild(select_manifest_page);
-			getUploadedManifest();
-			/**
-			 *  @function getUploadedManifest
-			 *  Retrieves the file from the upload stack.
-			 */
-			function getUploadedManifest() {
-				if (!window.FileReader) {
-					alert('Your browser is not supported');
-					return false;
-				}
-				
-				var fileInput = $('#files');
-				
-				var input = fileInput.get(0);
+			getUploadedManifest();			
+		}
+	}
+	
+	/**
+	 *  @function getUploadedManifest
+	 *  Retrieves the file from the upload stack.
+	 */
+	function getUploadedManifest() {
+		if (!window.FileReader) {
+			alert('Your browser is not supported');
+			return false;
+		}
+		
+		var fileInput = $('#files');
+		
+		var input = fileInput.get(0);
 
-				// Create a reader object
-				var reader = new FileReader();
-				if (input.files.length) {
-					var textFile = input.files[0];
-					// Read the file
-					reader.readAsText(textFile);
-					// When it's loaded, process it
-					$(reader).on('load', processFile);
-				} else {
-					alert('Please upload a file before continuing');
-				}
-				
-				/**
-				 *  @function processFile
-				 *  Processes the input as text
-				 */
-				function processFile(event) {
-					var file = event.target.result, results;
-					if (file && file.length) {
-						parseManifest(file);
-					}
-				}
+		// Create a reader object
+		var reader = new FileReader();
+		if (input.files.length) {
+			var textFile = input.files[0];
+			// Read the file
+			reader.readAsText(textFile);
+			// When it's loaded, process it
+			$(reader).on('load', processFile);
+		} else {
+			alert('Please upload a file before continuing');
+		}
+		
+		/**
+		 *  @function processFile
+		 *  Processes the input as text
+		 */
+		function processFile(event) {
+			var file = event.target.result, results;
+			if (file && file.length) {
+				parseManifest(file);
 			}
 		}
 	}
@@ -141,7 +142,7 @@ function eventSelectManifest(purpose, checkStart) {
 						else {
 							game.imageText[index][imageNum] = [results[i]];
 						}
-						console.log("Description" + results[i])
+						console.log("Description" + results[i]);
 						numDescriptions--;
 					}
 					numImages--;

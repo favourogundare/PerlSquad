@@ -122,7 +122,7 @@ function eventPreloadAssets(manifest, start) {
 			game.getStage().removeChild(progressText, itemProgressText);
 			game.getStage().removeChild(progressText, itemProgressText);
 			
-			if (start == false) {
+			if (start === false) {
 				eventOptionsMenu();
 			} 
 			else {
