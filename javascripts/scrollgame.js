@@ -196,13 +196,12 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText=="sheep" || tempText=="bumblebee") && play == true){
                 resetAnimal(mouseTarget);
-                if (score < 0){ /** prevent negative score */
-                    score = 0;
-                }
+                incorrect++;
                 clicked=false;
             }
             else if ((tempText=="toucan" || tempText=="butterfly" )&& play == true){
                 resetAnimal(mouseTarget);
+                correct++;
                 clicked=false;
             }
         }
@@ -233,9 +232,12 @@ function eventScrollGame() {
     function gameOver(){
         big_contain.removeAllChildren();
 		var scoreBox = new createjs.Shape();
-		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 225, canvas.height/3 - 30, 450, 150);
+		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 245, canvas.height/3 - 30, 485, 210);
 		big_contain.addChild(scoreBox);
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
+		gameTxt.text += "You clicked: " + correct + " correct animals";
+		gameTxt.text += "\nAnd " + incorrect + " incorrect animals";
+        gameTxt.text += "\nClick to Try Another Biome\n";
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
@@ -250,7 +252,6 @@ function eventScrollGame() {
         big_contain.on("click", function(event) {
 		var additionalInfo = {};
 	    additionalInfo["biome"] = "rain-forest";
-	    additionalInfo["score"] = score;
 	    sendUserTimeInfo("scroll-game", timestamp, additionalInfo);
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
