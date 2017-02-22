@@ -42,21 +42,8 @@ function Game(easelStage) {
     this.fileInput = $('#files');
     this.imageText;
     this.assets = [];
-    
-    //CHANGE THE 2ND AND 3RD ARGUMENT TO SET BIOME COORDS(X,Y) ON THE MAP.
-    //THEN USE THE HEAD, NEXT, AND PREV POINTERS TO NAVIGATE THEM.
-    var BiomeList = new DoublyLinkedCycle();
-    //dark green
-    BiomeList.add("Deciduous Forest", 160, 115);
-    //yellow
-    BiomeList.add("Desert", 450, 170);
-    //pink
-    BiomeList.add("Grassland", 630, 105);
-    //light green
-    BiomeList.add("Rainforest", 215, 270);
-    //weird green
-    BiomeList.add("Tundra", 310, 20);
-    
+	this.currentBiome;
+ 
     var player = new Player(new createjs.Bitmap("images/player.png"));
     /** A reference to the player with the current turn. Can be an array for multiplayer/teams. */
     var currentPlayer = player;

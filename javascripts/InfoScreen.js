@@ -9,7 +9,7 @@ var timestamp;  // For analytics
  */
 function eventInfoScreen(){
     timestamp = new Date();
-    
+	
 	var infoText;
 	var prec, temp;
     function setInfoBG(event) {

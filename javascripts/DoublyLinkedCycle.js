@@ -5,12 +5,13 @@
  *  @param y
  *  Node class for doubly linked cycle, storing the next and previous nodes for that node.
  */
-function Node(name, x, y) {
-	this.name = name;
-	this.x = x;
-	this.y = y;
+function Node(num, name, x, y) {
+	this.num      = num;
+	this.name     = name;
+	this.x        = x;
+	this.y        = y;
 	this.previous = null;
-	this.next = null;
+	this.next     = null;
 }
 
 /**
@@ -32,8 +33,8 @@ function DoublyLinkedCycle() {
  *  If the cycle is empty, it sets the new node to head and tail. 
  *  Otherwise, it makes the new node the tail, and connects the tail to the head both directions.
  */
-DoublyLinkedCycle.prototype.add = function(name, x, y) {
-    var node = new Node(name, x, y);
+DoublyLinkedCycle.prototype.add = function(num, name, x, y) {
+    var node = new Node(num, name, x, y);
  
     if (this.length) {
         this.tail.next = node;
