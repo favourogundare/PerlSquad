@@ -12,9 +12,10 @@ function eventScrollGame() {
     var stage;
     /** background image*/
     var bg;
-    /** keeps track of player score */
-    var score;
-	var points_lost = 0;
+    /** keeps track of correctly and incorrectly clicked objects */
+    var correct = 0;
+	var incorrect = 0;
+	
     /** stores ship bitmaps */
     var bmpList = [];
     var bitmap;
@@ -55,7 +56,6 @@ function eventScrollGame() {
     canvas = document.getElementById("main");
     //stage = new game.getStage();
     big_contain = new createjs.Container();
-    score = 0;
     
     canvas.onmousedown = onMouseDown;
     canvas.onmouseup = onMouseUp;
@@ -196,8 +196,6 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText=="sheep" || tempText=="bumblebee") && play == true){
                 resetAnimal(mouseTarget);
-                score-=50*difficulty;
-				points_lost +=50*difficulty;
                 if (score < 0){ /** prevent negative score */
                     score = 0;
                 }
@@ -205,7 +203,6 @@ function eventScrollGame() {
             }
             else if ((tempText=="toucan" || tempText=="butterfly" )&& play == true){
                 resetAnimal(mouseTarget);
-                score+=50*difficulty;
                 clicked=false;
             }
         }
@@ -239,11 +236,6 @@ function eventScrollGame() {
 		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 225, canvas.height/3 - 30, 450, 150);
 		big_contain.addChild(scoreBox);
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
-		gameTxt.text += "Score: " + score + "\n";
-        gameTxt.text += "Click to Try Another Biome\n";
-		if (points_lost > 6*50*difficulty){
-			gameTxt.text += "\n\n Hint: click on animals that belong in the biome!"
-		}
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
