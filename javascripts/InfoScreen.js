@@ -1,6 +1,6 @@
 var infoPage;
 
-var timestamp;
+var timestamp;  // For analytics
 
 /**  
  * @function eventInfoScreen
@@ -32,15 +32,15 @@ function eventInfoScreen(){
 				this.scaleX = this.scaleBackX * 1.1;
 				this.scaleY = this.scaleBackY * 1.1;
 				if (index === 0) {
-					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#000000");					
+					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
 				} else if (index == 1){
-					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#000000");
+					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#FFFFFF");
 				} else if (index == 2){
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#000000");					
+					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
 				} else if (index == 3){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
+					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
 				} else if (index == 4){
-					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#000000");
+					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#FFFFFF");
 				}
 				infoText.x = 350;
 				infoText.y = 250;
@@ -89,12 +89,12 @@ function eventInfoScreen(){
 		maxBound = Math.max(bounds.height, bounds.width);
 		jaguar.scaleX = jaguar.scaleBackX = 200/maxBound;
 		jaguar.scaleY = jaguar.scaleBackY = 200/maxBound;		
-		jaguar.x = 750;
-		jaguar.y = 250;
+		jaguar.x = 745;
+        jaguar.y = 322;
         
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-        infoOK.x = game.getStage().width-80;
-        infoOK.y = game.getStage().height-60;
+        infoOK.x = 890;
+        infoOK.y = 20;
         infoOK.addEventListener("click", onInfoOK);
         
         infoPage.addChild(bgrnd);
