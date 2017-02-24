@@ -63,11 +63,15 @@ function eventScrollGame() {
     bg = new Image();
     bg.src = "rainforest.jpg";
     bg.onload = setBG;
+	
+	preload = new createjs.LoadQueue(false);
+    preload.on("error", handleError);
+    preload.on("fileerror", handleFileError);
+	preload.on("fileload", handleLoad);
+	preload.on("complete", handleLoaded);
     
-    var toucan = new Image();
-    toucan.src = "toucan.png";
-    toucan.name = "toucan";
-    toucan.onload = createAnimals;
+    var good1 = preload.getResult("toucan");
+    good1.onload = createAnimals;
     
     var sheep = new Image();
     sheep.src = "sheep.png";
