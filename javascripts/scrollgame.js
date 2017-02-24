@@ -64,24 +64,18 @@ function eventScrollGame() {
     bg.src = "rainforest.jpg";
     bg.onload = setBG;
 	
-	preload = new createjs.LoadQueue(false);
-    preload.on("error", handleError);
-    preload.on("fileerror", handleFileError);
-	preload.on("fileload", handleLoad);
-	preload.on("complete", handleLoaded);
-    
-    var good1 = preload.getResult("toucan");
+	var bioindex = game.currentBiome.num  - 1;
+	
+	var good1 =  new createjs.Bitmap(game.assets[bioindex][0].result);
+	good1.name = "toucan";
     good1.onload = createAnimals;
     
-    var sheep = new Image();
-    sheep.src = "sheep.png";
-    sheep.name = "sheep";
-    sheep.onload = createAnimals;
+    var bad1 = new createjs.Bitmap(game.assets[bioindex-1][0].result);
+	bad1.onload = createAnimals;
 	
-	var butterfly = new Image();
-	butterfly.src = "butterfly.png";
-	butterfly.name = "butterfly";
-	butterfly.onload = createAnimals;
+	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
+	good2.name = "butterfly";
+	good2.onload = createAnimals;
 	
 	var bumblebee = new Image();
 	bumblebee.src = "bumblebee.png";
@@ -152,10 +146,9 @@ function eventScrollGame() {
 	 var anim_contain = new createjs.Container();
 	 
     function createAnimals(event){
-        var image = event.target;
 		var l = 2;
         for (var i=0; i<l; i++){
-            bitmap = new createjs.Bitmap(image);
+            bitmap = event.target;
             anim_contain.addChild(bitmap);
             bitmap.name=image.name;
 			if (bitmap.name == "butterfly"){
@@ -198,7 +191,7 @@ function eventScrollGame() {
         }
         if (clicked && mouseTarget){
             var tempText = String(mouseTarget.name);
-            if ((tempText=="sheep" || tempText=="bumblebee") && play == true){
+            if ((tempText==good1.name || tempText=="bumblebee") && play == true){
                 resetAnimal(mouseTarget);
                 incorrect++;
                 clicked=false;
