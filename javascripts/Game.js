@@ -4,7 +4,7 @@ var GAME_HEIGHT = 444;
 
 /**
  * @function Game
- * This is a container for a single-player (for now), linear story based game.
+ * This is a container for a single-player, linear story based game.
  * A game is seen as a series of "Game Events," represented by the GameEvent object.
  * Each GameEvent has two function pointers, moveFunc and actionFunc. The first is
  * meant to handle the transition between the last GameEvent and the current one.
@@ -110,9 +110,9 @@ function Game(easelStage) {
         // Generate a userID for the user so that analytical data may be
         // associated to this user later
         var userID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                                                                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                                                                    return v.toString(16);
-                                                                    });
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+        });
         analytics.identify(userID);
         
         /** Attach container to main canvas stage */
@@ -195,22 +195,13 @@ function Game(easelStage) {
      * @function this.loadStory
      *  Assigns GameEvent objects their custom code
      */
-    this.loadStory = function() {
-        /**
-         * @function this.transition
-         * Moves from one GameEvent to the other, simply takes away old eventListeners
-         */
-        this.transition = function() {
-            game.getCurrentPlayer().getIcon().removeAllEventListeners();
-        };
-        
+    this.loadStory = function() {    
         /** Assign different code to different segments GameEvents */
-        story[0] = new GameEvent(this.transition, eventStartMenu);
-        story[1] = new GameEvent(this.transition, eventMoveAroundEarth);
-        
-        //story[2] = new GameEvent(this.transition, this.singleClick);
-        story[2] = new GameEvent(this.transition, eventInfoScreen);
-        story[3] = new GameEvent(this.transition, eventScrollGame);
+        story[0] = new GameEvent(eventStartMenu);
+        story[1] = new GameEvent(eventMoveAroundEarth);        
+        story[2] = new GameEvent(eventInfoScreen);
+        story[3] = new GameEvent(eventScrollGame);
     };
+    
     this.defaultManifest = "3\n./Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png\n0\n./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png\n0\n./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n0\n3\n./Pictures/Animals/Desert/Animal - Cougar - Large - Brown.png\n0\n./Pictures/Animals/Desert/Animal - Armadillo - Medium - Brown.gif\n0\n./Pictures/Animals/Desert/Animal - SandCat - Small - Brown.png\n0\n3\n./Pictures/Animals/Grassland/Animal - Bobcat - Large - Brown.png\n0\n./Pictures/Animals/Grassland/Animal - PrarieDog - Medium - Brown.png\n0\n./Pictures/Animals/Grassland/Animal - BumbleBee - Small - Yellow.png\n0\n3\n./Pictures/Animals/Rainforest/Animal - Jaguar - Large - Orange.png\n0\n./Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png\n1\n   Known for its large and colorful bill, the toucan stands out among the birds of the tropical and subtropical rainforests.\n./Pictures/Animals/Rainforest/Animal - Butterfly - Small - Blue.png\n0\n3\n./Pictures/Animals/Tundra/Animal - PolarBear - Large - White.gif\n0\n./Pictures/Animals/Tundra/Animal - ArcticHare - Medium - White.jpg\n0\n./Pictures/Animals/Tundra/Animal - Trout - Small - Blue.png\n0";
 }
