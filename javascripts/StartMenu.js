@@ -37,7 +37,7 @@ function onStart() {
 	eventSelectManifest("Use", true);
 }
 	
-/**
+/**	
 * @function options_menu
 * Handle user clicking "options". Leads to the editing portion of the game
 * where users can select a manifest to edit and then download a new version
@@ -56,5 +56,8 @@ function onOptions() {
  * efficiently and effectively use certain portions of the game.
  */
 function onHelp() {
+	game.getStage().removeChild(start_page);
 	game.getStage().update();
+	eventHelpPage();
+	/** help text here */
 }
