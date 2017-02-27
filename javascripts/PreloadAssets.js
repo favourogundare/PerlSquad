@@ -38,6 +38,8 @@ function eventPreloadAssets(manifest, start) {
     preload.on("progress", handleFileProgress);
 	preload.on("fileload", handleFileLoad);
 	preload.on("complete", handleComplete);
+	
+	
 	if (typeof manifest[0] !== 'undefined' && manifest[0] !== null && manifest[0].length > 0){
 		preload.loadManifest(manifest[BiomeIndex]);
     }

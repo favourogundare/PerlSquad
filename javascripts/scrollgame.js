@@ -12,9 +12,10 @@ function eventScrollGame() {
     var stage;
     /** background image*/
     var bg;
-    /** keeps track of player score */
-    var score;
-	var points_lost = 0;
+    /** keeps track of correctly and incorrectly clicked objects */
+    var correct = 0;
+	var incorrect = 0;
+	
     /** stores ship bitmaps */
     var bmpList = [];
     var bitmap;
@@ -53,38 +54,75 @@ function eventScrollGame() {
     };
     
     canvas = document.getElementById("main");
-    //stage = new game.getStage();
     big_contain = new createjs.Container();
-    score = 0;
     
     canvas.onmousedown = onMouseDown;
     canvas.onmouseup = onMouseUp;
-    
-    bg = new Image();
-    bg.src = "rainforest.jpg";
-    bg.onload = setBG;
-    
-    var toucan = new Image();
-    toucan.src = "toucan.png";
-    toucan.name = "toucan";
-    toucan.onload = createAnimals;
-    
-    var sheep = new Image();
-    sheep.src = "sheep.png";
-    sheep.name = "sheep";
-    sheep.onload = createAnimals;
-	
-	var butterfly = new Image();
-	butterfly.src = "butterfly.png";
-	butterfly.name = "butterfly";
-	butterfly.onload = createAnimals;
-	
-	var bumblebee = new Image();
-	bumblebee.src = "bumblebee.png";
-	bumblebee.name = "bumblebee";
-	bumblebee.onload = createAnimals;
 	
 	var start_contain = new createjs.Container();
+	
+	var anim_contain = new createjs.Container();
+	
+	var bioindex = game.currentBiome.num - 1;
+	console.log("biome num: " + bioindex);
+	if (bioindex > 0){
+		var bad_bio = bioindex - 1;
+	}
+	else{
+		var bad_bio = bioindex + 1;
+	}	
+	
+	bg = new Image();
+	switch(bioindex){
+		case 0:
+			bg.src = "deciduous.jpg";
+			break;
+		case 1:
+			bg.src = "desert.jpg";
+			break;
+		case 2:
+			bg.src = "grassland.jpg";
+			break;
+		case 3:
+			bg.src = "rainforest.jpg";
+			break;
+		case 4:
+			bg.src = "tundra.jpg";
+			break;
+	}
+    bg.onload = setBG;
+	
+	var good1 =  new createjs.Bitmap(game.assets[bioindex][1].result);
+	good1.name = "good1";
+	var good1bounds = good1.getBounds();
+	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
+	good1.scaleX = good1.scaleBackX = 140/maxgood1;
+	good1.scaleY = good1.scaleBackY = 140/maxgood1;
+    createAnimals(good1);
+    
+    var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
+	bad1.name = "bad1";
+	var bad1bounds = bad1.getBounds();
+	var maxbad1 = Math.max(bad1bounds.height, bad1bounds.width);
+	bad1.scaleX = bad1.scaleBackX = 140/maxbad1;
+	bad1.scaleY = bad1.scaleBackY = 140/maxbad1;
+	createAnimals(bad1);
+	
+	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
+	var good2bounds = good2.getBounds();
+	var maxgood2 = Math.max(good2bounds.height, good2bounds.width);
+	good2.scaleX = good2.scaleBackX = 140/maxgood2;
+	good2.scaleY = good2.scaleBackY = 140/maxgood2;
+	good2.name = "good2";
+	createAnimals(good2);
+	
+	var bad2 = new createjs.Bitmap(game.assets[bad_bio][2].result);
+	var bad2bounds = bad2.getBounds();
+	var maxbad2 = Math.max(bad2bounds.height, bad2bounds.width);
+	bad2.scaleX = bad2.scaleBackX = 140/maxbad2;
+	bad2.scaleY = bad2.scaleBackY = 140/maxbad2;
+	bad2.name = "bad2";
+	createAnimals(bad2);
    
     /**
      * @function setBG
@@ -134,7 +172,7 @@ function eventScrollGame() {
 	 *  Sets the minigame to the hardest settings
 	 */
 	function pick_hard () {
-		difficulty = 4;
+		difficulty = 3;
 		play = true;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
@@ -145,23 +183,11 @@ function eventScrollGame() {
      * Creates animal objects and enables clicking on them.
      */
 	 
-	 var anim_contain = new createjs.Container();
-	 
-    function createAnimals(event){
-        var image = event.target;
+    function createAnimals(bitmp){
 		var l = 2;
         for (var i=0; i<l; i++){
-            bitmap = new createjs.Bitmap(image);
+            bitmap = bitmp;
             anim_contain.addChild(bitmap);
-            bitmap.name=image.name;
-			if (bitmap.name == "butterfly"){
-				bitmap.scaleX = 0.33;
-				bitmap.scaleY = 0.33;
-			}
-			if (bitmap.name == "bumblebee"){
-				bitmap.scaleX = 0.16;
-				bitmap.scaleY = 0.16;
-			}
 			resetAnimal(bitmap);
             bitmap.regX = bitmap.image.width/2|0;
             bitmap.regY = bitmap.image.height/2|0;
@@ -180,7 +206,7 @@ function eventScrollGame() {
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
 		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
-        animal.speed = (Math.random()*4)+ 2 + difficulty;
+        animal.speed = (Math.random()*3)+ 1 + difficulty;
     }
     
     /**
@@ -194,18 +220,14 @@ function eventScrollGame() {
         }
         if (clicked && mouseTarget){
             var tempText = String(mouseTarget.name);
-            if ((tempText=="sheep" || tempText=="bumblebee") && play == true){
+            if ((tempText== "bad1" || tempText== "bad2") && play == true){
                 resetAnimal(mouseTarget);
-                score-=50*difficulty;
-				points_lost +=50*difficulty;
-                if (score < 0){ /** prevent negative score */
-                    score = 0;
-                }
+                incorrect++;
                 clicked=false;
             }
-            else if ((tempText=="toucan" || tempText=="butterfly" )&& play == true){
+            else if ((tempText== "good1" || tempText=="good2" )&& play == true){
                 resetAnimal(mouseTarget);
-                score+=50*difficulty;
+                correct++;
                 clicked=false;
             }
         }
@@ -217,7 +239,7 @@ function eventScrollGame() {
                 if (bmp.x > -200){
                     bmp.x -= bmp.speed;
                 }else{
-                    if (bmp.name == "toucan" || bmp.name == "butterfly"){
+                    if (bmp.name == "good1" || bmp.name == "good2"){
                         gameOver();
                         console.log("game over");
                     }
@@ -236,14 +258,12 @@ function eventScrollGame() {
     function gameOver(){
         big_contain.removeAllChildren();
 		var scoreBox = new createjs.Shape();
-		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 225, canvas.height/3 - 30, 450, 150);
+		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 245, canvas.height/3 - 30, 485, 210);
 		big_contain.addChild(scoreBox);
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
-		gameTxt.text += "Score: " + score + "\n";
-        gameTxt.text += "Click to Try Another Biome\n";
-		if (points_lost > 6*50*difficulty){
-			gameTxt.text += "\n\n Hint: click on animals that belong in the biome!"
-		}
+		gameTxt.text += "You clicked: " + correct + " correct animals";
+		gameTxt.text += "\nAnd " + incorrect + " incorrect animals";
+        gameTxt.text += "\nClick to Try Another Biome\n";
         gameTxt.textAlign = "center";
         gameTxt.x = canvas.width/2;
         gameTxt.y = canvas.height/3;
@@ -258,7 +278,6 @@ function eventScrollGame() {
         big_contain.on("click", function(event) {
 		var additionalInfo = {};
 	    additionalInfo["biome"] = "rain-forest";
-	    additionalInfo["score"] = score;
 	    sendUserTimeInfo("scroll-game", timestamp, additionalInfo);
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
