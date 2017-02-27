@@ -58,10 +58,6 @@ function eventScrollGame() {
     
     canvas.onmousedown = onMouseDown;
     canvas.onmouseup = onMouseUp;
-    
-    bg = new Image();
-    bg.src = "rainforest.jpg";
-    bg.onload = setBG;
 	
 	var start_contain = new createjs.Container();
 	
@@ -75,35 +71,56 @@ function eventScrollGame() {
 	else{
 		var bad_bio = bioindex + 1;
 	}	
+	
+	bg = new Image();
+	switch(bioindex){
+		case 0:
+			bg.src = "deciduous.jpg";
+			break;
+		case 1:
+			bg.src = "desert.jpg";
+			break;
+		case 2:
+			bg.src = "grassland.jpg";
+			break;
+		case 3:
+			bg.src = "rainforest.jpg";
+			break;
+		case 4:
+			bg.src = "tundra.jpg";
+			break;
+	}
+    bg.onload = setBG;
+	
 	var good1 =  new createjs.Bitmap(game.assets[bioindex][1].result);
 	good1.name = "good1";
 	var good1bounds = good1.getBounds();
 	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
-	good1.scaleX = good1.scaleBackX = 130/maxgood1;
-	good1.scaleY = good1.scaleBackY = 130/maxgood1;
+	good1.scaleX = good1.scaleBackX = 140/maxgood1;
+	good1.scaleY = good1.scaleBackY = 140/maxgood1;
     createAnimals(good1);
     
     var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
 	bad1.name = "bad1";
 	var bad1bounds = bad1.getBounds();
 	var maxbad1 = Math.max(bad1bounds.height, bad1bounds.width);
-	bad1.scaleX = bad1.scaleBackX = 130/maxbad1;
-	bad1.scaleY = bad1.scaleBackY = 130/maxbad1;
+	bad1.scaleX = bad1.scaleBackX = 140/maxbad1;
+	bad1.scaleY = bad1.scaleBackY = 140/maxbad1;
 	createAnimals(bad1);
 	
 	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
 	var good2bounds = good2.getBounds();
 	var maxgood2 = Math.max(good2bounds.height, good2bounds.width);
-	good2.scaleX = good2.scaleBackX = 130/maxgood2;
-	good2.scaleY = good2.scaleBackY = 130/maxgood2;
+	good2.scaleX = good2.scaleBackX = 140/maxgood2;
+	good2.scaleY = good2.scaleBackY = 140/maxgood2;
 	good2.name = "good2";
 	createAnimals(good2);
 	
 	var bad2 = new createjs.Bitmap(game.assets[bad_bio][2].result);
 	var bad2bounds = bad2.getBounds();
 	var maxbad2 = Math.max(bad2bounds.height, bad2bounds.width);
-	bad2.scaleX = bad2.scaleBackX = 130/maxbad2;
-	bad2.scaleY = bad2.scaleBackY = 130/maxbad2;
+	bad2.scaleX = bad2.scaleBackX = 140/maxbad2;
+	bad2.scaleY = bad2.scaleBackY = 140/maxbad2;
 	bad2.name = "bad2";
 	createAnimals(bad2);
    
@@ -155,7 +172,7 @@ function eventScrollGame() {
 	 *  Sets the minigame to the hardest settings
 	 */
 	function pick_hard () {
-		difficulty = 4;
+		difficulty = 3;
 		play = true;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
