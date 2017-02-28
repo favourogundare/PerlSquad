@@ -21,7 +21,7 @@ function eventHelpPage() {
 	/*var help_container_background = new createjs.Shape();
 	help_container_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);*/
 
-	var HelpPageText = new createjs.Text("How Do You?", "36px Arial", "#000000");
+	var HelpPageText = new createjs.Text("How Do You ... ?", "40px Arial", "#000000");
 	HelpPageText.x = game.getStage().width/2;
 	HelpPageText.y = 110;
 	HelpPageText.textAlign = "center";
@@ -54,7 +54,7 @@ function eventHelpPage() {
 		var help_subcontainer_background = new createjs.Shape();
 		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 110;
 		HelpSubPageText.textAlign = "center";
@@ -76,7 +76,7 @@ function eventHelpPage() {
 		var help_subcontainer_background = new createjs.Shape();
 		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
 												
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 110;
@@ -99,7 +99,7 @@ function eventHelpPage() {
 		var help_subcontainer_background = new createjs.Shape();
 		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 110;
 		HelpSubPageText.textAlign = "center";
