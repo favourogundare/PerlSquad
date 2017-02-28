@@ -1,3 +1,7 @@
+var helpPagePic
+
+
+
 /**
  *  @function eventHelpPage
  *  @param purpose
@@ -52,11 +56,12 @@ function eventHelpPage() {
 		});
 		
 		var help_subcontainer_background = new createjs.Shape();
-		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
-
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
+		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
+		
+		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
-		HelpSubPageText.y = 110;
+		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
 		HelpSubPageText.textBaseline = "middle";
 
@@ -74,12 +79,12 @@ function eventHelpPage() {
 		});
 
 		var help_subcontainer_background = new createjs.Shape();
-		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
+		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
-												
+		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
-		HelpSubPageText.y = 110;
+		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
 		HelpSubPageText.textBaseline = "middle";
 
@@ -97,11 +102,14 @@ function eventHelpPage() {
 		});
 
 		var help_subcontainer_background = new createjs.Shape();
-		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
+		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
+		//ffffff
+		//D3D3D3
+		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
-		HelpSubPageText.y = 110;
+		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
 		HelpSubPageText.textBaseline = "middle";
 
