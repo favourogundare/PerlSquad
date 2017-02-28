@@ -21,7 +21,7 @@ function eventHelpPage() {
 	/*var help_container_background = new createjs.Shape();
 	help_container_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);*/
 
-	var HelpPageText = new createjs.Text("FAQ : CHOOSE A TOPIC", "36px Arial", "#000000");
+	var HelpPageText = new createjs.Text("How Do You?", "36px Arial", "#000000");
 	HelpPageText.x = game.getStage().width/2;
 	HelpPageText.y = 110;
 	HelpPageText.textAlign = "center";
@@ -31,9 +31,14 @@ function eventHelpPage() {
 	var help_editimage_button   = new RectButton("Edit Image", "#000000", game.getStage().width/2 - 150, 225, 300, 50, "#D3D3D3", "click", editimageClicked);
 	var help_gamemech_button   = new RectButton("Game Mechanics", "#000000", game.getStage().width/2 - 150, 300, 300, 50, "#D3D3D3", "click", gamemechClicked);
 */
-	var help_addimage_button  = new HelpButton1("Add Image", "20px Arial", "#000000", "#A9A9A9", game.getStage().width/2 - 150, 150, 300, 50, "click", addimageClicked);
-	var help_editimage_button = new HelpButton1("Edit Image", "20px Arial", "#000000", "#A9A9A9", game.getStage().width/2 - 150, 225, 300, 50, "click", editimageClicked);
-	var help_gamemech_button  = new HelpButton1("Game Mechanics", "20px Arial", "#000000", "#A9A9A9", game.getStage().width/2 - 150, 300, 300, 50, "click", gamemechClicked);
+	var help_addimage_button = new RectButton("Add an Image", "#f44336", game.getStage().width/2 - 150, 150, 300, 50, "#212121", "click", addimageClicked);
+    var help_editimage_button = new RectButton("Edit an Image", "#00e676", game.getStage().width/2 - 150, 225, 300, 50, "#212121", "click", editimageClicked);
+	var help_gamemech_button = new RectButton("Play the Game", "#ff9100", game.getStage().width/2 - 150, 300, 300, 50, "#212121", "click", gamemechClicked);
+
+
+	//var help_addimage_button  = new HelpButton1("Add Image", "20px Arial", "#000000", "#A9A9A9", game.getStage().width/2 - 150, 150, 300, 50, "click", addimageClicked);
+	//var help_editimage_button = new HelpButton1("Edit Image", "20px Arial", "#000000", "#A9A9A9", game.getStage().width/2 - 150, 225, 300, 50, "click", addimageClicked);
+	//var help_gamemech_button  = new HelpButton1("Game Mechanics", "20px Arial", "#000000", "#A9A9A9", game.getStage().width/2 - 150, 300, 300, 50, "click", gamemechClicked);
 
 
 	help_container.addChild(HelpPageText, help_addimage_button.container, help_editimage_button.container, help_gamemech_button.container);
@@ -46,10 +51,11 @@ function eventHelpPage() {
 			help_container.removeChild(help_subcontainer);
 			game.getStage().update();
 		});
+		
 		var help_subcontainer_background = new createjs.Shape();
 		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
-		var HelpSubPageText = new createjs.Text("BLAH BLAH ADD AN IMAGE TEXT", "24px Arial", "#000000");
+		var HelpSubPageText = new createjs.Text("how make paragraph?", "24px Arial", "#000000");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 110;
 		HelpSubPageText.textAlign = "center";
@@ -62,33 +68,49 @@ function eventHelpPage() {
 	}
 	
 	function editimageClicked(){
+		var help_subcontainer = new createjs.Container();
+		help_subcontainer.on("dblclick", function(event) {
+			help_container.removeChild(help_subcontainer);
+			game.getStage().update();
+		});
+
+		var help_subcontainer_background = new createjs.Shape();
+		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
+
+		var HelpSubPageText = new createjs.Text("how make paragraph?", "24px Arial", "#000000");
+		HelpSubPageText.x = game.getStage().width/2;
+		HelpSubPageText.y = 110;
+		HelpSubPageText.textAlign = "center";
+		HelpSubPageText.textBaseline = "middle";
+
+		help_subcontainer.addChild(help_subcontainer_background, HelpSubPageText);
+		help_container.addChild(help_subcontainer);
 		game.getStage().update();
 	}
 	
 	function gamemechClicked(){
+		var help_subcontainer = new createjs.Container();
+		help_subcontainer.on("dblclick", function(event) {
+			help_container.removeChild(help_subcontainer);
+			game.getStage().update();
+		});
+
+		var help_subcontainer_background = new createjs.Shape();
+		help_subcontainer_background.graphics.beginFill("#D3D3D3").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
+
+		var HelpSubPageText = new createjs.Text("how make paragraph?", "24px Arial", "#000000");
+		HelpSubPageText.x = game.getStage().width/2;
+		HelpSubPageText.y = 110;
+		HelpSubPageText.textAlign = "center";
+		HelpSubPageText.textBaseline = "middle";
+
+		help_subcontainer.addChild(help_subcontainer_background, HelpSubPageText);
+		help_container.addChild(help_subcontainer);
 		game.getStage().update();
 	}
 
 
 }
-
-
-
-/*
-	"use strict";
-	var HelpPageText = new createjs.Text("Select the topic you need " + purpose + " with", "46px Arial", "#000000");
-	HelpPageText.x = game.getStage().width/2;
-	HelpPageText.y = 110;
-	HelpPageText.textAlign = "center";
-	HelpPageText.textBaseline = "middle";
-	
-	var addimage_button  = new RectButton("Add Image", "#00e676", game.getStage().width/2 - 150, 150, 300, 50, "#212121", "click", addimageClicked);
-	var editimage_button   = new RectButton("Edit Image", "#ff9100", game.getStage().width/2 - 150, 225, 300, 50, "#212121", "click", editimageClicked);
-	var gamemech_button   = new RectButton("Game Mechanics", "#f44336", game.getStage().width/2 - 150, 300, 300, 50, "#616161", "click", gamemechClicked);
-	
-}
-	
-*/
 
 
 
