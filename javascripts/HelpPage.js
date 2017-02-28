@@ -107,13 +107,27 @@ function eventHelpPage() {
 		//ffffff
 		//D3D3D3
 		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
+		
+		/* Doesnt work
+		//get by id
+        var imageTest = getPreload().getResult("HPTest1");
+        var helpPagePic = new createjs.Bitmap(imageTest);
+        console.log(helpPagePic);
+        //reset bounds
+        var bounds = helpPagePic.getBounds();
+        //helpPagePic.scaleY = 100/bounds.height;
+        //helpPagePic.scaleX = 100/bounds.width;
+		helpPagePic.x = 50;
+		helpPagePic.y = 25;
+		*/
+
 		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
 		HelpSubPageText.textBaseline = "middle";
 
-		help_subcontainer.addChild(help_subcontainer_background, HelpSubPageText);
+		help_subcontainer.addChild(helpPagePic, help_subcontainer_background, HelpSubPageText);
 		help_container.addChild(help_subcontainer);
 		game.getStage().update();
 	}

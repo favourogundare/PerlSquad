@@ -142,7 +142,7 @@ const Tundra_GrowingSeason =
 const Help_PageImages =
 [
     {type: createjs.AbstractLoader.IMAGE, src: "./Pictures/Help/HelpPage_Test1.jpg", id: "HPTest1"}
-
+];
 const manifest =
 [
 	DeciduousForest_Animals_Large,
