@@ -48,9 +48,9 @@ function eventSelectManifest(purpose, checkStart) {
 	 *  a manifest file.
 	 */
 	function browseClicked() {
-		document.getElementById("files").click();
-		document.getElementById("files").onchange = function() {
-			manifestSelectedText.text = "Custom File: " + document.getElementById("files").value;
+		document.getElementById("BrowseButton").click();
+		document.getElementById("BrowseButton").onchange = function() {
+			manifestSelectedText.text = "Custom File: " + document.getElementById("BrowseButton").value;
 			upload_button.outRect.graphics.clear().beginFill("#212121").drawRect(0, 0, 300, 50);
 			fileChosen = true;
 			game.getStage().update();};
@@ -77,7 +77,7 @@ function eventSelectManifest(purpose, checkStart) {
 			return false;
 		}
 		
-		var fileInput = $('#files');
+		var fileInput = $('#BrowseButton');
 		
 		var input = fileInput.get(0);
 
@@ -126,6 +126,8 @@ function eventSelectManifest(purpose, checkStart) {
 		var imageManifest = [];
 		var index = -1;
 		game.imageText = [];
+		game.workingManifest = file;
+		console.log(file);
 		var results = file.split("\n");
 		for (var i=0; i<results.length; i++) {
 			if (isNumber(results[i])) {
