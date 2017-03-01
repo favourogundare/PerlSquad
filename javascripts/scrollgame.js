@@ -276,9 +276,12 @@ function eventScrollGame() {
         }
         game.getStage().update();
         big_contain.on("click", function(event) {
-		var additionalInfo = {};
-	    additionalInfo["biome"] = "rain-forest";
+	    var additionalInfo = {};
+	    additionalInfo["biome"] = game.currentBiome.name;
+	    additionalInfo["correct"] = correct;
+	    additionalInfo["incorrect"] = incorrect;
 	    sendUserTimeInfo("scroll-game", timestamp, additionalInfo);
+	    
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
             game.getStage().removeChild(bgrnd);
