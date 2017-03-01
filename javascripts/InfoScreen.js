@@ -256,17 +256,17 @@ function eventInfoScreen(){
 				this.scaleX = this.scaleBackX * 1.1;
 				this.scaleY = this.scaleBackY * 1.1;
 				if (index === 0) {
-					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The annual precipitation for a grassland\nis between 15 and 45 inches.", "20px Arial", "#FFFFFF");
 				} else if (index == 1){
-					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The average temperature in the grassland\nranges from 70 to 85 degrees F.", "20px Arial", "#FFFFFF");
 				} else if (index == 2){
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   Bees are a social insect that can live\nin colonies with up to 50 others; they\nfeed on nectar from flowers.", "20px Arial", "#FFFFFF");
 				} else if (index == 3){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   Unlike their cousins, squirrels, prarie dogs live\nunderground in burrows; they are called\n'dogs' because of their loud barking cry.", "20px Arial", "#FFFFFF");
 				} else if (index == 4){
-					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The bobcat lives in many habitats, but most\nabundantly in American grasslands; they often compete\nwith coyotes and other predators for territory.", "20px Arial", "#FFFFFF");
 				}
-				infoText.x = 350;
+				infoText.x = 250;
 				infoText.y = 250;
 				infoPage.addChild(infoText);
 				game.getStage().update();
@@ -283,10 +283,10 @@ function eventInfoScreen(){
 		//reset bounds
 		var bounds = med.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
-		med.scaleY = med.scaleBackY = 150/maxBound;
-		med.scaleX = med.scaleBackX = 150/maxBound;		
-        med.x = 150;
-        med.y = 260;
+		med.scaleY = med.scaleBackY = 200/maxBound;
+		med.scaleX = med.scaleBackX = 200/maxBound;		
+        med.x = 350;
+        med.y = 300;
 
 		bounds = temperature.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
@@ -304,17 +304,17 @@ function eventInfoScreen(){
 		
 		bounds = small.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
-		small.scaleX = small.scaleBackX = 70/maxBound;
-		small.scaleY = small.scaleBackY = 70/maxBound;
-		small.x = 600;
+		small.scaleX = small.scaleBackX = 50/maxBound;
+		small.scaleY = small.scaleBackY = 50/maxBound;
+		small.x = 700;
 		small.y = 100;
 		
 		bounds = large.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
 		large.scaleX = large.scaleBackX = 200/maxBound;
 		large.scaleY = large.scaleBackY = 200/maxBound;		
-		large.x = 745;
-        large.y = 322;
+		large.x = 645;
+        large.y = 222;
         
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
         infoOK.x = 890;
@@ -478,15 +478,15 @@ function eventInfoScreen(){
 				this.scaleX = this.scaleBackX * 1.1;
 				this.scaleY = this.scaleBackY * 1.1;
 				if (index === 0) {
-					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The annual precipitation for the tundra\n is only around 6-10 inches per year (15-25 cm).", "20px Arial", "#FFFFFF");
 				} else if (index == 1){
-					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The average temperature in the tundra\nranges from -30 degrees F in winter to 50F\nin the summer.", "20px Arial", "#FFFFFF");
 				} else if (index == 2){
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   Trout and salmon are a common freshwater\nfish and are an important food source for\nbears and birds of prey.", "20px Arial", "#FFFFFF");
 				} else if (index == 3){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The arctic hare has thick fur for both warmth and\ncamoflage, and can run at speeds up to 40mph.", "20px Arial", "#FFFFFF");
 				} else if (index == 4){
-					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The polar bear is one of the largest hunters\nnative to the arctic circle; they prefer to\nhunt seals in areas near the sea.", "20px Arial", "#FFFFFF");
 				}
 				infoText.x = 350;
 				infoText.y = 250;
@@ -505,10 +505,10 @@ function eventInfoScreen(){
 		//reset bounds
 		var bounds = med.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
-		med.scaleY = med.scaleBackY = 150/maxBound;
-		med.scaleX = med.scaleBackX = 150/maxBound;		
+		med.scaleY = med.scaleBackY = 110/maxBound;
+		med.scaleX = med.scaleBackX = 110/maxBound;		
         med.x = 150;
-        med.y = 260;
+        med.y = 300;
 
 		bounds = temperature.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
@@ -528,14 +528,14 @@ function eventInfoScreen(){
 		maxBound = Math.max(bounds.height, bounds.width);
 		small.scaleX = small.scaleBackX = 70/maxBound;
 		small.scaleY = small.scaleBackY = 70/maxBound;
-		small.x = 600;
-		small.y = 100;
+		small.x = 800;
+		small.y = 330;
 		
 		bounds = large.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
 		large.scaleX = large.scaleBackX = 200/maxBound;
 		large.scaleY = large.scaleBackY = 200/maxBound;		
-		large.x = 745;
+		large.x = 645;
         large.y = 322;
         
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
