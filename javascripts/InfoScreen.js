@@ -145,15 +145,15 @@ function eventInfoScreen(){
 				this.scaleX = this.scaleBackX * 1.1;
 				this.scaleY = this.scaleBackY * 1.1;
 				if (index === 0) {
-					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The annual precipitation for the\ndesert is less than 25 cm (10 inches).", "20px Arial", "#FFFFFF");
 				} else if (index == 1){
-					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The temperature in the desert\nranges from 110 degrees F during the\nday to 30F at night.", "20px Arial", "#FFFFFF");
 				} else if (index == 2){
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The tiny sand cat is the only cat\nexclusively native to the desert; its feet\nhas thick fur to help it travel across the sand.", "20px Arial", "#FFFFFF");
 				} else if (index == 3){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The armadillo has a shell of thick,\nleathery skin to protect it from predators.", "20px Arial", "#FFFFFF");
 				} else if (index == 4){
-					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The cougar is another feline\nnative to the desert, but it also lives\nin mountains and thick forests.", "20px Arial", "#FFFFFF");
 				}
 				infoText.x = 350;
 				infoText.y = 250;
@@ -174,8 +174,8 @@ function eventInfoScreen(){
 		var maxBound = Math.max(bounds.height, bounds.width);
 		med.scaleY = med.scaleBackY = 150/maxBound;
 		med.scaleX = med.scaleBackX = 150/maxBound;		
-        med.x = 150;
-        med.y = 260;
+        med.x = 300;
+        med.y = 280;
 
 		bounds = temperature.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
@@ -193,17 +193,17 @@ function eventInfoScreen(){
 		
 		bounds = small.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
-		small.scaleX = small.scaleBackX = 70/maxBound;
-		small.scaleY = small.scaleBackY = 70/maxBound;
-		small.x = 600;
-		small.y = 100;
+		small.scaleX = small.scaleBackX = 90/maxBound;
+		small.scaleY = small.scaleBackY = 90/maxBound;
+		small.x = 750;
+		small.y = 230;
 		
 		bounds = large.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
-		large.scaleX = large.scaleBackX = 200/maxBound;
-		large.scaleY = large.scaleBackY = 200/maxBound;		
-		large.x = 745;
-        large.y = 322;
+		large.scaleX = large.scaleBackX = 220/maxBound;
+		large.scaleY = large.scaleBackY = 220/maxBound;		
+		large.x = 100;
+        large.y = 200;
         
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
         infoOK.x = 890;
