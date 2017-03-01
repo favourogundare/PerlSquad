@@ -126,6 +126,8 @@ function eventSelectManifest(purpose, checkStart) {
 		var imageManifest = [];
 		var index = -1;
 		game.imageText = [];
+		game.workingManifest = file;
+		console.log(file);
 		var results = file.split("\n");
 		for (var i=0; i<results.length; i++) {
 			if (isNumber(results[i])) {
