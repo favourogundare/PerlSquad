@@ -21,7 +21,6 @@ function eventInfoScreen(){
         
         game.getStage().enableMouseOver(10);
 
-        //load toucan image
         var med = new createjs.Bitmap(game.assets[0][1].result);
 		var precip = new createjs.Bitmap(prec);
 		var temperature = new createjs.Bitmap(temp);
@@ -35,15 +34,15 @@ function eventInfoScreen(){
 				this.scaleX = this.scaleBackX * 1.1;
 				this.scaleY = this.scaleBackY * 1.1;
 				if (index === 0) {
-					infoText = new createjs.Text("   The annual precipitation for temperate\nrainforests is at least 200 cm (78.74 in)\nand can go up to 350 cm (137.79 in).", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The annual precipitation for\ndeciduous forests is at around 75-150 cm (30-60 inches).", "20px Arial", "#FFFFFF");
 				} else if (index == 1){
-					infoText = new createjs.Text("   The average temperature in the rainforest\nranges from 68-93 degrees F.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The annual temperature in the deciduous forest\naverages 50 degrees F.", "20px Arial", "#FFFFFF");
 				} else if (index == 2){
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   Salamanders are amphibians that can\nregenerate body parts that they have lost.", "20px Arial", "#FFFFFF");
 				} else if (index == 3){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The white-tailed deer is commonly found\nin North America, but can also be found\nthroughout Central and South America.", "20px Arial", "#FFFFFF");
 				} else if (index == 4){
-					infoText = new createjs.Text("   The jaguar is the third largest cat\nin the world and one of the strongest\nhunters in the Americas.", "20px Arial", "#FFFFFF");
+					infoText = new createjs.Text("   The black bear is the world's most common\nspecies of bear; there are over twice as many\nblack bears as all other species combined.", "20px Arial", "#FFFFFF");
 				}
 				infoText.x = 350;
 				infoText.y = 250;
@@ -62,10 +61,10 @@ function eventInfoScreen(){
 		//reset bounds
 		var bounds = med.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
-		med.scaleY = med.scaleBackY = 150/maxBound;
-		med.scaleX = med.scaleBackX = 150/maxBound;		
-        med.x = 150;
-        med.y = 260;
+		med.scaleY = med.scaleBackY = 190/maxBound;
+		med.scaleX = med.scaleBackX = 190/maxBound;		
+        med.x = 600;
+        med.y = 280;
 
 		bounds = temperature.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
@@ -85,15 +84,15 @@ function eventInfoScreen(){
 		maxBound = Math.max(bounds.height, bounds.width);
 		small.scaleX = small.scaleBackX = 70/maxBound;
 		small.scaleY = small.scaleBackY = 70/maxBound;
-		small.x = 600;
-		small.y = 100;
+		small.x = 200;
+		small.y = 250;
 		
 		bounds = large.getBounds();
 		maxBound = Math.max(bounds.height, bounds.width);
-		large.scaleX = large.scaleBackX = 200/maxBound;
-		large.scaleY = large.scaleBackY = 200/maxBound;		
-		large.x = 745;
-        large.y = 322;
+		large.scaleX = large.scaleBackX = 150/maxBound;
+		large.scaleY = large.scaleBackY = 150/maxBound;		
+		large.x = 480;
+        large.y = 200;
         
         infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
         infoOK.x = 890;
@@ -133,7 +132,6 @@ function eventInfoScreen(){
         
         game.getStage().enableMouseOver(10);
 
-        //load toucan image
         var med = new createjs.Bitmap(game.assets[1][1].result);
 		var precip = new createjs.Bitmap(prec);
 		var temperature = new createjs.Bitmap(temp);
@@ -245,7 +243,6 @@ function eventInfoScreen(){
         
         game.getStage().enableMouseOver(10);
 
-        //load toucan image
         var med = new createjs.Bitmap(game.assets[2][1].result);
 		var precip = new createjs.Bitmap(prec);
 		var temperature = new createjs.Bitmap(temp);
@@ -357,7 +354,6 @@ function eventInfoScreen(){
         
         game.getStage().enableMouseOver(10);
 
-        //load toucan image
         var med = new createjs.Bitmap(game.assets[3][1].result);
 		var precip = new createjs.Bitmap(prec);
 		var temperature = new createjs.Bitmap(temp);
@@ -469,7 +465,6 @@ function eventInfoScreen(){
         
         game.getStage().enableMouseOver(10);
 
-        //load toucan image
         var med = new createjs.Bitmap(game.assets[4][1].result);
 		var precip = new createjs.Bitmap(prec);
 		var temperature = new createjs.Bitmap(temp);
