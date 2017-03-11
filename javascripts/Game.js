@@ -203,6 +203,42 @@ function Game(easelStage) {
         story[3] = new GameEvent(eventScrollGame);
     };
     
-    this.defaultManifest = "3\nPictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png\n0\n./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png\n0\n./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n0\n3\n./Pictures/Animals/Desert/Animal - Cougar - Large - Brown.png\n0\n./Pictures/Animals/Desert/Animal - Armadillo - Medium - Brown.gif\n0\n./Pictures/Animals/Desert/Animal - SandCat - Small - Brown.png\n0\n3\n./Pictures/Animals/Grassland/Animal - Bobcat - Large - Brown.png\n0\n./Pictures/Animals/Grassland/Animal - PrarieDog - Medium - Brown.png\n0\n./Pictures/Animals/Grassland/Animal - BumbleBee - Small - Yellow.png\n0\n3\n./Pictures/Animals/Rainforest/Animal - Jaguar - Large - Orange.png\n0\nPictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png\n1\n   Known for its large and colorful bill, the toucan stands out among the birds of the tropical and subtropical rainforests.\n./Pictures/Animals/Rainforest/Animal - Butterfly - Small - Blue.png\n0\n3\n./Pictures/Animals/Tundra/Animal - PolarBear - Large - White.gif\n0\n./Pictures/Animals/Tundra/Animal - ArcticHare - Medium - White.jpg\n0\n./Pictures/Animals/Tundra/Animal - Trout - Small - Blue.png\n0";
+    this.defaultManifest = 
+	"3\n"+
+	"Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png\n"+
+	"0\n"+
+	"./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png\n"+
+	"0\n"+
+	"./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n"+
+	"0\n"+
+	"3\n"+
+	"./Pictures/Animals/Desert/Animal - Cougar - Large - Brown.png\n"+
+	"0\n"+
+	"./Pictures/Animals/Desert/Animal - Armadillo - Medium - Brown.gif\n"+
+	"0\n"+
+	"./Pictures/Animals/Desert/Animal - SandCat - Small - Brown.png\n"+
+	"0\n"+
+	"3\n"+
+	"./Pictures/Animals/Grassland/Animal - Bobcat - Large - Brown.png\n"+
+	"0\n"+
+	"./Pictures/Animals/Grassland/Animal - PrarieDog - Medium - Brown.png\n"+
+	"0\n"+
+	"./Pictures/Animals/Grassland/Animal - BumbleBee - Small - Yellow.png\n"+
+	"0\n"+
+	"3\n"+
+	"./Pictures/Animals/Rainforest/Animal - Jaguar - Large - Orange.png\n"+
+	"0\n"+
+	"Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png\n"+
+	"1\n"+
+	"   Known for its large and colorful bill, the toucan stands out among the birds of the tropical and subtropical rainforests.\n"+
+	"./Pictures/Animals/Rainforest/Animal - Butterfly - Small - Blue.png\n"+
+	"0\n"+
+	"3\n"+
+	"./Pictures/Animals/Tundra/Animal - PolarBear - Large - White.gif\n"+
+	"0\n"+
+	"./Pictures/Animals/Tundra/Animal - ArcticHare - Medium - White.jpg\n"+
+	"0\n"+
+	"./Pictures/Animals/Tundra/Animal - Trout - Small - Blue.png\n"+
+	"0";
 	this.workingManifest;
 }
