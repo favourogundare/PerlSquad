@@ -1,75 +1,190 @@
+Manifest is organized as follows:
+for each biome
+	# of animals to upload for biome
+	# of animals to display for biome
+	while haven't listed all animals for biome
+		animal img source
+		animal id
+		animal scale
+		animal x
+		animal y
+		# of descriptions
+		while haven't listed all descriptions
+			description
+	precipitation scale
+	precipitation x
+	precipitation y
+	# of precipitation descriptions
+	while haven't listed all descriptions
+		description
+	temperature scale
+	temperature x
+	temperature y
+	# of temperature descriptions
+	while haven't listed all descriptions
+		description
 3
 3
 ./Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png
+Black Bear
+150
+480
+200
 1
    The black bear is the world's most common species of bear; there are over twice as many black bears as all other species combined.
 ./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png
+White-tailed Deer
+190
+600
+280
 1
    The white-tailed deer is commonly found in North America, but can also be found throughout Central and South America.
 ./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png
+Salamander
+70
+200
+250
 1
    Salamanders are amphibians that can regenerate body parts that they have lost.
+70
+20
+20
 1
    The annual precipitation for deciduous forests is at around 75-150 cm (30-60 inches).
+65
+20
+350
 1
    The annual temperature in the deciduous forest averages 50 degrees F.
 3
 3
 ./Pictures/Animals/Desert/Animal - Cougar - Large - Brown.png
+Cougar
+220
+100
+200
 1
    The cougar is another feline native to the desert, but it also lives in mountains and thick forests.
 ./Pictures/Animals/Desert/Animal - Armadillo - Medium - Brown.gif
+Armadillo
+150
+300
+280
 1
    The armadillo has a shell of thick, leathery skin to protect it from predators.
 ./Pictures/Animals/Desert/Animal - SandCat - Small - Brown.png
+Sand Cat
+90
+750
+230
 1
    The tiny sand cat is the only cat exclusively native to the desert; its feet have thick fur to help it travel across the sand.
+70
+20
+20
 1
    The annual precipitation for the desert is less than 25 cm (10 inches).
+65
+20
+350
 1
    The temperature in the desert ranges from 110 degrees F during the day to 30F at night.
 3
 3
 ./Pictures/Animals/Grassland/Animal - Bobcat - Large - Brown.png
+Bobcat
+200
+645
+222
 1
-   Bees are a social insect that can live in colonies with up to 50 others; they feed on nectar from flowers.
+   The bobcat lives in many habitats, but most abundantly in American grasslands; they often compete with coyotes and other predators for territory.
 ./Pictures/Animals/Grassland/Animal - PrarieDog - Medium - Brown.png
+Prarie Dog
+200
+350
+300
 1
    Unlike their cousins, squirrels, prarie dogs live underground in burrows; they are called 'dogs' because of their loud barking cry.
 ./Pictures/Animals/Grassland/Animal - BumbleBee - Small - Yellow.png
+Bumble Bee
+50
+700
+100
 1
    Bees are a social insect that can live in colonies with up to 50 others; they feed on nectar from flowers.
+70
+20
+20
 1
    The annual precipitation for a grassland is between 15 and 45 inches.
+65
+20
+350
 1
    The average temperature in the grassland ranges from 70 to 85 degrees F.
 3
 3
 ./Pictures/Animals/Rainforest/Animal - Jaguar - Large - Orange.png
+Jaguar
+200
+745
+322
 1
    The rainforest is home to a large variety of butterflies that don't live anywhere else in the world.
 ./Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png
+Toucan
+150
+150
+260
 1
    Known for its large and colorful bill, the toucan stands out among the birds of the tropical and subtropical rainforests.
 ./Pictures/Animals/Rainforest/Animal - Butterfly - Small - Blue.png
+Butterfly
+70
+600
+100
 1
    The rainforest is home to a large variety of butterflies that don't live anywhere else in the world.
+70
+20
+20
 1
    The annual precipitation for temperate rainforests is at least 200 cm (78.74 in) and can go up to 350 cm (137.79 in).
+65
+20
+350
 1
    The average temperature in the rainforest ranges from 68-93 degrees F.
 3
 3
 ./Pictures/Animals/Tundra/Animal - PolarBear - Large - White.gif
+Polar Bear
+200
+645
+322
 1
    The polar bear is one of the largest hunters native to the arctic circle; they prefer to hunt seals in areas near the sea.
 ./Pictures/Animals/Tundra/Animal - ArcticHare - Medium - White.jpg
+Artic Hare
+110
+150
+300
 1
    The arctic hare has thick fur for both warmth and camoflage, and can run at speeds up to 40mph.
 ./Pictures/Animals/Tundra/Animal - Trout - Small - Blue.png
+Trout
+70
+800
+330
 1
    Trout and salmon are a common freshwater fish and are an important food source for bears and birds of prey.
+70
+20
+20
 1
    The annual precipitation for the tundra is only around 6-10 inches per year (15-25 cm).
+65
+20
+350
 1
    The average temperature in the tundra ranges from -30 degrees F in winter to 50F in the summer.

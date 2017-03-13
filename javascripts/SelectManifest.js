@@ -122,11 +122,13 @@ function eventSelectManifest(purpose) {
 		var numImages;
 		var numDescriptions;
 		var source;
+		var imgID;
 		var imageManifest = [];
 		var index = -1;
 		game.workingManifest = file;
 		console.log(file);
 		var results = file.split("\n");
+		//id scale x y
 		for (var i=0; i<results.length; i++) {
 			if (isNumber(results[i])) {
 				console.log("New Biome!!!!!!!!!");
@@ -136,18 +138,26 @@ function eventSelectManifest(purpose) {
 				i++;
 				game.displayedImageNum[index] = results[i];
 				console.log("DisplayedImageNum: " +results[i]);
-				game.imageText[index] = [];
+				game.imageText[index]  = [];
+				game.imageScale[index] = [];
+				game.imageX[index]     = [];
+				game.imageY[index]     = [];
 				var imageNum = 0;
 				while(numImages>imageNum) {
 					i++;
 					source = results[i];
+					console.log("Image:" + results[i]);
+					i++;
+					imgID = results[i];
 					if (imageManifest[index]) {
-						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source});
+						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
 					}
 					else {
-						imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source}];
+						imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source, id: imgID}];
 					}
-					console.log("Image:" + results[i]);
+					game.imageScale[index][imageNum] = results[++i];
+					game.imageX[index][imageNum]     = results[++i];
+					game.imageY[index][imageNum]     = results[++i];
 					numDescriptions = results[++i];
 					console.log("numDescriptions = " + numDescriptions);
 					while(numDescriptions>0) {
@@ -164,6 +174,9 @@ function eventSelectManifest(purpose) {
 					}
 					imageNum++;
 				}
+				game.imageScale[index][imageNum] = results[++i];
+				game.imageX[index][imageNum]     = results[++i];
+				game.imageY[index][imageNum]     = results[++i];
 				i++;
 				console.log("NumPrecDescriptions: " + results[i]);
 				var numPrecDescriptions = results[i];
@@ -178,6 +191,9 @@ function eventSelectManifest(purpose) {
 					numPrecDescriptions--;
 				}
 				imageNum++;
+				game.imageScale[index][imageNum] = results[++i];
+				game.imageX[index][imageNum]     = results[++i];
+				game.imageY[index][imageNum]     = results[++i];
 				i++;
 				var numTempDescriptions = results[i];
 				while (numTempDescriptions>0) {

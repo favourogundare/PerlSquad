@@ -167,6 +167,7 @@ function eventEditGame() {
 			case KEYCODE_B:
 				console.log("B pressed");
 				document.onkeydown = null;
+				game.getStage().removeChild(infoPage);
 				eventMoveAroundEarth();
 				return false;
 			case KEYCODE_I:
@@ -184,6 +185,7 @@ function eventEditGame() {
 			case KEYCODE_X:
 				console.log("X pressed");
 				document.onkeydown = null;
+				game.getStage().removeChild(infoPage);
 				eventOptionsMenu();
 				return false;
 		}
