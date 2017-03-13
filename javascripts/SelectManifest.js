@@ -3,12 +3,11 @@
 /**
  *  @function eventSelectManifest
  *  @param purpose
- *  @param checkStart
  *  Allows the user to select which manifest they would like
  *  to use or edit and then calls on the preloading to load 
  *  that manifest
  */
-function eventSelectManifest(purpose, checkStart) {	
+function eventSelectManifest(purpose) {	
 	"use strict";
 	var selectManifestText = new createjs.Text("Select Manifest to " + purpose, "46px Arial", "#000000");
 	selectManifestText.x = game.getStage().width/2;
@@ -165,7 +164,7 @@ function eventSelectManifest(purpose, checkStart) {
 				}
 			}
 		}
-		eventPreloadAssets(imageManifest, checkStart);
+		eventPreloadAssets(imageManifest);
 	}
 }
 

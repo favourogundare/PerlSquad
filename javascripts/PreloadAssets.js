@@ -4,7 +4,7 @@ var preload;
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
  */
-function eventPreloadAssets(manifest, start) {
+function eventPreloadAssets(manifest) {
 	"use strict";
 	// Analytics
     timestamp = new Date();
@@ -126,8 +126,8 @@ function eventPreloadAssets(manifest, start) {
 			game.getStage().removeChild(progressText, itemProgressText);
 			game.getStage().removeChild(progressText, itemProgressText);
 			
-			if (start === false) {
-				eventOptionsMenu();
+			if (game.started === false) {
+				eventMoveAroundEarth();
 			} 
 			else {
 				game.progress();

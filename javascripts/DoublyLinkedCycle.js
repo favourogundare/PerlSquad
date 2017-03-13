@@ -36,7 +36,7 @@ function DoublyLinkedCycle() {
 DoublyLinkedCycle.prototype.add = function(num, name, x, y) {
     var node = new Node(num, name, x, y);
  
-    if (this.length) {
+    if (this.length > 0) {
         this.tail.next = node;
         node.previous = this.tail;
         this.tail = node;
