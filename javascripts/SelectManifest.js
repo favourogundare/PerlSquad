@@ -124,17 +124,21 @@ function eventSelectManifest(purpose) {
 		var source;
 		var imageManifest = [];
 		var index = -1;
-		game.imageText = [];
 		game.workingManifest = file;
 		console.log(file);
 		var results = file.split("\n");
 		for (var i=0; i<results.length; i++) {
 			if (isNumber(results[i])) {
 				console.log("New Biome!!!!!!!!!");
-				index++;
 				numImages = results[i];
+				console.log("NumImages: "+numImages);
+				index++;
+				i++;
+				game.displayedImageNum[index] = results[i];
+				console.log("DisplayedImageNum: " +results[i]);
 				game.imageText[index] = [];
-				while(numImages>0) {
+				var imageNum = 0;
+				while(numImages>imageNum) {
 					i++;
 					source = results[i];
 					if (imageManifest[index]) {
@@ -146,11 +150,9 @@ function eventSelectManifest(purpose) {
 					console.log("Image:" + results[i]);
 					numDescriptions = results[++i];
 					console.log("numDescriptions = " + numDescriptions);
-					var imageNum;
 					while(numDescriptions>0) {
-						imageNum = i;
 						i++;
-						game.getStage().update();
+						//game.getStage().update();
 						if (game.imageText[index][imageNum]) {
 							game.imageText[index][imageNum].push(prettifyText(results[i]));
 						}
@@ -160,7 +162,33 @@ function eventSelectManifest(purpose) {
 						console.log("Description" + results[i]);
 						numDescriptions--;
 					}
-					numImages--;
+					imageNum++;
+				}
+				i++;
+				console.log("NumPrecDescriptions: " + results[i]);
+				var numPrecDescriptions = results[i];
+				while (numPrecDescriptions>0) {
+					i++;
+					if (game.imageText[index][imageNum]) {
+						game.imageText[index][imageNum].push(prettifyText(results[i]));
+					}
+					else {
+						game.imageText[index][imageNum] = [results[i]];
+					}
+					numPrecDescriptions--;
+				}
+				imageNum++;
+				i++;
+				var numTempDescriptions = results[i];
+				while (numTempDescriptions>0) {
+					i++;
+					if (game.imageText[index][imageNum]) {
+						game.imageText[index][imageNum].push(prettifyText(results[i]));
+					}
+					else {
+						game.imageText[index][imageNum] = [results[i]];
+					}
+					numTempDescriptions--;
 				}
 			}
 		}

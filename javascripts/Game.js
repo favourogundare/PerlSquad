@@ -40,8 +40,9 @@ function Game(easelStage) {
     this.numPlayers = 1;
     this.map;
     this.fileInput = $('#files');
-    this.imageText;
+    this.imageText = [];
     this.assets = [];
+	this.displayedImageNum = [];
 	this.currentBiome;
 	this.started = false;
  
