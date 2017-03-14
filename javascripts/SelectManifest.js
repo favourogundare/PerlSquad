@@ -167,7 +167,7 @@ function eventSelectManifest(purpose) {
 							game.imageText[index][imageNum].push(prettifyText(results[i]));
 						}
 						else {
-							game.imageText[index][imageNum] = [results[i]];
+							game.imageText[index][imageNum] = [prettifyText(results[i])];
 						}
 						console.log("Description" + results[i]);
 						numDescriptions--;
@@ -189,7 +189,7 @@ function eventSelectManifest(purpose) {
 						game.imageText[index][imageNum].push(prettifyText(results[i]));
 					}
 					else {
-						game.imageText[index][imageNum] = [results[i]];
+						game.imageText[index][imageNum] = [prettifyText(results[i])];
 					}
 					numPrecDescriptions--;
 				}
@@ -205,7 +205,7 @@ function eventSelectManifest(purpose) {
 						game.imageText[index][imageNum].push(prettifyText(results[i]));
 					}
 					else {
-						game.imageText[index][imageNum] = [results[i]];
+						game.imageText[index][imageNum] = [prettifyText(results[i])];
 					}
 					numTempDescriptions--;
 				}

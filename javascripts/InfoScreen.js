@@ -7,14 +7,10 @@ function eventInfoScreen(){
     var timestamp = new Date(); // For analytics
 	
 	var infoText;
-	var precipText, temperatureText, smallText, medText, largeText;
 	var back = new Image();
 	var prec, temp;
-	var bgrnd, precip, temperature, small, med, large, infoOK;
-	var biomestuff;
+	var bgrnd, precip, temperature, infoOK;
 	var infoText = new createjs.Text("", "20px Arial", "#FFFFFF");
-	var precipText, temperatureText, smallText, medText, largeText;
-	var textstuff;
 	
 	var infoPage = new createjs.Container();        
     game.getStage().enableMouseOver(10);
@@ -24,7 +20,7 @@ function eventInfoScreen(){
 	prec.onload = function() {
 		temp = new Image();
 		temp.src = "Pictures/icons/temperature.png";
-		temp.onload = setBiomeInfo;
+		temp.onload = setInfoBG;
 	};
 	
 	function setImg (img, imgScale, imgX, imgY) {
@@ -36,6 +32,25 @@ function eventInfoScreen(){
 		img.y = imgY;
 	}
 	
+	function setHoverEffects(img, index, i) {
+		img.on("rollover", function (event) {
+			this.scaleX = this.scaleBackX * 1.1;
+			this.scaleY = this.scaleBackY * 1.1;
+			infoText.text = game.imageText[index][i];
+			infoText.x = 350;
+			infoText.y = 250;
+			infoPage.addChild(infoText);
+			game.getStage().update();
+		});
+		
+		img.on("rollout", function (event) {
+			this.scaleX = this.scaleBackX;
+			this.scaleY = this.scaleBackY;
+			infoPage.removeChild(infoText);
+			game.getStage().update();
+		});
+	}
+	
 	function setBiomeInfo() {
 		bgrnd = new createjs.Bitmap(back);
 		infoPage.addChild(bgrnd);
@@ -44,22 +59,7 @@ function eventInfoScreen(){
 			var newImage = new createjs.Bitmap(game.assets[index][i].result);
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-			newImage.on("rollover", function (event) {
-				this.scaleX = this.scaleBackX * 1.1;
-				this.scaleY = this.scaleBackY * 1.1;
-				infoText.text = game.imageText[index][i];
-				infoText.x = 350;
-				infoText.y = 250;
-				infoPage.addChild(infoText);
-				game.getStage().update();
-			});
-			
-			newImage.on("rollout", function (event) {
-				this.scaleX = this.scaleBackX;
-				this.scaleY = this.scaleBackY;
-				infoPage.removeChild(infoText);
-				game.getStage().update();
-			});
+			setHoverEffects(newImage, index, i);
 		}
 		
 		//set temp and prec
@@ -67,8 +67,10 @@ function eventInfoScreen(){
 		temperature = new createjs.Bitmap(temp);
 		i = game.imageScale[index].length-2;
 		setImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
+		setHoverEffects(precip, index, i);
 		i = game.imageScale[index].length-1;
 		setImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
+		setHoverEffects(temperature, index, i);
 		
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;

@@ -127,10 +127,10 @@ Bumble Bee
 ./Pictures/Animals/Rainforest/Animal - Jaguar - Large - Orange.png
 Jaguar
 200
-745
+760
 322
 1
-   The rainforest is home to a large variety of butterflies that don't live anywhere else in the world.
+   The jaguar is the third largest cat in the world and one of the strongest hunters in the Americas.
 ./Pictures/Animals/Rainforest/Animal - Toucan - Medium - Black.png
 Toucan
 150
