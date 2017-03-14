@@ -174,6 +174,9 @@ function eventSelectManifest(purpose) {
 					}
 					imageNum++;
 				}
+				//source = results[++i];
+				//console.log("Bkgrd Src: " + source);
+				//imageManifest[index].push([{type: createjs.AbstractLoader.IMAGE, src: source}]);
 				game.imageScale[index][imageNum] = results[++i];
 				game.imageX[index][imageNum]     = results[++i];
 				game.imageY[index][imageNum]     = results[++i];
