@@ -41,8 +41,9 @@ function eventEditGame() {
 		img.y = imgY;
 	}
 	
-	function setHoverEffects(img, index, i) {
+	function setSelectEffects(img, index, i) {
 		img.on("mousedown", function (event) {
+			console.log(event.currentTarget);
 			var xOffset = event.stageX - event.currentTarget.x;
 			var yOffset = event.stageY - event.currentTarget.y;
 			this.scaleX = this.scaleBackX * 1.1;
@@ -70,7 +71,7 @@ function eventEditGame() {
 			var newImage = new createjs.Bitmap(game.assets[index][i].result);
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-			setHoverEffects(newImage, index, i);
+			setSelectEffects(newImage, index, i);
 		}
 		
 		//set temp and prec
@@ -78,10 +79,10 @@ function eventEditGame() {
 		temperature = new createjs.Bitmap(temp);
 		i = game.imageScale[index].length-2;
 		setImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setHoverEffects(precip, index, i);
+		setSelectEffects(precip, index, i);
 		i = game.imageScale[index].length-1;
 		setImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setHoverEffects(temperature, index, i);
+		setSelectEffects(temperature, index, i);
 		
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;
