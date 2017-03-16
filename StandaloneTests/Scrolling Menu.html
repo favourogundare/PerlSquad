@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset=utf-8 />
+		<script src="../javascripts/createjs-2015.11.26.min.js"></script>
+		<script src="../javascripts/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript">
+			function init() {
+				var stage = new createjs.Stage("main");
+				//CheckboxMenuBkgrd = new createjs.Shape();
+				//CheckboxMenuBkgrd.graphics.beginFill("#000000").drawRect(0, 0, 130, 160);
+				addListeners();
+				//stage.addChild(CheckboxMenuBkgrd);
+				stage.update();
+			}
+			
+			
+			$(document).ready(function() {
+				var addFields       = 10;
+				var currFields      = 10;
+				var newNumFields    = currFields + addFields;
+				var wrapper         = $(".container"); //Fields wrapper
+				
+				
+				//e.preventDefault();
+				for (var i=currFields+1; i<=newNumFields; i++) {
+					var $newField = $('<div/>');
+					var $InputText = $('<label/>').html(' Option' + i).prepend($('<input/>').attr({ class: 'checkbox', type: 'checkbox'}));
+					$newField.append($InputText);
+					$(wrapper).append($newField);
+				}
+				
+				$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+					e.preventDefault(); $(this).parent('div').remove();
+				})
+			});
+			
+			console.log("Happened");
+			function addListeners(){
+				document.getElementById('CheckboxMenuBkgrd').addEventListener('mousedown', mouseDown, false);
+				window.addEventListener('mouseup', mouseUp, false);
+				$("#deleteAcc").on("click", function() { 
+					$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
+					}
+				);
+			}
+
+			function mouseUp()
+			{
+				window.removeEventListener('mousemove', divMove, true);
+			}
+
+			function mouseDown(e){
+				window.addEventListener('mousemove', divMove, true);
+			}
+
+			function divMove(e){
+				var divBkgrd = document.getElementById('CheckboxMenuBkgrd');
+				divBkgrd.style.position = 'absolute';
+				divBkgrd.style.top = e.clientY + 'px';
+				divBkgrd.style.left = e.clientX + 'px';
+				
+				var div = document.getElementById('CheckboxMenu');
+				div.style.position = 'absolute';
+				div.style.top = e.clientY + 20 + 'px';
+				div.style.left = e.clientX + 'px';
+			}
+		</script>
+		<style>
+			.containerBkgrd { border: 2px solid #ccc; background: #fff; position: absolute; top: 0px; left: 11px; width: 120px; height: 165px;}
+			.container { border: 2px solid #ccc; background: #fff; position: absolute; top: 20px; left: 11px; width: 120px; height: 150px; overflow-x: scroll; overflow-y: scroll;}
+		</style>
+	</head>
+	<body onload=init();>
+		<canvas id="main" width="960" height="444"></canvas>
+		<div id="CheckboxMenuBkgrd" class = "containerBkgrd"></div>
+		<button class="btn" type="button" id="deleteAcc">Delete</button>
+		<div id="CheckboxMenu" class="container">
+			<div><input class = "checkbox" type ="checkbox"/> Option1 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option2 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option3 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option4 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option5 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option6 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option7 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option8 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option9 <br /></div>
+			<div><input class = "checkbox" type ="checkbox"/> Option10 <br /></div>
+		</div>
+	</body>
+</html>

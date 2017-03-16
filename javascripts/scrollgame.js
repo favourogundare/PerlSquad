@@ -212,7 +212,7 @@ function eventScrollGame() {
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
 		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
-        animal.speed = (Math.random()*3)+ 1 + difficulty;
+        animal.speed = (Math.random()*2)+ 1 + difficulty;
     }
     
     /**
@@ -296,9 +296,12 @@ function eventScrollGame() {
         }
         game.getStage().update();
         big_contain.on("click", function(event) {
-		var additionalInfo = {};
-	    additionalInfo["biome"] = "rain-forest";
+	    var additionalInfo = {};
+	    additionalInfo["biome"] = game.currentBiome.name;
+	    additionalInfo["correct"] = correct;
+	    additionalInfo["incorrect"] = incorrect;
 	    sendUserTimeInfo("scroll-game", timestamp, additionalInfo);
+	    
             console.log("Clicked!");
             game.getStage().removeChild(big_contain);
             game.getStage().removeChild(bgrnd);

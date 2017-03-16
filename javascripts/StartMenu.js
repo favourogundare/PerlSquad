@@ -57,4 +57,6 @@ function onOptions() {
  */
 function onHelp() {
 	game.getStage().update();
+	game.getStage().update();
+	eventHelpPage();
 }

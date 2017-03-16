@@ -18,15 +18,17 @@
     <script src="javascripts/Game.js"></script>
     <script src="javascripts/InfoScreen.js"></script>
     <script src="javascripts/LoadMap.js"></script>
-	<script src="javascripts/Manifest.js"></script>
 	<script src="javascripts/SelectManifest.js"></script>
 	<!-- Global Game object initialization ----------------------->
 	<script> var game = new Game(); </script>
 	<!-- Code for different segments of the game ----------------->
 	<script src="javascripts/PreloadAssets.js"></script>
     <script src="javascripts/StartMenu.js"></script>
+	<script src="javascripts/HelpPage.js"></script>
     <script src="javascripts/MoveAroundEarth.js"></script>
     <script src="javascripts/OptionsMenu.js"></script>
+	<script src="javascripts/AddItem.js"></script>
+	<script src="javascripts/EditItem.js"></script>
     <script src="javascripts/SelectCategory.js"></script>
 	<script src="javascripts/scrollgame.js"></script>
 	<!-- Start game ---------------------------------------------->
@@ -36,8 +38,9 @@
   </head>
   <body onload="init();">
 	<canvas id="main" width="960" height="444"></canvas>
-	<div class = "hidden" id = browseButton style="position:absolute;left:100px;top:45px;"><input type=file id=files /></div>
-    <textarea class = "hidden" id = "ImageSource" placeholder="Insert image link or filepath here." style="position:absolute;left:305px;top:45px;width:350px; height:26px"></textarea>
-    <textarea class = "hidden" id = "Description" placeholder="Insert item description here." style="position:absolute;left:305px;top:85px;width:350px; height:200px"></textarea>
+	<div class = "hidden" id = "DefaultBrowseButton" style = "position:absolute;left:360px;top:50px;"><input type = file id = "BrowseButton" /></div>
+    <input type = "button" class = "hidden" id = "AltBrowseButton" value = "Browse..." style = "position:absolute;left:360px;top:50px;" onclick = "document.getElementById('BrowseButton').click();"/>
+	<textarea class = "hidden" id = "ImageSource" placeholder = "Insert image link or filepath here." style = "position:absolute;left:85px;top:50px;width:275px; height:23px"></textarea>
+    <textarea class = "hidden" id = "Description" placeholder = "Insert item description here." style = "position:absolute;left:85px;top:85px;width:350px; height:200px"></textarea>
   </body>
 </html>
