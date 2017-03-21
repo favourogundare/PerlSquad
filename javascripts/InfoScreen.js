@@ -204,10 +204,9 @@ function eventInfoScreen(){
 		large.x = 100;
         large.y = 200;
         
-        infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-        infoOK.x = 890;
-        infoOK.y = 20;
-        infoOK.addEventListener("click", onInfoOK);
+          // make info button
+          // The first argument is x coord, then y coord, and event listener function
+          infoOK = makeOKButton(890, 15, onInfoOK)
         
         infoPage.addChild(bgrnd);
         infoPage.addChild(med, infoOK);
@@ -315,10 +314,9 @@ function eventInfoScreen(){
 		large.x = 645;
         large.y = 222;
         
-        infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-        infoOK.x = 890;
-        infoOK.y = 20;
-        infoOK.addEventListener("click", onInfoOK);
+          // make info button
+          // The first argument is x coord, then y coord, and event listener function
+          infoOK = makeOKButton(890, 15, onInfoOK)
         
         infoPage.addChild(bgrnd);
         infoPage.addChild(med, infoOK);
@@ -426,10 +424,9 @@ function eventInfoScreen(){
 		large.x = 745;
         large.y = 322;
         
-        infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-        infoOK.x = 890;
-        infoOK.y = 20;
-        infoOK.addEventListener("click", onInfoOK);
+          // make info button
+          // The first argument is x coord, then y coord, and event listener function
+          infoOK = makeOKButton(890, 15, onInfoOK)
         
         infoPage.addChild(bgrnd);
         infoPage.addChild(med, infoOK);
@@ -537,10 +534,9 @@ function eventInfoScreen(){
 		large.x = 645;
         large.y = 322;
         
-        infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-        infoOK.x = 890;
-        infoOK.y = 20;
-        infoOK.addEventListener("click", onInfoOK);
+          // make info button
+          // The first argument is x coord, then y coord, and event listener function
+          infoOK = makeOKButton(890, 15, onInfoOK)
         
         infoPage.addChild(bgrnd);
         infoPage.addChild(med, infoOK);
