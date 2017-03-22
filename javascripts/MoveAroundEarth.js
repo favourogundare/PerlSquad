@@ -34,6 +34,7 @@ function eventMoveAroundEarth() {
 			eventEditGame();
 		}
 		else {
+			console.log("game.progress() called")
 			game.progress();
 		}
     }
