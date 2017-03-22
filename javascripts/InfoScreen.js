@@ -9,10 +9,28 @@ function eventInfoScreen(){
 	var infoText;
 	var back = new Image();
 	var prec, temp;
+	var bgrnd, precip, temperature, infoOK;
+	var infoText = new createjs.Text("", "20px Arial", "#FFFFFF");
+	
+	var infoPage = new createjs.Container();        
+    game.getStage().enableMouseOver(10);
+
+	prec = new Image();
+	prec.src = "Pictures/icons/precipitation.png";
+	prec.onload = function() {
+		temp = new Image();
+		temp.src = "Pictures/icons/temperature.png";
+		temp.onload = setInfoBG;
+	};
 	
 	function setImg (img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
+		img.scaleX = img.scaleBackX = imgScale/maxBound;
+		img.scaleY = img.scaleBackY = imgScale/maxBound;
+		img.x = imgX;
+		img.y = imgY;
+	}
 	
 	function setHoverEffects(img, index, i) {
 		img.on("rollover", function (event) {
@@ -55,7 +73,6 @@ function eventInfoScreen(){
 		setHoverEffects(temperature, index, i);
 		
 		infoOK = makeOKButton(890, 15, onInfoOK);
-		infoOK.addEventListener("click", onInfoOK);
 		infoPage.addChild(temperature, precip, infoOK);       
 		game.getStage().addChild(infoPage);
 		game.getStage().update();
