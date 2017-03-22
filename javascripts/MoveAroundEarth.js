@@ -52,10 +52,8 @@ function eventMoveAroundEarth() {
     moveText.x = game.getStage().width/2;
     moveText.y = game.getStage().height - 50;
     
-    moveOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-	moveOK.x = game.getStage().width-80;
-	moveOK.y = game.getStage().height-60;
-	moveOK.addEventListener("click", onMoveOK);
+    
+    moveOK = makeOKButton(890, 15, onMoveOK)
     
     game.getMainContainer().addChild(moveText);
     game.getMainContainer().addChild(moveOK);
