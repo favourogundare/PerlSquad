@@ -42,8 +42,10 @@ function eventScrollGame() {
 	 
 	var check = new createjs.Bitmap("checkmark.png");
 	check.shadow = new createjs.Shadow("#000000", 5, 5, 10);
+	check.scaleX = check.scaleY = 0.9;
 	var not_check = new createjs.Bitmap("no.png");
 	not_check.shadow = new createjs.Shadow("#000000", 5, 5, 10);
+	not_check.scaleX = not_check.scaleY = 0.9;
 	
     var onMouseDown = function(){
         if(!e){var e = window.event;}
@@ -97,7 +99,7 @@ function eventScrollGame() {
     bg.onload = setBG;
 	
 	var good1 =  new createjs.Bitmap(game.assets[bioindex][1].result);
-	good1.shadow = new createjs.Shadow("#000000", 3, 3, 10);
+	good1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	good1.name = "good1";
 	var good1bounds = good1.getBounds();
 	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
@@ -106,7 +108,7 @@ function eventScrollGame() {
     createAnimals(good1);
     
     var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
-	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 10);
+	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	bad1.name = "bad1";
 	var bad1bounds = bad1.getBounds();
 	var maxbad1 = Math.max(bad1bounds.height, bad1bounds.width);
@@ -115,7 +117,7 @@ function eventScrollGame() {
 	createAnimals(bad1);
 	
 	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
-	good2.shadow = new createjs.Shadow("#000000", 3, 3, 10);
+	good2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	var good2bounds = good2.getBounds();
 	var maxgood2 = Math.max(good2bounds.height, good2bounds.width);
 	good2.scaleX = good2.scaleBackX = 140/maxgood2;
@@ -124,7 +126,7 @@ function eventScrollGame() {
 	createAnimals(good2);
 	
 	var bad2 = new createjs.Bitmap(game.assets[bad_bio][2].result);
-	bad2.shadow = new createjs.Shadow("#000000", 3, 3, 10);
+	bad2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	var bad2bounds = bad2.getBounds();
 	var maxbad2 = Math.max(bad2bounds.height, bad2bounds.width);
 	bad2.scaleX = bad2.scaleBackX = 140/maxbad2;
@@ -140,16 +142,21 @@ function eventScrollGame() {
         bgrnd = new createjs.Bitmap(bg);
         game.getStage().addChild(bgrnd, big_contain);
 		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
+		var instruct_text = new createjs.Text("Click on the Animals that belong in the biome!\n", "32px Arial", "white");
+		instruct_text.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 		start_text.x = game.getStage().width/2 - 135;
 		start_text.y = game.getStage().height/3 - 10;
 		start_text.align = "center";
+		instruct_text.x = game.getStage().width/4 - 40;
+		instruct_text.y = game.getStage().height - 80;
+		instruct_text.align = "center";
 		var start_box = new createjs.Shape();
 		start_box.shadow = new createjs.Shadow("#000000", 5, 5, 10);
 		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
 		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_easy);
 		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_medium);
 		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_hard);
-        start_contain.addChildAt(start_box, start_text, easy_button.container, med_button.container, hard_button.container, 0);
+        start_contain.addChildAt(start_box, start_text, instruct_text, easy_button.container, med_button.container, hard_button.container, 0);
 		big_contain.addChild(start_contain);
 		game.getStage().update();
     }
