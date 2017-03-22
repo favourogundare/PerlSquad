@@ -33,14 +33,16 @@ function eventScrollGame() {
 	
 	var difficulty = 1;
 	/** difficulty of the minigame - 1 is easy, 3 is normal, 5 is hard 
-		defaults to easy so that first objects generated are slower to ease player into the game
-
-		*/
+		defaults to easy so that first objects generated are slower to ease player into the game*/
     
     /**
      * @function onMouseDown
      * Handles a click down.
      */
+	 
+	var check = new createjs.Bitmap("checkmark.png");
+	var not_check = new createjs.Bitmap("no.png");
+	
     var onMouseDown = function(){
         if(!e){var e = window.event;}
         clicked = true;
@@ -152,6 +154,10 @@ function eventScrollGame() {
 	function pick_easy () {
 		difficulty = 1;
 		play = true;
+		check.x = 0;
+		check.y = 0;
+		not_check.x = check.x;
+		not_check.y = check.y;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
 	}
@@ -222,11 +228,25 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText== "bad1" || tempText== "bad2") && play == true){
                 resetAnimal(mouseTarget);
+				if (difficulty == 1){
+					if (game.getStage().contains(check)){
+						game.getStage().removeChild(check);
+					}
+					game.getStage().addChild(not_check);
+					game.getStage().update();
+				}
                 incorrect++;
                 clicked=false;
             }
             else if ((tempText== "good1" || tempText=="good2" )&& play == true){
                 resetAnimal(mouseTarget);
+				if (difficulty == 1){
+					if (game.getStage().contains(not_check)){
+						game.getStage().removeChild(not_check);
+					}
+					game.getStage().addChild(check);
+					game.getStage().update();
+				}
                 correct++;
                 clicked=false;
             }
