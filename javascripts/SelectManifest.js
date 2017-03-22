@@ -149,6 +149,7 @@ function eventSelectManifest(purpose) {
 					console.log("Image:" + results[i]);
 					i++;
 					imgID = results[i];
+					console.log("HERE IS THE ID: " + imgID);
 					if (imageManifest[index]) {
 						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
 					}

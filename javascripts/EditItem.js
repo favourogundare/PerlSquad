@@ -11,7 +11,10 @@ function eventEditGame() {
 	var KEYCODE_T = 84;
 	var KEYCODE_X = 88;
 	var editingStage;
-	
+	var currentSelection;
+	var currentSelectionID;
+	var xOffset;
+	var yOffset;
 	
 	document.onkeydown = handleKeyDown;
 	
@@ -44,8 +47,10 @@ function eventEditGame() {
 	function setSelectEffects(img, index, i) {
 		img.on("mousedown", function (event) {
 			console.log(event.currentTarget);
-			var xOffset = event.stageX - event.currentTarget.x;
-			var yOffset = event.stageY - event.currentTarget.y;
+			currentSelection = event.currentTarget;
+			currentSelectionID = event.currentTarget.name;
+			xOffset = event.stageX - event.currentTarget.x;
+			yOffset = event.stageY - event.currentTarget.y;
 			this.scaleX = this.scaleBackX * 1.1;
 			this.scaleY = this.scaleBackY * 1.1;
 			infoText.text = game.imageText[index][i];
@@ -69,6 +74,7 @@ function eventEditGame() {
 		var index = game.currentBiome.num-1;
 		for (var i=0; i<game.displayedImageNum[index]; i++) {
 			var newImage = new createjs.Bitmap(game.assets[index][i].result);
+			newImage.name = game.assets[index][i].item.id;
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
 			setSelectEffects(newImage, index, i);
@@ -76,7 +82,9 @@ function eventEditGame() {
 		
 		//set temp and prec
 		precip      = new createjs.Bitmap(prec);
+		precip.name = "precip";
 		temperature = new createjs.Bitmap(temp);
+		temperature.name = "temperature";
 		i = game.imageScale[index].length-2;
 		setImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
 		setSelectEffects(precip, index, i);
@@ -132,12 +140,30 @@ function eventEditGame() {
 				return false;
 			case KEYCODE_R:
 				console.log("R pressed");
+				if (currentSelection) {
+					
+				}
+				else {
+					alert("No image selected. Please Select an image first");
+				}
 				return false;
 			case KEYCODE_S:
 				console.log("S pressed");
+				if (currentSelection) {
+					
+				}
+				else {
+					alert("No image selected. Please Select an image first");
+				}
 				return false;
 			case KEYCODE_T:
 				console.log("T pressed");
+				if (currentSelection) {
+					
+				}
+				else {
+					alert("No image selected. Please Select an image first");
+				}
 				return false;
 			case KEYCODE_X:
 				console.log("X pressed");
