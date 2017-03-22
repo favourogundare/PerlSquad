@@ -3,12 +3,11 @@
 /**
  *  @function eventSelectManifest
  *  @param purpose
- *  @param checkStart
  *  Allows the user to select which manifest they would like
  *  to use or edit and then calls on the preloading to load 
  *  that manifest
  */
-function eventSelectManifest(purpose, checkStart) {	
+function eventSelectManifest(purpose) {	
 	"use strict";
 	var selectManifestText = new createjs.Text("Select Manifest to " + purpose, "46px Arial", "#000000");
 	selectManifestText.x = game.getStage().width/2;
@@ -123,49 +122,97 @@ function eventSelectManifest(purpose, checkStart) {
 		var numImages;
 		var numDescriptions;
 		var source;
+		var imgID;
 		var imageManifest = [];
 		var index = -1;
-		game.imageText = [];
 		game.workingManifest = file;
 		console.log(file);
 		var results = file.split("\n");
+		//id scale x y
 		for (var i=0; i<results.length; i++) {
 			if (isNumber(results[i])) {
 				console.log("New Biome!!!!!!!!!");
-				index++;
 				numImages = results[i];
-				game.imageText[index] = [];
-				while(numImages>0) {
+				console.log("NumImages: "+numImages);
+				index++;
+				i++;
+				game.displayedImageNum[index] = results[i];
+				console.log("DisplayedImageNum: " +results[i]);
+				game.imageText[index]  = [];
+				game.imageScale[index] = [];
+				game.imageX[index]     = [];
+				game.imageY[index]     = [];
+				var imageNum = 0;
+				while(numImages>imageNum) {
 					i++;
 					source = results[i];
+					console.log("Image:" + results[i]);
+					i++;
+					imgID = results[i];
+					console.log("HERE IS THE ID: " + imgID);
 					if (imageManifest[index]) {
-						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source});
+						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
 					}
 					else {
-						imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source}];
+						imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source, id: imgID}];
 					}
-					console.log("Image:" + results[i]);
+					game.imageScale[index][imageNum] = results[++i];
+					game.imageX[index][imageNum]     = results[++i];
+					game.imageY[index][imageNum]     = results[++i];
 					numDescriptions = results[++i];
 					console.log("numDescriptions = " + numDescriptions);
-					var imageNum;
 					while(numDescriptions>0) {
-						imageNum = i;
 						i++;
-						game.getStage().update();
+						//game.getStage().update();
 						if (game.imageText[index][imageNum]) {
 							game.imageText[index][imageNum].push(prettifyText(results[i]));
 						}
 						else {
-							game.imageText[index][imageNum] = [results[i]];
+							game.imageText[index][imageNum] = [prettifyText(results[i])];
 						}
 						console.log("Description" + results[i]);
 						numDescriptions--;
 					}
-					numImages--;
+					imageNum++;
+				}
+				//source = results[++i];
+				//console.log("Bkgrd Src: " + source);
+				//imageManifest[index].push([{type: createjs.AbstractLoader.IMAGE, src: source}]);
+				game.imageScale[index][imageNum] = results[++i];
+				game.imageX[index][imageNum]     = results[++i];
+				game.imageY[index][imageNum]     = results[++i];
+				i++;
+				console.log("NumPrecDescriptions: " + results[i]);
+				var numPrecDescriptions = results[i];
+				while (numPrecDescriptions>0) {
+					i++;
+					if (game.imageText[index][imageNum]) {
+						game.imageText[index][imageNum].push(prettifyText(results[i]));
+					}
+					else {
+						game.imageText[index][imageNum] = [prettifyText(results[i])];
+					}
+					numPrecDescriptions--;
+				}
+				imageNum++;
+				game.imageScale[index][imageNum] = results[++i];
+				game.imageX[index][imageNum]     = results[++i];
+				game.imageY[index][imageNum]     = results[++i];
+				i++;
+				var numTempDescriptions = results[i];
+				while (numTempDescriptions>0) {
+					i++;
+					if (game.imageText[index][imageNum]) {
+						game.imageText[index][imageNum].push(prettifyText(results[i]));
+					}
+					else {
+						game.imageText[index][imageNum] = [prettifyText(results[i])];
+					}
+					numTempDescriptions--;
 				}
 			}
 		}
-		eventPreloadAssets(imageManifest, checkStart);
+		eventPreloadAssets(imageManifest);
 	}
 }
 

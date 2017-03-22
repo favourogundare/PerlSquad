@@ -8,23 +8,34 @@ var timestamp;
 function eventMoveAroundEarth() {
     timestamp = new Date();
     
-        var moveText;
-	var handleClick = function(event) {
+    var moveText;
+	function handleClick(event) {
         game.currentBiome = game.currentBiome.next;
-        moveText.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit";
+		if (game.started === false) {
+			moveText.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Edit";
+		}
+		else {
+			moveText.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit";
+		}
         console.log(game.currentBiome.name);
         playerIcon.x = game.currentBiome.x;
         playerIcon.y = game.currentBiome.y;
         game.getStage().update();
     }
-    var onMoveOK = function(event) {
-	// Analytics
-	sendUserTimeInfo("biome-selection", timestamp);
-	
+    function onMoveOK(event) {
+		// Analytics
+		sendUserTimeInfo("biome-selection", timestamp);
         game.getMainContainer().removeChild(moveText);
         game.getMainContainer().removeChild(playerIcon);
         game.getMainContainer().removeChild(moveOK);
-        game.progress();
+		playerIcon.removeAllEventListeners(); 
+		if (game.started === false) {
+			game.getStage().update();
+			eventEditGame();
+		}
+		else {
+			game.progress();
+		}
     }
 	
     //	Build biome list
@@ -39,7 +50,10 @@ function eventMoveAroundEarth() {
     biomeList.add(4, "Rainforest", 215, 270);
     //weird green
     biomeList.add(5, "Tundra", 310, 20);
-    
+    console.log(biomeList.length);
+	console.log(biomeList.head);
+	console.log(biomeList.head.next);
+	console.log(biomeList.tail);
     var playerIcon = game.getCurrentPlayer().getIcon();
     game.currentBiome = biomeList.head;
     playerIcon.x = game.currentBiome.x

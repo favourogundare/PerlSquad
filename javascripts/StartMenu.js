@@ -34,7 +34,8 @@ function onStart() {
     sendUserTimeInfo("start-game", timestamp);
 	game.getStage().removeChild(start_page);
 	game.getStage().update();
-	eventSelectManifest("Use", true);
+	game.started = true;
+	eventSelectManifest("Use");
 }
 	
 /**
@@ -46,7 +47,8 @@ function onStart() {
 function onOptions() {
 	game.getStage().removeChild(start_page);
 	game.getStage().update();
-	eventSelectManifest("Edit", false);
+	eventOptionsMenu();
+	//eventSelectManifest("Edit", false);
 	/** options menu here */
 }	
 
