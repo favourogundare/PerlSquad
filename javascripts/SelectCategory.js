@@ -10,15 +10,13 @@ var option2;
 var option3;
 var option4;
 var option5;
-var globChosen;
 var item;
 
 /**  
  * @function eventScavengerHunt
  * Item gathering portion of game.
  */
-function eventSelectCategory(chosen) {
-	globChosen = chosen;
+function eventSelectCategory() {
 	category   = 1;
     
     /** SelectCategory container section */
@@ -127,11 +125,5 @@ function SConOK() {
 	console.log("selected[" + selected + "]");
 	game.getStage().removeChild(SelectCategoryContainer);
 	game.getStage().update();
-	switch (globChosen){
-		case "add":
-			eventAddItem();
-			break;
-		case "edit":
-			eventEditItem();
-	}
+	eventEditGame();
 }
