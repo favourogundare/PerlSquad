@@ -105,7 +105,6 @@ function eventScrollGame() {
 	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
 	good1.scaleX = good1.scaleBackX = 140/maxgood1;
 	good1.scaleY = good1.scaleBackY = 140/maxgood1;
-    createAnimals(good1);
     
     var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
 	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -114,7 +113,6 @@ function eventScrollGame() {
 	var maxbad1 = Math.max(bad1bounds.height, bad1bounds.width);
 	bad1.scaleX = bad1.scaleBackX = 140/maxbad1;
 	bad1.scaleY = bad1.scaleBackY = 140/maxbad1;
-	createAnimals(bad1);
 	
 	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
 	good2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -123,7 +121,6 @@ function eventScrollGame() {
 	good2.scaleX = good2.scaleBackX = 140/maxgood2;
 	good2.scaleY = good2.scaleBackY = 140/maxgood2;
 	good2.name = "good2";
-	createAnimals(good2);
 	
 	var bad2 = new createjs.Bitmap(game.assets[bad_bio][2].result);
 	bad2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -132,7 +129,6 @@ function eventScrollGame() {
 	bad2.scaleX = bad2.scaleBackX = 140/maxbad2;
 	bad2.scaleY = bad2.scaleBackY = 140/maxbad2;
 	bad2.name = "bad2";
-	createAnimals(bad2);
    
     /**
      * @function setBG
@@ -167,6 +163,10 @@ function eventScrollGame() {
 	 */
 	function pick_easy () {
 		difficulty = 1;
+		createAnimals(good1);
+		createAnimals(good2);
+		createAnimals(bad1);
+		createAnimals(bad2);
 		play = true;
 		check.x = 0;
 		check.y = 0;
@@ -182,6 +182,10 @@ function eventScrollGame() {
 	 */
 	function pick_medium () {
 		difficulty = 2;
+		createAnimals(good1);
+		createAnimals(good2);
+		createAnimals(bad1);
+		createAnimals(bad2);
 		play = true;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
@@ -193,6 +197,10 @@ function eventScrollGame() {
 	 */
 	function pick_hard () {
 		difficulty = 3;
+		createAnimals(good1);
+		createAnimals(good2);
+		createAnimals(bad1);
+		createAnimals(bad2);
 		play = true;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
