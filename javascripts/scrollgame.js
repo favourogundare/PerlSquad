@@ -70,7 +70,7 @@ function eventScrollGame() {
 	var anim_contain = new createjs.Container();
 	
 	var bioindex = game.currentBiome.num - 1;
-	console.log("biome num: " + bioindex);
+	
 	if (bioindex > 0){
 		var bad_bio = bioindex - 1;
 	}
@@ -202,7 +202,11 @@ function eventScrollGame() {
      * @function createAnimals
      * Creates animal objects and enables clicking on them.
      */
-	 
+	
+	createjs.Ticker.addEventListener("tick", tick);
+	createjs.Ticker.setFPS(30);
+	
+	
     function createAnimals(bitmp){
 		var l = 2;
         for (var i=0; i<l; i++){
@@ -214,9 +218,9 @@ function eventScrollGame() {
             bitmap.mouseEnabled = true;
             bmpList.push(bitmap);
         }
-        
-        createjs.Ticker.addEventListener("tick", tick);
     }
+	
+	var speed_up = 0.0;
   
     /**
      * @function resetAnimal
@@ -226,7 +230,7 @@ function eventScrollGame() {
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
 		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
-        animal.speed = (Math.random()*2)+ 1 + difficulty;
+        animal.speed = Math.random() + difficulty*0.8;
     }
     
     /**
@@ -242,6 +246,8 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText== "bad1" || tempText== "bad2") && play == true){
                 resetAnimal(mouseTarget);
+				speed_up += 0.01;
+				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(check)){
 						big_contain.removeChild(check);
@@ -254,6 +260,8 @@ function eventScrollGame() {
             }
             else if ((tempText== "good1" || tempText=="good2" )&& play == true){
                 resetAnimal(mouseTarget);
+				speed_up += 0.01;
+				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(not_check)){
 						big_contain.removeChild(not_check);
