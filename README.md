@@ -25,12 +25,13 @@ it until any grades that depend on it are in. We will go through and delete old 
 that are no longer needed for grading around each sprint.
 
 ### Installation
-Simply download the repository and click [code]index.html[/code] to launch the game in your
-default web browser. Nothing else required.
+It is a web app. Go to http://biomegame.online.
 
 ### Where Everything Is
 If you are looking for sprint or homework related materials, such as team member responsibilities
 check the artifacts folder. 
+
+If you are looking for the deployment url, it's under qr_code folder. Also above. 
 
 ### Repo Structure
 - javascripts: bulk of the game, including the game engine and code for each piece of the game
@@ -38,5 +39,5 @@ check the artifacts folder.
 - docs: API reference and documentation for the various javascript classes and functions
 - analytics: code involving the creation and transmission of analytic data
 - Pictures: bitmap assets
-- Images: candidate for deletion
+- qr_code: Contains QR Code to http://biomegame.online.
 - jasmine: artifacts from jasmine unit testing, should be moved to artifacts folder soon
