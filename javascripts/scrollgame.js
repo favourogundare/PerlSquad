@@ -230,7 +230,7 @@ function eventScrollGame() {
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
 		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
-        animal.speed = Math.random() + difficulty*0.8;
+        animal.speed = Math.random()*0.8 + difficulty;
     }
     
     /**
@@ -246,7 +246,7 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText== "bad1" || tempText== "bad2") && play == true){
                 resetAnimal(mouseTarget);
-				speed_up += 0.01;
+				speed_up += 0.01 + difficulty*0.005;
 				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(check)){
@@ -260,7 +260,7 @@ function eventScrollGame() {
             }
             else if ((tempText== "good1" || tempText=="good2" )&& play == true){
                 resetAnimal(mouseTarget);
-				speed_up += 0.01;
+				speed_up += 0.01 + difficulty*0.005;
 				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(not_check)){
@@ -287,6 +287,7 @@ function eventScrollGame() {
                     }
                     else{
                         resetAnimal(bmp);
+						bmp.speed += speed_up;
                     }
                 }
             }
