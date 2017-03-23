@@ -5,7 +5,7 @@
  */
 function eventInfoScreen(){
     var timestamp = new Date(); // For analytics
-	
+	var infoTextInner;
 	var infoText;
 	var back = new Image();
 	var prec, temp;
@@ -37,16 +37,24 @@ function eventInfoScreen(){
 			this.scaleX = this.scaleBackX * 1.1;
 			this.scaleY = this.scaleBackY * 1.1;
 			infoText.text = game.imageText[index][i];
-			infoText.x = 350;
-			infoText.y = 250;
-			infoPage.addChild(infoText);
+			infoText.font = "25px Arial";
+			infoText.color = "black"
+			infoText.x = 289;
+			infoText.y = 50;
+			infoTextInner = infoText.clone();
+			infoTextInner.color = "white";
+			infoTextInner.shadow = undefined;
+			infoTextInner.outline = false;
+			infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+			infoText.outline = 3;
+			infoPage.addChild(infoText, infoTextInner);
 			game.getStage().update();
 		});
 		
 		img.on("rollout", function (event) {
 			this.scaleX = this.scaleBackX;
 			this.scaleY = this.scaleBackY;
-			infoPage.removeChild(infoText);
+			infoPage.removeChild(infoText, infoTextInner);
 			game.getStage().update();
 		});
 	}
