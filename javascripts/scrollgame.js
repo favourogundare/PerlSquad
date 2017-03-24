@@ -254,7 +254,7 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText== "bad1" || tempText== "bad2") && play == true){
                 resetAnimal(mouseTarget);
-				speed_up += 0.02 + difficulty*difficulty*0.02;
+				speed_up += 0.05 + difficulty*difficulty*0.02;
 				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(check)){
@@ -268,7 +268,7 @@ function eventScrollGame() {
             }
             else if ((tempText== "good1" || tempText=="good2" )&& play == true){
                 resetAnimal(mouseTarget);
-				speed_up += 0.02 + difficulty*difficulty*0.02;
+				speed_up += 0.05 + difficulty*difficulty*0.02;
 				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(not_check)){
