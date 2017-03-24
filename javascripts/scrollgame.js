@@ -70,7 +70,7 @@ function eventScrollGame() {
 	var anim_contain = new createjs.Container();
 	
 	var bioindex = game.currentBiome.num - 1;
-	console.log("biome num: " + bioindex);
+	
 	if (bioindex > 0){
 		var bad_bio = bioindex - 1;
 	}
@@ -105,7 +105,6 @@ function eventScrollGame() {
 	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
 	good1.scaleX = good1.scaleBackX = 140/maxgood1;
 	good1.scaleY = good1.scaleBackY = 140/maxgood1;
-    createAnimals(good1);
     
     var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
 	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -114,7 +113,6 @@ function eventScrollGame() {
 	var maxbad1 = Math.max(bad1bounds.height, bad1bounds.width);
 	bad1.scaleX = bad1.scaleBackX = 140/maxbad1;
 	bad1.scaleY = bad1.scaleBackY = 140/maxbad1;
-	createAnimals(bad1);
 	
 	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
 	good2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -123,7 +121,6 @@ function eventScrollGame() {
 	good2.scaleX = good2.scaleBackX = 140/maxgood2;
 	good2.scaleY = good2.scaleBackY = 140/maxgood2;
 	good2.name = "good2";
-	createAnimals(good2);
 	
 	var bad2 = new createjs.Bitmap(game.assets[bad_bio][2].result);
 	bad2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -132,7 +129,6 @@ function eventScrollGame() {
 	bad2.scaleX = bad2.scaleBackX = 140/maxbad2;
 	bad2.scaleY = bad2.scaleBackY = 140/maxbad2;
 	bad2.name = "bad2";
-	createAnimals(bad2);
    
     /**
      * @function setBG
@@ -167,6 +163,10 @@ function eventScrollGame() {
 	 */
 	function pick_easy () {
 		difficulty = 1;
+		createAnimals(good1);
+		createAnimals(good2);
+		createAnimals(bad1);
+		createAnimals(bad2);
 		play = true;
 		check.x = 0;
 		check.y = 0;
@@ -182,6 +182,10 @@ function eventScrollGame() {
 	 */
 	function pick_medium () {
 		difficulty = 2;
+		createAnimals(good1);
+		createAnimals(good2);
+		createAnimals(bad1);
+		createAnimals(bad2);
 		play = true;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
@@ -193,6 +197,10 @@ function eventScrollGame() {
 	 */
 	function pick_hard () {
 		difficulty = 3;
+		createAnimals(good1);
+		createAnimals(good2);
+		createAnimals(bad1);
+		createAnimals(bad2);
 		play = true;
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
@@ -202,7 +210,11 @@ function eventScrollGame() {
      * @function createAnimals
      * Creates animal objects and enables clicking on them.
      */
-	 
+	
+	createjs.Ticker.addEventListener("tick", tick);
+	createjs.Ticker.setFPS(30);
+	
+	
     function createAnimals(bitmp){
 		var l = 2;
         for (var i=0; i<l; i++){
@@ -214,9 +226,9 @@ function eventScrollGame() {
             bitmap.mouseEnabled = true;
             bmpList.push(bitmap);
         }
-        
-        createjs.Ticker.addEventListener("tick", tick);
     }
+	
+	var speed_up = 0.0;
   
     /**
      * @function resetAnimal
@@ -226,7 +238,7 @@ function eventScrollGame() {
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
 		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
-        animal.speed = (Math.random()*2)+ 1 + difficulty;
+        animal.speed = Math.random()*0.8 + difficulty;
     }
     
     /**
@@ -242,6 +254,8 @@ function eventScrollGame() {
             var tempText = String(mouseTarget.name);
             if ((tempText== "bad1" || tempText== "bad2") && play == true){
                 resetAnimal(mouseTarget);
+				speed_up += 0.05 + difficulty*difficulty*0.02;
+				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(check)){
 						big_contain.removeChild(check);
@@ -254,6 +268,8 @@ function eventScrollGame() {
             }
             else if ((tempText== "good1" || tempText=="good2" )&& play == true){
                 resetAnimal(mouseTarget);
+				speed_up += 0.05 + difficulty*difficulty*0.02;
+				mouseTarget.speed += speed_up;
 				if (difficulty == 1){
 					if (big_contain.contains(not_check)){
 						big_contain.removeChild(not_check);
@@ -279,6 +295,7 @@ function eventScrollGame() {
                     }
                     else{
                         resetAnimal(bmp);
+						bmp.speed += speed_up;
                     }
                 }
             }
