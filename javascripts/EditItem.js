@@ -4,21 +4,42 @@
  */
 function eventEditGame() {
 	console.log("editing");
-	var KEYCODE_B = 66;
-	var KEYCODE_I = 73;
-	var KEYCODE_R = 82;
-	var KEYCODE_S = 83;
-	var KEYCODE_T = 84;
-	var KEYCODE_X = 88;
+	var KEYCODE_B     = 66;
+	var KEYCODE_H     = 72;
+	var KEYCODE_I     = 73;
+	var KEYCODE_M     = 77;
+	var KEYCODE_R     = 82;
+	var KEYCODE_S     = 83;
+	var KEYCODE_T     = 84;
+	var KEYCODE_X     = 88;
+	var KEYCODE_UP    = 38;
+	var KEYCODE_DOWN  = 40;
+	var KEYCODE_LEFT  = 37;
+	var KEYCODE_RIGHT = 39;
 	var editingStage;
 	var currentSelection;
 	var currentSelectionID;
 	var xOffset;
 	var yOffset;
+	var HelpDisplayed = false;
+	var CBMDisplayed  = false;
+	var CBMBkgrd  = document.getElementById("CheckboxMenuBkgrd");
+	var CBM       = document.getElementById("CheckboxMenu");
+	var CBMAdd    = document.getElementById("CheckboxMenuAdd");
+	var CBMDelete = document.getElementById("CheckboxMenuDelete");
+	var HelpContainer;
 	
 	document.onkeydown = handleKeyDown;
 	
+	var HelpText = new createjs.Text("", "24px Arial", "#FFFFFF");
+	HelpText.textAlign    = "center";
+	HelpText.textBaseline = "middle";
+	HelpText.x = game.getStage().width/2;
+	HelpText.y = game.getStage().height/3;
+	ResetHelpText();
+	
 	var infoText;
+	var InstructionText;
 	var back = new Image();
 	var prec, temp;
 	var bgrnd, precip, temperature, infoOK;
@@ -35,6 +56,17 @@ function eventEditGame() {
 		temp.onload = setInfoBG;
 	};
 	
+	function ResetHelpText() {
+		HelpText.text = 
+		"B: ChangeBiome\n"+
+		"H: Toggle Help Screen\n"+
+		"I: Toggle Image List\n"+
+		"M: Toggle Image Moving\n"+
+		"S: Toggle Image Scaling\n"+
+		"T: Toggle Text Editing\n"+
+		"X: Exit Editing Menu";
+	}
+	
 	function setImg (img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
@@ -45,14 +77,14 @@ function eventEditGame() {
 	}
 	
 	function setSelectEffects(img, index, i) {
-		img.on("mousedown", function (event) {
+		img.addEventListener("mousedown", function (event) {
 			console.log(event.currentTarget);
 			currentSelection = event.currentTarget;
 			currentSelectionID = event.currentTarget.name;
-			xOffset = event.stageX - event.currentTarget.x;
-			yOffset = event.stageY - event.currentTarget.y;
-			this.scaleX = this.scaleBackX * 1.1;
-			this.scaleY = this.scaleBackY * 1.1;
+			//xOffset = event.stageX - event.currentTarget.x;
+			//yOffset = event.stageY - event.currentTarget.y;
+			img.scaleX = img.scaleBackX * 1.1;
+			img.scaleY = img.scaleBackY * 1.1;
 			infoText.text = game.imageText[index][i];
 			infoText.x = 350;
 			infoText.y = 250;
@@ -60,9 +92,9 @@ function eventEditGame() {
 			game.getStage().update();
 		});
 		
-		img.on("pressup", function (event) {
-			this.scaleX = this.scaleBackX;
-			this.scaleY = this.scaleBackY;
+		img.addEventListener("pressup", function (event) {
+			img.scaleX = img.scaleBackX;
+			img.scaleY = img.scaleBackY;
 			infoPage.removeChild(infoText);
 			game.getStage().update();
 		});
@@ -78,6 +110,10 @@ function eventEditGame() {
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
 			setSelectEffects(newImage, index, i);
+			var $newField = $('<div/>', { style: "overflow: hidden" });
+			var $InputText = $('<label/>', { style: "display: inline-block" }).html(newImage.name).prepend($('<input/>').attr({ class: 'checkbox', type: 'checkbox'}));
+			$newField.append($InputText);
+			$("#CheckboxMenu").append($newField);
 		}
 		
 		//set temp and prec
@@ -95,8 +131,15 @@ function eventEditGame() {
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;
 		infoOK.y = 20;
+		
+		InstructionText = new createjs.Text("Press H for Help at any time", "36px Arial", "#FFFFFF");
+		InstructionText.textAlign    = "center";
+		InstructionText.textBaseline = "middle";
+		InstructionText.x = game.getStage().width/2;
+		InstructionText.y = game.getStage().height-30;
+		
 		infoPage.addChild(temperature, precip, infoOK);       
-		game.getStage().addChild(infoPage);
+		game.getStage().addChild(infoPage, InstructionText);
 		game.getStage().update();
 	}
 	
@@ -132,25 +175,41 @@ function eventEditGame() {
 			case KEYCODE_B:
 				console.log("B pressed");
 				document.onkeydown = null;
-				game.getStage().removeChild(infoPage);
+				CBMReset();
+				game.getStage().removeChild(infoPage, InstructionText);
+				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
 				eventMoveAroundEarth();
+				return false;
+			case KEYCODE_H:
+				console.log("H pressed");
+				Handle_H_Pressed();
 				return false;
 			case KEYCODE_I:
 				console.log("I pressed");
+				Handle_I_Pressed();
 				return false;
-			case KEYCODE_R:
-				console.log("R pressed");
+			case KEYCODE_M:
+				console.log("M pressed");
 				if (currentSelection) {
-					
+					Handle_M_Pressed();
 				}
 				else {
 					alert("No image selected. Please Select an image first");
 				}
 				return false;
+			/*case KEYCODE_R:
+				console.log("R pressed");
+				if (currentSelection) {
+					Handle_R_Pressed();
+				}
+				else {
+					alert("No image selected. Please Select an image first");
+				}
+				return false;*/
 			case KEYCODE_S:
 				console.log("S pressed");
 				if (currentSelection) {
-					
+					Handle_S_Pressed();
 				}
 				else {
 					alert("No image selected. Please Select an image first");
@@ -159,7 +218,7 @@ function eventEditGame() {
 			case KEYCODE_T:
 				console.log("T pressed");
 				if (currentSelection) {
-					
+					Handle_T_Pressed();
 				}
 				else {
 					alert("No image selected. Please Select an image first");
@@ -168,9 +227,296 @@ function eventEditGame() {
 			case KEYCODE_X:
 				console.log("X pressed");
 				document.onkeydown = null;
-				game.getStage().removeChild(infoPage);
+				CBMReset();
+				game.getStage().removeChild(infoPage, InstructionText);
+				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
 				eventOptionsMenu();
 				return false;
+		}
+		
+		function CBMReset() {
+			$(".checkbox").prop('checked', false);
+			
+			CheckboxMenuBkgrd.style.display = 'none';
+			CheckboxMenuAdd.style.display = 'none';
+			CheckboxMenuDelete.style.display = 'none';
+			CheckboxMenu.style.display = 'none';
+			
+			CBMBkgrd.style.position = 'absolute';
+			CBMBkgrd.style.top = "20px";
+			CBMBkgrd.style.left = "11px";
+			
+			CBM.style.position = 'absolute';
+			CBM.style.top = "40px";
+			CBM.style.left = "11px";
+			
+			CBMAdd.style.position = 'absolute';
+			CBMAdd.style.top = "192px";
+			CBMAdd.style.left = "10.5px";
+			
+			CBMDelete.style.position = 'absolute';
+			CBMDelete.style.top = "192px";
+			CBMDelete.style.left = "72px";
+		}
+		
+		function Handle_H_Pressed() {
+			var HelpBkgrd;
+			if (HelpDisplayed === false) {
+				HelpContainer = new createjs.Container();
+				HelpDisplayed = true;
+				
+				HelpBkgrd = new createjs.Shape();
+				HelpBkgrd.graphics.beginFill("#212121").drawRect(game.getStage().width/2 - 242.5, game.getStage().height/3 - 30, 485, 210);
+				
+				HelpContainer.addChild(HelpBkgrd, HelpText);
+				infoPage.addChild(HelpContainer);
+				game.getStage().update();
+			}
+			else {
+				HelpDisplayed = false;
+				infoPage.removeChild(HelpContainer);
+				game.getStage().update();
+			}
+		}
+		
+		function Handle_I_Pressed() {
+			if (!CBMDisplayed) {
+				CBMDisplayed = true;
+				enableCBM();
+			}
+			else {
+				CBMDisplayed = false;
+				CBMReset();
+			}
+			
+			function enableCBM(){
+				CheckboxMenuBkgrd.style.display = 'inline';
+				CheckboxMenuAdd.style.display = 'inline';
+				CheckboxMenuDelete.style.display = 'inline';
+				CheckboxMenu.style.display = 'inline';
+				CBMBkgrd.addEventListener("mousedown", function(event) {
+					currentSelection = null;
+					/*console.log("ClientX: " + event.PageX);
+					console.log("ClientY: " + event.clientY);
+					console.log("CurrentTargetX: " + CBMBkgrd.style.left);
+					console.log("CurrentTargetY: " + CBMBkgrd.style.top);
+					xOffset = event.PageX;
+					xOffset = xOffset - CBMBkgrd.style.left;
+					yOffset = event.clientY + 'px' - CBMBkgrd.style.top;
+					console.log(xOffset);
+					console.log(yOffset);*/
+					window.addEventListener("mousemove", CBMHandleMove, true);
+					function CBMHandleMove(event) {
+						CBMBkgrd.style.position = 'absolute';
+						CBMBkgrd.style.top = event.clientY + 'px';
+						CBMBkgrd.style.left = event.clientX + 'px';
+						
+						CBM.style.position = 'absolute';
+						CBM.style.top = event.clientY + 20 + 'px';
+						CBM.style.left = event.clientX + 'px';
+						
+						CBMAdd.style.position = 'absolute';
+						CBMAdd.style.top = event.clientY + 172 + 'px';
+						CBMAdd.style.left = event.clientX -0.5 + 'px';
+						
+						CBMDelete.style.position = 'absolute';
+						CBMDelete.style.top = event.clientY + 172 + 'px';
+						CBMDelete.style.left = event.clientX + 61 + 'px';
+					}
+					
+					window.addEventListener("mouseup", CBMHandleMouseUp, false);
+					function CBMHandleMouseUp(event) {
+						console.log("RELEASED");
+						window.removeEventListener("mousemove", CBMHandleMove, true);
+						window.removeEventListener("mouseup", CBMHandleMouseUp, false);
+					}
+				});
+				console.log("THIS MAKES NO SENSE");
+				$("#CheckboxMenuDelete").on('click', function() { 
+					console.log("DELETE CLICKED");
+					var DelConfirm = confirm("Are you sure you want to permanently delete these from the manifest?");
+					if (DelConfirm) {
+						$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
+					}
+				});
+			}
+		}
+		
+		function Handle_M_Pressed() {
+			var upHeld = false;
+			var downHeld = false;
+			var leftHeld = false;
+			var rightHeld = false;
+			
+			HelpText.text =
+			"Up: Move Image Up\n"+
+			"Right: Move Image Right\n"+
+			"Down: Move Image Down\n"+
+			"Left: Move Image Left\n"+
+			"H: Toggle Help Menu\n"+
+			"M: Toggle Image Moving";
+			
+			if (!createjs.Ticker.hasEventListener("tick")) {
+				createjs.Ticker.setFPS(30);
+				console.log(createjs.Ticker.framerate);
+				createjs.Ticker.addEventListener("tick", tick);
+			}
+			
+			document.onkeydown = function(e) {
+				if (!e) {
+					var e = window.event;
+				}
+				switch (e.keyCode) {
+					case KEYCODE_UP:
+						console.log("Up pressed");
+						upHeld = true;
+						return false;
+					case KEYCODE_DOWN:
+						console.log("Down pressed");
+						downHeld = true;
+						return false;
+					case KEYCODE_LEFT:
+						console.log("Left pressed");
+						leftHeld = true;
+						return false;
+					case KEYCODE_RIGHT:
+						console.log("Right pressed");
+						rightHeld = true;
+						return false;
+					case KEYCODE_H:
+						console.log("H Pressed");
+						Handle_H_Pressed();
+						return false;
+					case KEYCODE_M:
+						console.log("M pressed");
+						document.onkeyup   = null;
+						document.onkeydown = handleKeyDown;
+						createjs.Ticker.removeAllEventListeners();
+						ResetHelpText();
+						game.getStage().update();
+						return false;
+				}
+			}
+			document.onkeyup = function(e) {
+				if (!e) {
+					var e = window.event;
+				}
+				switch (e.keyCode) {
+					case KEYCODE_UP:
+						console.log("Up released");
+						upHeld = false;
+						break;
+					case KEYCODE_DOWN:
+						console.log("Down released");
+						downHeld = false;
+						break;
+					case KEYCODE_LEFT:
+						console.log("Left released");
+						leftHeld = false;
+						break;
+					case KEYCODE_RIGHT:
+						console.log("Right released");
+						rightHeld = false;
+						break;
+				}
+			}
+			
+			function tick(event) {
+				if (upHeld) {
+					currentSelection.y-=5;
+				}
+				if (rightHeld) {
+					currentSelection.x-=-5;
+				}
+				if (leftHeld) {
+					currentSelection.x-=5;
+				}
+				if (downHeld) {
+					currentSelection.y-=-5;
+				}
+				game.getStage().update();
+			}
+		}
+		
+		function Handle_S_Pressed() {
+			var upHeld = false;
+			var downHeld = false;
+			
+			HelpText.text =
+			"Up: Scale Image Up\n"+
+			"Down: Scale Image Down\n"+
+			"H: Toggle Help Menu\n"+
+			"S: Toggle Image Scaling";
+			
+			if (!createjs.Ticker.hasEventListener("tick")) {
+				createjs.Ticker.setFPS(30);
+				console.log(createjs.Ticker.framerate);
+				createjs.Ticker.addEventListener("tick", tick);
+			}
+			
+			document.onkeydown = function(e) {
+				if (!e) {
+					var e = window.event;
+				}
+				switch (e.keyCode) {
+					case KEYCODE_UP:
+						console.log("Up pressed");
+						upHeld = true;
+						return false;
+					case KEYCODE_DOWN:
+						console.log("Down pressed");
+						downHeld = true;
+						return false;
+					case KEYCODE_H:
+						console.log("H Pressed");
+						Handle_H_Pressed();
+						return false;
+					case KEYCODE_S:
+						console.log("S pressed");
+						document.onkeyup   = null;
+						document.onkeydown = handleKeyDown;
+						createjs.Ticker.removeAllEventListeners();
+						ResetHelpText();
+						game.getStage().update();
+						return false;
+				}
+			}
+			document.onkeyup = function(e) {
+				if (!e) {
+					var e = window.event;
+				}
+				switch (e.keyCode) {
+					case KEYCODE_UP:
+						console.log("Up released");
+						upHeld = false;
+						break;
+					case KEYCODE_DOWN:
+						console.log("Down released");
+						downHeld = false;
+						break;
+				}
+			}
+			
+			function tick(event) {
+				if (upHeld) {
+					bounds = currentSelection.getBounds();
+					maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
+					console.log(maxBound);
+					if (maxBound < 200) {
+						currentSelection.scaleX = currentSelection.scaleBackX -= -.01;
+						currentSelection.scaleY = currentSelection.scaleBackY -= -.01;
+					}
+				}
+				if (downHeld) {
+					bounds = currentSelection.getBounds();
+					maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
+					if (maxBound > 50) {
+						currentSelection.scaleX = currentSelection.scaleBackX -= .01;
+						currentSelection.scaleY = currentSelection.scaleBackY -= .01;	
+					}
+				}
+				game.getStage().update();
+			}
 		}
 	}
 }

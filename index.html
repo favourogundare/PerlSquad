@@ -6,6 +6,10 @@
 	.hidden{
 		display : none;
 	}
+	.CBMBkgrd { border: 2px solid #ccc; background: #ddd; width: 120px; height: 165px; }
+	.CBM { border: 2px solid #ccc; background: #fff; position: absolute; top: 40px; left: 11px; width: 120px; height: 150px; overflow-x: scroll; overflow-y: scroll; }
+	.CBMAdd { background: #f44336; position: absolute; top: 192px; left: 10.5px; width: 62.75px; }
+	.CBMDel { background: #00e676; position: absolute; top: 192px; left: 72px; width: 62.75px; }
 	</style>
 	<!-- Game Engine Libraries ------------------------------------>
     <script src="javascripts/createjs-2015.11.26.min.js"></script>
@@ -43,5 +47,9 @@
     <input type = "button" class = "hidden" id = "AltBrowseButton" value = "Browse..." style = "position:absolute;left:360px;top:50px;" onclick = "document.getElementById('BrowseButton').click();"/>
 	<textarea class = "hidden" id = "ImageSource" placeholder = "Insert image link or filepath here." style = "position:absolute;left:85px;top:50px;width:275px; height:23px"></textarea>
     <textarea class = "hidden" id = "Description" placeholder = "Insert item description here." style = "position:absolute;left:85px;top:85px;width:350px; height:200px"></textarea>
+	<div style = "position: absolute; top: 20px; left: 11px;" class = "hidden CBMBkgrd" id="CheckboxMenuBkgrd"></div>
+	<button class="hidden CBMAdd" type="button" id="CheckboxMenuAdd">Add</button>
+	<button class="hidden CBMDel" type="button" id="CheckboxMenuDelete">Delete</button>
+	<div class="hidden CBM" id="CheckboxMenu"><div></div>
   </body>
 </html>
