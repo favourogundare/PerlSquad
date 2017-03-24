@@ -310,7 +310,7 @@ function eventScrollGame() {
             resetAnimal(bmp);
         }
 		var biomestuff = [good2, good1, bad2, bad1];
-		var infoText;
+		var infoText; 
 		biomestuff.forEach(function(item, index, array){		
 			item.on("rollover", function (evt) {
 				this.scaleX = this.scaleBackX * 1.1;
@@ -325,10 +325,6 @@ function eventScrollGame() {
 					} else if (index == 3){
 					infoText = new createjs.Text("   The armadillo has a shell of thick,\nleathery skin to protect it from predators.", "20px Arial", "#FFFFFF");
 					}
-					infoText.x = 250;
-					infoText.y = 50;
-					big_contain.addChild(infoText);
-					game.getStage().update();
 					
 				} else if (bioindex == 1){
 					if (index === 0) {
@@ -340,10 +336,6 @@ function eventScrollGame() {
 					} else if (index == 3){
 					infoText = new createjs.Text("   The white-tailed deer is commonly found\nin North America, but can also be found\nthroughout Central and South America.", "20px Arial", "#FFFFFF");
 					}	
-					infoText.x = 250;
-					infoText.y = 50;
-					big_contain.addChild(infoText);
-					game.getStage().update();
 					
 				} else if (bioindex == 2){
 					if (index === 0) {
@@ -355,10 +347,6 @@ function eventScrollGame() {
 					} else if (index == 3){
 					infoText = new createjs.Text("   The armadillo has a shell of thick,\nleathery skin to protect it from predators.", "20px Arial", "#FFFFFF");
 					}	
-					infoText.x = 250;
-					infoText.y = 50;
-					big_contain.addChild(infoText);
-					game.getStage().update();
 					
 				} else if (bioindex == 3){
 					if (index === 0) {
@@ -370,10 +358,6 @@ function eventScrollGame() {
 					} else if (index == 3){
 					infoText = new createjs.Text("   Unlike their cousins, squirrels, prarie dogs live\nunderground in burrows; they are called\n'dogs' because of their loud barking cry.", "20px Arial", "#FFFFFF");
 					}	
-					infoText.x = 250;
-					infoText.y = 50;
-					big_contain.addChild(infoText);
-					game.getStage().update();
 
 				} else if (bioindex == 4){
 					if (index === 0) {
@@ -385,30 +369,37 @@ function eventScrollGame() {
 					} else if (index == 3){
 					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
 					}
-					infoText.x = 350;
-					infoText.y = 250;
-					big_contain.addChild(infoText);
-					game.getStage().update();
 				}
+			infoText.x = 250;
+			infoText.y = 50;
+			infoText.color = "black";
+			infoTextInner = infoText.clone();
+			infoTextInner.color = "white";
+			infoTextInner.shadow = undefined;
+			infoTextInner.outline = false;
+			infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+			infoText.outline = 3;
+			big_contain.addChild(infoText, infoTextInner);
+			game.getStage().update();
 			});
 
 			item.on("rollout", function (evt) {
 				this.scaleX = this.scaleBackX;
 				this.scaleY = this.scaleBackY;
-				big_contain.removeChild(infoText);
+				big_contain.removeChild(infoText, infoTextInner);
 				game.getStage().update();
 			});
 		});
 		good1.x = 100; good1.y = 100;
         anim_contain.addChild(good1);
         big_contain.addChild(good1);
-		good2.x = 100; good1.y = 300;
+		good2.x = 100; good2.y = 300;
 		anim_contain.addChild(good2);
 		big_contain.addChild(good2);
-		bad1.x = 800; bad1.y = 100;
+		bad1.x = 850; bad1.y = 100;
 		anim_contain.addChild(bad1);
 		big_contain.addChild(bad1);
-		bad2.x = 800; bad2.y = 300;
+		bad2.x = 850; bad2.y = 300;
 		anim_contain.addChild(bad2);
 		big_contain.addChild(bad2);		
 		
