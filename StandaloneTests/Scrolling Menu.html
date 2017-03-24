@@ -4,7 +4,7 @@
 		<meta charset=utf-8 />
 		<script src="../javascripts/createjs-2015.11.26.min.js"></script>
 		<script src="../javascripts/jquery-3.1.1.min.js"></script>
-		<script type="text/javascript">
+		<script>
 			function init() {
 				var stage = new createjs.Stage("main");
 				//CheckboxMenuBkgrd = new createjs.Shape();
@@ -16,7 +16,7 @@
 			
 			
 			$(document).ready(function() {
-				var addFields       = 10;
+				var addFields       = 100000;
 				var currFields      = 10;
 				var newNumFields    = currFields + addFields;
 				var wrapper         = $(".container"); //Fields wrapper
@@ -29,10 +29,6 @@
 					$newField.append($InputText);
 					$(wrapper).append($newField);
 				}
-				
-				$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-					e.preventDefault(); $(this).parent('div').remove();
-				})
 			});
 			
 			console.log("Happened");
@@ -68,7 +64,7 @@
 		</script>
 		<style>
 			.containerBkgrd { border: 2px solid #ccc; background: #fff; position: absolute; top: 0px; left: 11px; width: 120px; height: 165px;}
-			.container { border: 2px solid #ccc; background: #fff; position: absolute; top: 20px; left: 11px; width: 120px; height: 150px; overflow-x: scroll; overflow-y: scroll;}
+			.container { border: 2px solid #ccc; background: #fff; position: absolute; top: 20px; left: 11px; width: 120px; height: 150px; overflow: auto;}
 		</style>
 	</head>
 	<body onload=init();>
