@@ -10,7 +10,7 @@ function eventInfoScreen(){
 	var back = new Image();
 	var prec, temp;
 	var bgrnd, precip, temperature, infoOK;
-	var infoText = new createjs.Text("", "20px Arial", "#FFFFFF");
+	var infoText = new createjs.Text();
 	
 	var infoPage = new createjs.Container();        
     game.getStage().enableMouseOver(10);
@@ -38,7 +38,7 @@ function eventInfoScreen(){
 			this.scaleY = this.scaleBackY * 1.1;
 			infoText.text = game.imageText[index][i];
 			infoText.font = "25px Arial";
-			infoText.color = "black"
+			infoText.color = "black";
 			infoText.x = 289;
 			infoText.y = 50;
 			infoTextInner = infoText.clone();

@@ -31,19 +31,28 @@ function eventEditGame() {
 	
 	document.onkeydown = handleKeyDown;
 	
-	var HelpText = new createjs.Text("", "24px Arial", "#FFFFFF");
+	var HelpText = new createjs.Text();
 	HelpText.textAlign    = "center";
 	HelpText.textBaseline = "middle";
 	HelpText.x = game.getStage().width/2;
 	HelpText.y = game.getStage().height/3;
+	HelpText.font = "25px Arial";
+	HelpText.color = "black";
+	HelpTextInner = HelpText.clone();
+	HelpTextInner.color = "white";
+	HelpTextInner.shadow = undefined;
+	HelpTextInner.outline = false;
+	HelpText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+	HelpText.outline = 3;
 	ResetHelpText();
 	
-	var infoText;
 	var InstructionText;
+	var InstructionTextInner;
 	var back = new Image();
 	var prec, temp;
 	var bgrnd, precip, temperature, infoOK;
-	var infoText = new createjs.Text("", "20px Arial", "#FFFFFF");
+	var infoText = new createjs.Text();
+	var infoTextInner;
 	
 	var infoPage = new createjs.Container();        
     game.getStage().enableMouseOver(10);
@@ -57,7 +66,7 @@ function eventEditGame() {
 	};
 	
 	function ResetHelpText() {
-		HelpText.text = 
+		HelpText.text = HelpTextInner.text =
 		"B: ChangeBiome\n"+
 		"H: Toggle Help Screen\n"+
 		"I: Toggle Image List\n"+
@@ -65,6 +74,7 @@ function eventEditGame() {
 		"S: Toggle Image Scaling\n"+
 		"T: Toggle Text Editing\n"+
 		"X: Exit Editing Menu";
+		
 	}
 	
 	function setImg (img, imgScale, imgX, imgY) {
@@ -86,16 +96,24 @@ function eventEditGame() {
 			img.scaleX = img.scaleBackX * 1.1;
 			img.scaleY = img.scaleBackY * 1.1;
 			infoText.text = game.imageText[index][i];
-			infoText.x = 350;
-			infoText.y = 250;
-			infoPage.addChild(infoText);
+			infoText.font = "25px Arial";
+			infoText.color = "black";
+			infoText.x = 289;
+			infoText.y = 50;
+			infoTextInner = infoText.clone();
+			infoTextInner.color = "white";
+			infoTextInner.shadow = undefined;
+			infoTextInner.outline = false;
+			infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+			infoText.outline = 3;
+			infoPage.addChild(infoText, infoTextInner);
 			game.getStage().update();
 		});
 		
 		img.addEventListener("pressup", function (event) {
 			img.scaleX = img.scaleBackX;
 			img.scaleY = img.scaleBackY;
-			infoPage.removeChild(infoText);
+			infoPage.removeChild(infoText, infoTextInner);
 			game.getStage().update();
 		});
 	}
@@ -132,14 +150,20 @@ function eventEditGame() {
 		infoOK.x = 890;
 		infoOK.y = 20;
 		
-		InstructionText = new createjs.Text("Press H for Help at any time", "36px Arial", "#FFFFFF");
+		InstructionText = new createjs.Text("Press H for Help at any time", "36px Arial", "black");
 		InstructionText.textAlign    = "center";
 		InstructionText.textBaseline = "middle";
 		InstructionText.x = game.getStage().width/2;
 		InstructionText.y = game.getStage().height-30;
+		InstructionTextInner = InstructionText.clone();
+		InstructionTextInner.color = "white";
+		InstructionTextInner.shadow = undefined;
+		InstructionTextInner.outline = false;
+		InstructionText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+		InstructionText.outline = 3;
 		
 		infoPage.addChild(temperature, precip, infoOK);       
-		game.getStage().addChild(infoPage, InstructionText);
+		game.getStage().addChild(infoPage, InstructionText, InstructionTextInner);
 		game.getStage().update();
 	}
 	
@@ -268,7 +292,7 @@ function eventEditGame() {
 				HelpBkgrd = new createjs.Shape();
 				HelpBkgrd.graphics.beginFill("#212121").drawRect(game.getStage().width/2 - 242.5, game.getStage().height/3 - 30, 485, 210);
 				
-				HelpContainer.addChild(HelpBkgrd, HelpText);
+				HelpContainer.addChild(HelpBkgrd, HelpText, HelpTextInner);
 				infoPage.addChild(HelpContainer);
 				game.getStage().update();
 			}
@@ -348,7 +372,7 @@ function eventEditGame() {
 			var leftHeld = false;
 			var rightHeld = false;
 			
-			HelpText.text =
+			HelpText.text = HelpTextInner.text =
 			"Up: Move Image Up\n"+
 			"Right: Move Image Right\n"+
 			"Down: Move Image Down\n"+
@@ -434,7 +458,9 @@ function eventEditGame() {
 				if (downHeld) {
 					currentSelection.y-=-5;
 				}
-				game.getStage().update();
+				if (upHeld || rightHeld || leftHeld || downHeld) {
+					game.getStage().update();
+				}
 			}
 		}
 		
@@ -442,7 +468,7 @@ function eventEditGame() {
 			var upHeld = false;
 			var downHeld = false;
 			
-			HelpText.text =
+			HelpText.text = HelpTextInner.text =
 			"Up: Scale Image Up\n"+
 			"Down: Scale Image Down\n"+
 			"H: Toggle Help Menu\n"+
@@ -515,7 +541,9 @@ function eventEditGame() {
 						currentSelection.scaleY = currentSelection.scaleBackY -= .01;	
 					}
 				}
-				game.getStage().update();
+				if (upHeld || downHeld) {
+					game.getStage().update();
+				}
 			}
 		}
 	}
