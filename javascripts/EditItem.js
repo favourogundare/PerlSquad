@@ -5,6 +5,7 @@
 function eventEditGame() {
 	console.log("editing");
 	var KEYCODE_B     = 66;
+	var KEYCODE_D     = 68;
 	var KEYCODE_H     = 72;
 	var KEYCODE_I     = 73;
 	var KEYCODE_M     = 77;
@@ -68,6 +69,7 @@ function eventEditGame() {
 	function ResetHelpText() {
 		HelpText.text = HelpTextInner.text =
 		"B: ChangeBiome\n"+
+		"D: Delete Image\n"+
 		"H: Toggle Help Screen\n"+
 		"I: Toggle Image List\n"+
 		"M: Toggle Image Moving\n"+
@@ -128,11 +130,12 @@ function eventEditGame() {
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
 			setSelectEffects(newImage, index, i);
-			var $newField = $('<div/>', { style: "overflow: hidden" });
+			var $newField = $('<div/>', { id: newImage.name, style: "overflow: hidden" });
 			var $InputText = $('<label/>', { style: "display: inline-block" }).html(newImage.name).prepend($('<input/>').attr({ class: 'checkbox', type: 'checkbox'}));
 			$newField.append($InputText);
 			$("#CheckboxMenu").append($newField);
 		}
+		console.log(infoPage);
 		
 		//set temp and prec
 		precip      = new createjs.Bitmap(prec);
@@ -203,6 +206,15 @@ function eventEditGame() {
 				game.getStage().removeChild(infoPage, InstructionText);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
 				eventMoveAroundEarth();
+				return false;
+			case KEYCODE_D:
+				console.log("D pressed");
+				if (currentSelection) {
+					Handle_D_Pressed();
+				}
+				else {
+					alert("No image selected. Please Select an image first");
+				}
 				return false;
 			case KEYCODE_H:
 				console.log("H pressed");
@@ -283,6 +295,12 @@ function eventEditGame() {
 			CBMDelete.style.left = "72px";
 		}
 		
+		function Handle_D_Pressed() {
+			infoPage.removeChild(currentSelection);
+			currentSelection = null;
+			game.getStage().update();
+		}
+		
 		function Handle_H_Pressed() {
 			var HelpBkgrd;
 			if (HelpDisplayed === false) {
@@ -290,7 +308,7 @@ function eventEditGame() {
 				HelpDisplayed = true;
 				
 				HelpBkgrd = new createjs.Shape();
-				HelpBkgrd.graphics.beginFill("#212121").drawRect(game.getStage().width/2 - 242.5, game.getStage().height/3 - 30, 485, 210);
+				HelpBkgrd.graphics.beginFill("#212121").drawRect(game.getStage().width/2 - 242.5, game.getStage().height/3 - 40, 485, 250);
 				
 				HelpContainer.addChild(HelpBkgrd, HelpText, HelpTextInner);
 				infoPage.addChild(HelpContainer);
@@ -356,10 +374,25 @@ function eventEditGame() {
 					}
 				});
 				console.log("THIS MAKES NO SENSE");
+				$("#CheckboxMenuAdd").on('click', function() { 
+					console.log("ADD CLICKED");
+					$(".checkbox").prop('checked', false);
+				});
 				$("#CheckboxMenuDelete").on('click', function() { 
 					console.log("DELETE CLICKED");
 					var DelConfirm = confirm("Are you sure you want to permanently delete these from the manifest?");
 					if (DelConfirm) {
+						//console.log(document.getElementsByName());
+						var DeleteList = [];
+						$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
+							DeleteList.push($(this).parent()[0].innerText);
+						});
+						console.log(DeleteList);
+						for (var i = 0; i < DeleteList.length; i++) {
+							infoPage.removeChild(infoPage.getChildByName(DeleteList[i]));
+						}
+						game.getStage().update();
+						console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
 						$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
 					}
 				});
@@ -446,20 +479,22 @@ function eventEditGame() {
 			}
 			
 			function tick(event) {
-				if (upHeld) {
-					currentSelection.y-=5;
-				}
-				if (rightHeld) {
-					currentSelection.x-=-5;
-				}
-				if (leftHeld) {
-					currentSelection.x-=5;
-				}
-				if (downHeld) {
-					currentSelection.y-=-5;
-				}
-				if (upHeld || rightHeld || leftHeld || downHeld) {
-					game.getStage().update();
+				if (HelpDisplayed === false) {
+					if (upHeld) {
+						currentSelection.y-=5;
+					}
+					if (rightHeld) {
+						currentSelection.x-=-5;
+					}
+					if (leftHeld) {
+						currentSelection.x-=5;
+					}
+					if (downHeld) {
+						currentSelection.y-=-5;
+					}
+					if (upHeld || rightHeld || leftHeld || downHeld) {
+						game.getStage().update();
+					}
 				}
 			}
 		}
@@ -524,25 +559,27 @@ function eventEditGame() {
 			}
 			
 			function tick(event) {
-				if (upHeld) {
-					bounds = currentSelection.getBounds();
-					maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
-					console.log(maxBound);
-					if (maxBound < 200) {
-						currentSelection.scaleX = currentSelection.scaleBackX -= -.01;
-						currentSelection.scaleY = currentSelection.scaleBackY -= -.01;
+				if (HelpDisplayed === false) {
+					if (upHeld) {
+						bounds = currentSelection.getBounds();
+						maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
+						console.log(maxBound);
+						if (maxBound < 200) {
+							currentSelection.scaleX = currentSelection.scaleBackX -= -.01;
+							currentSelection.scaleY = currentSelection.scaleBackY -= -.01;
+						}
 					}
-				}
-				if (downHeld) {
-					bounds = currentSelection.getBounds();
-					maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
-					if (maxBound > 50) {
-						currentSelection.scaleX = currentSelection.scaleBackX -= .01;
-						currentSelection.scaleY = currentSelection.scaleBackY -= .01;	
+					if (downHeld) {
+						bounds = currentSelection.getBounds();
+						maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
+						if (maxBound > 50) {
+							currentSelection.scaleX = currentSelection.scaleBackX -= .01;
+							currentSelection.scaleY = currentSelection.scaleBackY -= .01;	
+						}
 					}
-				}
-				if (upHeld || downHeld) {
-					game.getStage().update();
+					if (upHeld || downHeld) {
+						game.getStage().update();
+					}
 				}
 			}
 		}
