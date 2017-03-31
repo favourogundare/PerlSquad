@@ -59,7 +59,7 @@ function eventHelpPage() {
 		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 		
 		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
+		var HelpSubPageText = new createjs.Text("Click 'Options', then 'Edit Images' \n\nClick 'Browse' to choose the image file\n\n Click 'Upload' to load\n\n'Done' when finished \n\n\n\n Double Click Black Box Text Box to Exit", "30px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
@@ -82,7 +82,7 @@ function eventHelpPage() {
 		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
 		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
+		var HelpSubPageText = new createjs.Text("Click 'Options', then 'Edit Images' \n\nClick 'Browse' to choose the image file\n\n Click 'Upload' to load\n\n'Done' when finished \n\n\n\n Double Click Black Box Text Box to Exit", "30px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
@@ -103,31 +103,14 @@ function eventHelpPage() {
 
 		var help_subcontainer_background = new createjs.Shape();
 		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
-
-		//ffffff
-		//D3D3D3
 		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
-		
-		/* Doesnt work
-		//get by id
-        var imageTest = getPreload().getResult("HPTest1");
-        var helpPagePic = new createjs.Bitmap(imageTest);
-        console.log(helpPagePic);
-        //reset bounds
-        var bounds = helpPagePic.getBounds();
-        //helpPagePic.scaleY = 100/bounds.height;
-        //helpPagePic.scaleX = 100/bounds.width;
-		helpPagePic.x = 50;
-		helpPagePic.y = 25;
-		*/
-
-		var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#ffffff");
+		var HelpSubPageText = new createjs.Text("Click 'Start', then 'Default' To Play \n\nClick 'Browse' to load a different game file\n\n Click 'Upload' to load\n\n Then 'Done' when finished \n\n\n\n Double Click Black Box Text Box to Exit", "30px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
 		HelpSubPageText.textBaseline = "middle";
 
-		help_subcontainer.addChild(helpPagePic, help_subcontainer_background, HelpSubPageText);
+		help_subcontainer.addChild(help_subcontainer_background, HelpSubPageText);
 		help_container.addChild(help_subcontainer);
 		game.getStage().update();
 	}
