@@ -216,8 +216,9 @@ function Game(easelStage) {
 	"150\n"+
 	"480\n"+
 	"200\n"+
-	"1\n"+
+	"2\n"+
 	"   The black bear is the world's most common species of bear; there are over twice as many black bears as all other species combined.\n"+
+	"	DUMMY TEXT\n"+
 	"./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png\n"+
 	"White-tailed Deer\n"+
 	"190\n"+

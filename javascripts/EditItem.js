@@ -29,6 +29,7 @@ function eventEditGame() {
 	var CBMAdd    = document.getElementById("CheckboxMenuAdd");
 	var CBMDelete = document.getElementById("CheckboxMenuDelete");
 	var HelpContainer;
+	var ManifestBiomeSection;
 	
 	document.onkeydown = handleKeyDown;
 	
@@ -57,6 +58,8 @@ function eventEditGame() {
 	
 	var infoPage = new createjs.Container();        
     game.getStage().enableMouseOver(10);
+	
+	getManifestBiomeSection();
 
 	prec = new Image();
 	prec.src = "Pictures/icons/precipitation.png";
@@ -65,6 +68,81 @@ function eventEditGame() {
 		temp.src = "Pictures/icons/temperature.png";
 		temp.onload = setInfoBG;
 	};
+	
+	function getManifestBiomeSection() {
+		var lines = game.workingManifest.split("\n");
+		var BiomeSectionNum = 0;
+		for (var i=0; i<lines.length; i++) {
+			if (isNumber(lines[i])) {
+				console.log("New Biome!!!!!!!!!");
+				BiomeSectionNum++;
+				if (BiomeSectionNum != game.currentBiome.num) {
+					numImages = lines[i];
+					console.log("NumImages: "+numImages);
+					i++;
+					while(numImages>0) {
+						i+=5;
+						numDescriptions = lines[++i];
+						console.log("numDescriptions = " + numDescriptions);
+						while(numDescriptions>0) {
+							i++;
+							numDescriptions--;
+						}
+						numImages--;
+					}
+					i+=4;
+					var numPrecDescriptions = lines[i];
+					while (numPrecDescriptions>0) {
+						i++;
+						numPrecDescriptions--;
+					}
+					i+=4;
+					var numTempDescriptions = lines[i];
+					while (numTempDescriptions>0) {
+						i++;
+						numTempDescriptions--;
+					}
+				}
+				else {
+					ManifestBiomeSection = lines[i];
+					numImages = lines[i];
+					console.log("NumImages: "+numImages);
+					ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+					
+					while(numImages>0) {
+						for (var j=0; j<5; j++) {
+							ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+						}
+						numDescriptions = lines[++i];
+						console.log("numDescriptions = " + numDescriptions);
+						while(numDescriptions>0) {
+							ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+							numDescriptions--;
+						}
+						numImages--;
+					}
+					for (var j=0; j<4; j++) {
+						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+					}
+					var numPrecDescriptions = lines[i];
+					while (numPrecDescriptions>0) {
+						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+						numPrecDescriptions--;
+					}
+					for(var j=0; j<4; j++) {
+						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+					}
+					var numTempDescriptions = lines[i];
+					while (numTempDescriptions>0) {
+						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+						numTempDescriptions--;
+					}
+				}
+			}
+		}
+		console.log("HERE'S THE MANIFEST BIOME SECTION:");
+		console.log(ManifestBiomeSection);
+	}
 	
 	function ResetHelpText() {
 		HelpText.text = HelpTextInner.text =
@@ -203,7 +281,7 @@ function eventEditGame() {
 				console.log("B pressed");
 				document.onkeydown = null;
 				CBMReset();
-				game.getStage().removeChild(infoPage, InstructionText);
+				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
 				eventMoveAroundEarth();
 				return false;
@@ -264,7 +342,7 @@ function eventEditGame() {
 				console.log("X pressed");
 				document.onkeydown = null;
 				CBMReset();
-				game.getStage().removeChild(infoPage, InstructionText);
+				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
 				eventOptionsMenu();
 				return false;
@@ -452,6 +530,9 @@ function eventEditGame() {
 						ResetHelpText();
 						game.getStage().update();
 						return false;
+					case KEYCODE_B: case KEYCODE_D: case KEYCODE_I: case KEYCODE_S: case KEYCODE_T: case KEYCODE_X:
+						alert("Currently in Move Mode... Please Press M to toggle off before attempting to access a separate mode!!!")
+						return false;
 				}
 			}
 			document.onkeyup = function(e) {
@@ -540,6 +621,9 @@ function eventEditGame() {
 						ResetHelpText();
 						game.getStage().update();
 						return false;
+					case KEYCODE_B: case KEYCODE_D: case KEYCODE_I: case KEYCODE_M: case KEYCODE_T: case KEYCODE_X:
+						alert("Currently in Scale Mode... Please Press S to toggle off before attempting to access a separate mode!!!")
+						return false;
 				}
 			}
 			document.onkeyup = function(e) {
@@ -583,8 +667,12 @@ function eventEditGame() {
 				}
 			}
 		}
+		function Handle_T_Pressed() {
+			alert("Text editing currently not implemented... Stay tuned...");
+		}
 	}
 }
+
 
 /**
  *  Add existing [I]mages/remove from manifest

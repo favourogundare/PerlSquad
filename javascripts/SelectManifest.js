@@ -72,7 +72,7 @@ function eventSelectManifest(purpose) {
 	 */
 	function getUploadedManifest() {
 		if (!window.FileReader) {
-			alert('Your browser is not supported');
+			alert('Your browser is not supported... try a different browser.');
 			return false;
 		}
 		
@@ -103,15 +103,6 @@ function eventSelectManifest(purpose) {
 				parseManifest(file);
 			}
 		}
-	}
-	
-	/**
-	 *  @function isNumber
-	 *  @param n
-	 *  Checks if a value is a number
-	 */
-	function isNumber(n) {
-		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 	
 	/**
@@ -244,6 +235,14 @@ function prettifyText(inputText) {
 	return inputText;
 }
 
+/**
+	 *  @function isNumber
+	 *  @param n
+	 *  Checks if a value is a number
+	 */
+	function isNumber(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 
 
 

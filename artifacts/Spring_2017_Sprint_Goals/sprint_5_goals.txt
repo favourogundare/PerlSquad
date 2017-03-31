@@ -1,0 +1,15 @@
+Alex:
+Finish customization button actions
+
+Eric:
+Improve minigame instructions
+
+Brian:
+Manifest modification
+
+Rob:
+Use manifest to load text
+
+Favour:
+Help Screen
+
