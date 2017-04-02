@@ -326,70 +326,28 @@ function eventScrollGame() {
             var bmp = bmpList[i];
             resetAnimal(bmp);
         }
-		var biomestuff = [good2, good1, bad2, bad1];
-		var infoText; 
-		biomestuff.forEach(function(item, index, array){		
-			item.on("rollover", function (evt) {
-				this.scaleX = this.scaleBackX * 1.1;
-				this.scaleY = this.scaleBackY * 1.1;
-				if (bioindex === 0){
-					if (index === 0) {
-					infoText = new createjs.Text("   Salamanders are amphibians that can\nregenerate body parts that they have lost.", "20px Arial", "#FFFFFF");
-					} else if (index == 1){
-					infoText = new createjs.Text("   The white-tailed deer is commonly found\nin North America, but can also be found\nthroughout Central and South America.", "20px Arial", "#FFFFFF");
-					} else if (index == 2){
-					infoText = new createjs.Text("   The tiny sand cat is the only cat\nexclusively native to the desert; its feet\nhas thick fur to help it travel across the sand.", "20px Arial", "#FFFFFF");
-					} else if (index == 3){
-					infoText = new createjs.Text("   The armadillo has a shell of thick,\nleathery skin to protect it from predators.", "20px Arial", "#FFFFFF");
-					}
-					
-				} else if (bioindex == 1){
-					if (index === 0) {
-					infoText = new createjs.Text("   The tiny sand cat is the only cat\nexclusively native to the desert; its feet\nhas thick fur to help it travel across the sand.", "20px Arial", "#FFFFFF");
-					} else if (index == 1){
-					infoText = new createjs.Text("   The armadillo has a shell of thick,\nleathery skin to protect it from predators.", "20px Arial", "#FFFFFF");
-					} else if (index == 2){
-					infoText = new createjs.Text("   Salamanders are amphibians that can\nregenerate body parts that they have lost.", "20px Arial", "#FFFFFF");
-					} else if (index == 3){
-					infoText = new createjs.Text("   The white-tailed deer is commonly found\nin North America, but can also be found\nthroughout Central and South America.", "20px Arial", "#FFFFFF");
-					}	
-					
-				} else if (bioindex == 2){
-					if (index === 0) {
-					infoText = new createjs.Text("   Bees are a social insect that can live\nin colonies with up to 50 others; they\nfeed on nectar from flowers.", "20px Arial", "#FFFFFF");
-					} else if (index == 1){
-					infoText = new createjs.Text("   Unlike their cousins, squirrels, prarie dogs live\nunderground in burrows; they are called\n'dogs' because of their loud barking cry.", "20px Arial", "#FFFFFF");
-					} else if (index == 2){
-					infoText = new createjs.Text("   The tiny sand cat is the only cat\nexclusively native to the desert; its feet\nhas thick fur to help it travel across the sand.", "20px Arial", "#FFFFFF");
-					} else if (index == 3){
-					infoText = new createjs.Text("   The armadillo has a shell of thick,\nleathery skin to protect it from predators.", "20px Arial", "#FFFFFF");
-					}	
-					
-				} else if (bioindex == 3){
-					if (index === 0) {
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
-					} else if (index == 1){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
-					} else if (index == 2){
-					infoText = new createjs.Text("   Bees are a social insect that can live\nin colonies with up to 50 others; they\nfeed on nectar from flowers.", "20px Arial", "#FFFFFF");
-					} else if (index == 3){
-					infoText = new createjs.Text("   Unlike their cousins, squirrels, prarie dogs live\nunderground in burrows; they are called\n'dogs' because of their loud barking cry.", "20px Arial", "#FFFFFF");
-					}	
 
-				} else if (bioindex == 4){
-					if (index === 0) {
-					infoText = new createjs.Text("   Trout and salmon are a common freshwater\nfish and are an important food source for\nbears and birds of prey.", "20px Arial", "#FFFFFF");
-					} else if (index == 1){
-					infoText = new createjs.Text("   The arctic hare has thick fur for both warmth and\ncamoflage, and can run at speeds up to 40mph.", "20px Arial", "#FFFFFF");
-					} else if (index == 2){
-					infoText = new createjs.Text("   The rainforest is home to a large\nvariety of butterflies that don't live\nanywhere else in the world.", "20px Arial", "#FFFFFF");
-					} else if (index == 3){
-					infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#FFFFFF");
-					}
-				}
-			infoText.x = 250;
-			infoText.y = 50;
+		var infoText = new createjs.Text();
+		var infoTextInner
+		
+	function setImg (img, imgX, imgY) {
+		var bounds = img.getBounds();
+		var maxBound = Math.max(bounds.height, bounds.width);
+		img.scaleX = img.scaleBackX = 140/maxBound;
+		img.scaleY = img.scaleBackY = 140/maxBound;
+		img.x = imgX;
+		img.y = imgY;
+	}
+	
+	function setHoverEffects(img, index, i) {
+		img.on("rollover", function (event) {
+			this.scaleX = this.scaleBackX * 1.1;
+			this.scaleY = this.scaleBackY * 1.1;
+			infoText.text = game.imageText[index][i];
+			infoText.font = "25px Arial";
 			infoText.color = "black";
+			infoText.x = 250;
+			infoText.y = 10;
 			infoTextInner = infoText.clone();
 			infoTextInner.color = "white";
 			infoTextInner.shadow = undefined;
@@ -398,29 +356,36 @@ function eventScrollGame() {
 			infoText.outline = 3;
 			big_contain.addChild(infoText, infoTextInner);
 			game.getStage().update();
-			});
-
-			item.on("rollout", function (evt) {
-				this.scaleX = this.scaleBackX;
-				this.scaleY = this.scaleBackY;
-				big_contain.removeChild(infoText, infoTextInner);
-				game.getStage().update();
-			});
 		});
-		good1.x = 100; good1.y = 100;
-        anim_contain.addChild(good1);
-        big_contain.addChild(good1);
-		good2.x = 100; good2.y = 300;
-		anim_contain.addChild(good2);
-		big_contain.addChild(good2);
-		bad1.x = 850; bad1.y = 100;
-		anim_contain.addChild(bad1);
-		big_contain.addChild(bad1);
-		bad2.x = 850; bad2.y = 300;
-		anim_contain.addChild(bad2);
-		big_contain.addChild(bad2);		
 		
-        game.getStage().update();
+		img.on("rollout", function (event) {
+			this.scaleX = this.scaleBackX;
+			this.scaleY = this.scaleBackY;
+			big_contain.removeChild(infoText, infoTextInner);
+			game.getStage().update();
+		});
+	}
+	
+	function setBiomeInfo() {
+		for (var i=1; i<3; i++) {
+			var newImage = new createjs.Bitmap(game.assets[bioindex][i].result);
+			big_contain.addChild(newImage);
+			setImg(newImage, 85, 100 + 200 * (i-1) );
+			setHoverEffects(newImage, bioindex, i);
+		}
+		for (var i=1; i<3; i++) {
+			var newImage = new createjs.Bitmap(game.assets[bad_bio][i].result);
+			big_contain.addChild(newImage);
+			setImg(newImage, 775, 100 + 200 * (i-1) );
+			setHoverEffects(newImage, bad_bio, i);
+		}
+
+		//game.getStage().addChild(big_contain);
+		game.getStage().update();
+	}
+
+		setBiomeInfo();
+		
         big_contain.on("click", function(event) {
 	    var additionalInfo = {};
 	    additionalInfo["biome"] = game.currentBiome.name;
