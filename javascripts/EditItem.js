@@ -1,4 +1,4 @@
-/**
+/**currcurr
  *  @function eventEditGame
  *  section to edit the items already in the game.
  */
@@ -25,6 +25,7 @@ function eventEditGame() {
 	var HelpDisplayed = false;
     var CBMDisplayed  = false;
     var editInfoBox = document.getElementById("EditInfoDiv");
+    var editInfoBoxOpen = false;
 	var CBMBkgrd  = document.getElementById("CheckboxMenuBkgrd");
 	var CBM       = document.getElementById("CheckboxMenu");
 	var CBMAdd    = document.getElementById("CheckboxMenuAdd");
@@ -164,7 +165,7 @@ function eventEditGame() {
 		img.scaleX = img.scaleBackX = imgScale/maxBound;
 		img.scaleY = img.scaleBackY = imgScale/maxBound;
 		img.x = imgX;
-		img.y = imgY;
+	    img.y = imgY;
 	}
 	
 	function setSelectEffects(img, index, i) {
@@ -205,7 +206,8 @@ function eventEditGame() {
 		var index = game.currentBiome.num-1;
 		for (var i=0; i<game.displayedImageNum[index]; i++) {
 			var newImage = new createjs.Bitmap(game.assets[index][i].result);
-			newImage.name = game.assets[index][i].item.id;
+		    newImage.name = game.assets[index][i].item.id;
+		    newImage.number = i;
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
 			setSelectEffects(newImage, index, i);
@@ -277,6 +279,7 @@ function eventEditGame() {
 		if (!e) {
 			var e = window.event;
 		}
+	    if (editInfoBoxOpen == true) return;
 		switch (e.keyCode) {
 			case KEYCODE_B:
 				console.log("B pressed");
@@ -668,13 +671,35 @@ function eventEditGame() {
 				}
 			}
 		}
+
+	    function closeEditInfoBox() {
+		editInfoBoxOpen = false;
+		EditInfoDiv.style.display = "none";
+	    }
+
+	    function submitChange() {
+		// Save the new text
+		game.imageText[game.currentBiome.num-1][currentSelection.number] =
+		    EditInfoDiv.children[0].value;
+		closeEditInfoBox();
+	    }
+	    
 	    function Handle_T_Pressed() {
+		// I tried doing this from HTML instead but had trouble
+		EditInfoDiv.children[0].value = infoText.text;
+		var changeInfoButton = EditInfoDiv.children[1];
+		changeInfoButton.addEventListener("click", submitChange);
+		var cancelButton = EditInfoDiv.children[2];
+		cancelButton.addEventListener("click", closeEditInfoBox);
+		var itemLabel = EditInfoDiv.children[3];
+		itemLabel.innerHTML = currentSelectionID;
+		editInfoBoxOpen = true;
 		EditInfoDiv.style.display = "inline";
-		EditInfoDiv.style.position = 'absolute';
 //				editInfoBox.style.display = "inline";
 //		    var person = prompt("Please edit the text", infoText);
-		}
+	    }
 	}
+
 }
 
 
