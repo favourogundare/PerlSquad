@@ -6,7 +6,7 @@
 	.hidden{
 		display : none;
 	}
-	.edit-info { border: 2px solid #ccc; background: #ddd; width: 300px; height: 200px;}
+	.edit-info { border: 2px solid #ccc; background: #ddd;}
 	.CBMBkgrd { border: 2px solid #ccc; background: #ddd; width: 120px; height: 165px; }
 	.CBMBkgrd { border: 2px solid #ccc; background: #ddd; width: 120px; height: 165px; }
 	.CBM { border: 2px solid #ccc; background: #fff; position: absolute; top: 40px; left: 11px; width: 120px; height: 150px; overflow-x: scroll; overflow-y: scroll; }
@@ -54,10 +54,12 @@
 	<button class="hidden CBMDel" type="button" id="CheckboxMenuDelete">Delete</button>
 	<div class="hidden CBM" id="CheckboxMenu"></div>
 	<div style = "position: absolute; top: 20px; left: 11px;" class = "hidden edit-info" id="EditInfoDiv">
-	  <h3>Edit Info</h3>
-	  <textarea rows="4" cols="24" style="font-size: 18px;"></textarea>
+	  <textarea rows="5" cols="24" style="font-size: 18px; display: block;"></textarea>
+	  <button type="button" style="font-size: 18px;">Change Info</button>
+	  <button type="button" style="font-size: 18px;">Cancel</button>
+	
 	</div>
-<!--	    <input type="text" id="EditInfoInput"/> -->
-<!--	    <input type="submit" id="EditInfoButton" value="Change" onclick="change()"/> -->
+<!--          <input type="submit" id="EditInfoButton" value="Change" onclick="change()"/>	  -->
+	<!--	    <input type="text" id="EditInfoInput"/> -->
   </body>
 </html>
