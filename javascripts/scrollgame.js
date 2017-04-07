@@ -138,13 +138,13 @@ function eventScrollGame() {
         bgrnd = new createjs.Bitmap(bg);
         game.getStage().addChild(bgrnd, big_contain);
 		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
-		var instruct_text = new createjs.Text("Click on the Animals that belong in the biome!\n", "32px Arial", "white");
+		var instruct_text = new createjs.Text("Click on the Animals that belong in the biome!\nThe animals will speed up over time\n", "28px Arial", "white");
 		instruct_text.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 		start_text.x = game.getStage().width/2 - 135;
 		start_text.y = game.getStage().height/3 - 10;
 		start_text.align = "center";
 		instruct_text.x = game.getStage().width/4 - 40;
-		instruct_text.y = game.getStage().height - 80;
+		instruct_text.y = 60;
 		instruct_text.align = "center";
 		var start_box = new createjs.Shape();
 		start_box.shadow = new createjs.Shadow("#000000", 5, 5, 10);
