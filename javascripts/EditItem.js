@@ -670,8 +670,7 @@ function eventEditGame() {
 		}
 	    function Handle_T_Pressed() {
 		EditInfoDiv.style.display = "inline";
-		
-
+		EditInfoDiv.style.position = 'absolute';
 //				editInfoBox.style.display = "inline";
 //		    var person = prompt("Please edit the text", infoText);
 		}
