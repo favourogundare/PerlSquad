@@ -6,6 +6,7 @@
 	.hidden{
 		display : none;
 	}
+	.edit-info { border: 2px solid #ccc; background: #ddd; width: 300px; height: 200px;}
 	.CBMBkgrd { border: 2px solid #ccc; background: #ddd; width: 120px; height: 165px; }
 	.CBM { border: 2px solid #ccc; background: #fff; position: absolute; top: 40px; left: 11px; width: 120px; height: 150px; overflow-x: scroll; overflow-y: scroll; }
 	.CBMAdd { background: #f44336; position: absolute; top: 192px; left: 10.5px; width: 62.75px; }
@@ -51,5 +52,11 @@
 	<button class="hidden CBMAdd" type="button" id="CheckboxMenuAdd">Add</button>
 	<button class="hidden CBMDel" type="button" id="CheckboxMenuDelete">Delete</button>
 	<div class="hidden CBM" id="CheckboxMenu"><div></div>
+	  	<div style = "position: absolute; top: 20px; left: 11px;" class = "hidden CBMBkgrd" id="EditInfoDiv"></div>
+
+
+<!--	    <input type="text" id="EditInfoInput"/> -->
+<!--	    <input type="submit" id="EditInfoButton" value="Change" onclick="change()"/> -->
+	  </div>
   </body>
 </html>

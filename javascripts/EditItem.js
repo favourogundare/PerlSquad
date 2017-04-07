@@ -23,7 +23,8 @@ function eventEditGame() {
 	var xOffset;
 	var yOffset;
 	var HelpDisplayed = false;
-	var CBMDisplayed  = false;
+    var CBMDisplayed  = false;
+    var editInfoBox = document.getElementById("EditInfoDiv");
 	var CBMBkgrd  = document.getElementById("CheckboxMenuBkgrd");
 	var CBM       = document.getElementById("CheckboxMenu");
 	var CBMAdd    = document.getElementById("CheckboxMenuAdd");
@@ -663,12 +664,16 @@ function eventEditGame() {
 					}
 					if (upHeld || downHeld) {
 						game.getStage().update();
-					}
+				x	}
 				}
 			}
 		}
-		function Handle_T_Pressed() {
-			alert("Text editing currently not implemented... Stay tuned...");
+	    function Handle_T_Pressed() {
+		EditInfoDiv.style.display = "inline";
+		
+
+//				editInfoBox.style.display = "inline";
+//		    var person = prompt("Please edit the text", infoText);
 		}
 	}
 }
