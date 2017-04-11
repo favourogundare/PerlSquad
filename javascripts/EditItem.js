@@ -1,6 +1,8 @@
 /**currcurr
  *  @function eventEditGame
- *  section to edit the items already in the game.
+ *  Section to add/remove images from the
+ *  game and/or manifest. Also allows the
+ *  user to edit the images in the game.
  */
 function eventEditGame() {
 	console.log("editing");
@@ -17,61 +19,67 @@ function eventEditGame() {
 	var KEYCODE_DOWN  = 40;
 	var KEYCODE_LEFT  = 37;
 	var KEYCODE_RIGHT = 39;
-	var editingStage;
 	var currentSelection;
-	var currentSelectionID;
-	var xOffset;
-	var yOffset;
-	var HelpDisplayed = false;
-    var CBMDisplayed  = false;
+	var HelpDisplayed     = false;
+    var CBMDisplayed      = false;
+	var BiomeSectionSplit = false;
+    var editInfoBoxOpen   = false;
     var editInfoBox = document.getElementById("EditInfoDiv");
-    var editInfoBoxOpen = false;
-	var CBMBkgrd  = document.getElementById("CheckboxMenuBkgrd");
-	var CBM       = document.getElementById("CheckboxMenu");
-	var CBMAdd    = document.getElementById("CheckboxMenuAdd");
-	var CBMDelete = document.getElementById("CheckboxMenuDelete");
+	var CBMBkgrd    = document.getElementById("CheckboxMenuBkgrd");
+	var CBM         = document.getElementById("CheckboxMenu");
+	var CBMAdd      = document.getElementById("CheckboxMenuAdd");
+	var CBMDelete   = document.getElementById("CheckboxMenuDelete");
 	var HelpContainer;
 	var ManifestBiomeSection;
+	var ManifestImageSection;
+	var ManifestBiomeSectionBeforeSplit;
+	var ManifestBiomeSectionAfterSplit;
+	var ImagesOnScreen    = [];
+	var ImagesNotOnScreen = [];
+	var TextOnScreen      = [];
+	var InstructionText, InstructionTextInner;
+	var prec, temp;
+	var bgrnd, precip, temperature, infoOK;
+	var back     = new Image();
+	var infoText = new createjs.Text();
+	var infoTextInner;
+	var infoPage = new createjs.Container();
+	
+	game.getStage().enableMouseOver(10);
 	
 	document.onkeydown = handleKeyDown;
 	
 	var HelpText = new createjs.Text();
-	HelpText.textAlign    = "center";
-	HelpText.textBaseline = "middle";
-	HelpText.x = game.getStage().width/2;
-	HelpText.y = game.getStage().height/3;
-	HelpText.font = "25px Arial";
-	HelpText.color = "black";
-	HelpTextInner = HelpText.clone();
-	HelpTextInner.color = "white";
-	HelpTextInner.shadow = undefined;
-	HelpTextInner.outline = false;
-	HelpText.shadow = new createjs.Shadow("#000", -3, -3, 25);
-	HelpText.outline = 3;
+		HelpText.textAlign    = "center";
+		HelpText.textBaseline = "middle";
+		HelpText.x = game.getStage().width/2;
+		HelpText.y = game.getStage().height/3;
+		HelpText.font = "25px Arial";
+		HelpText.color = "black";
+		HelpTextInner = HelpText.clone();
+		HelpTextInner.color = "white";
+		HelpTextInner.shadow = undefined;
+		HelpTextInner.outline = false;
+		HelpText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+		HelpText.outline = 3;
 	ResetHelpText();
 	
-	var InstructionText;
-	var InstructionTextInner;
-	var back = new Image();
-	var prec, temp;
-	var bgrnd, precip, temperature, infoOK;
-	var infoText = new createjs.Text();
-	var infoTextInner;
+	GetManifestBiomeSection();
 	
-	var infoPage = new createjs.Container();        
-    game.getStage().enableMouseOver(10);
-	
-	getManifestBiomeSection();
-
 	prec = new Image();
 	prec.src = "Pictures/icons/precipitation.png";
 	prec.onload = function() {
 		temp = new Image();
 		temp.src = "Pictures/icons/temperature.png";
-		temp.onload = setInfoBG;
+		temp.onload = SetInfoBG;
 	};
 	
-	function getManifestBiomeSection() {
+	/**
+	 *  @function GetManifestBiomeSection
+	 *  Splices the section of manifest for
+	 *  the currently selected biome.
+	 */
+	function GetManifestBiomeSection() {
 		var lines = game.workingManifest.split("\n");
 		var BiomeSectionNum = 0;
 		for (var i=0; i<lines.length; i++) {
@@ -92,13 +100,14 @@ function eventEditGame() {
 						}
 						numImages--;
 					}
-					i+=4;
+					i+=5;
 					var numPrecDescriptions = lines[i];
+					console.log("PRECDESC: " + numPrecDescriptions);
 					while (numPrecDescriptions>0) {
 						i++;
 						numPrecDescriptions--;
 					}
-					i+=4;
+					i+=5;
 					var numTempDescriptions = lines[i];
 					while (numTempDescriptions>0) {
 						i++;
@@ -115,7 +124,8 @@ function eventEditGame() {
 						for (var j=0; j<5; j++) {
 							ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 						}
-						numDescriptions = lines[++i];
+						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
+						numDescriptions = lines[i];
 						console.log("numDescriptions = " + numDescriptions);
 						while(numDescriptions>0) {
 							ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
@@ -123,7 +133,7 @@ function eventEditGame() {
 						}
 						numImages--;
 					}
-					for (var j=0; j<4; j++) {
+					for (var j=0; j<5; j++) {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 					}
 					var numPrecDescriptions = lines[i];
@@ -131,7 +141,7 @@ function eventEditGame() {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 						numPrecDescriptions--;
 					}
-					for(var j=0; j<4; j++) {
+					for(var j=0; j<5; j++) {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 					}
 					var numTempDescriptions = lines[i];
@@ -146,6 +156,23 @@ function eventEditGame() {
 		console.log(ManifestBiomeSection);
 	}
 	
+	/**
+	 *  @function ReformManifest
+	 *  Pieces manifest back together when-
+	 *  ever done editing the currently
+	 *  selected biome section.
+	 */
+	function ReformManifest() {
+		//ImagesOnScreen; TextOnScreen
+		var lines = game.workingManifest.split("\n");
+		var TempSection = game.numImages[game.currentBiome.num];
+	}
+	
+	/**
+	 *  @function ResetHelpText
+	 *  Sets/Resets the Standard Help
+	 *  Text for the editing stage.
+	 */
 	function ResetHelpText() {
 		HelpText.text = HelpTextInner.text =
 		"B: ChangeBiome\n"+
@@ -159,25 +186,52 @@ function eventEditGame() {
 		
 	}
 	
-	function setImg (img, imgScale, imgX, imgY) {
+	/**
+	 *  @function SetImg
+	 *  @param img
+	 *  @param imgScale
+	 *  @param imgX
+	 *  @param imgY
+	 *  Places the image on the screen and
+	 *  scales it based upon the arguments
+	 *  provided.
+	 */
+	function SetImg (img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
 		img.scaleX = img.scaleBackX = imgScale/maxBound;
 		img.scaleY = img.scaleBackY = imgScale/maxBound;
 		img.x = imgX;
-	    img.y = imgY;
+		img.y = imgY;
 	}
 	
-	function setSelectEffects(img, index, i) {
-		img.addEventListener("mousedown", function (event) {
+	/**
+	 *  @function SetSelectEffects
+	 *  @param img
+	 *  @param index
+	 *  @param i
+	 *  Handles what happens when an image is
+	 *  selected. Displays the text for the
+	 *  given image and sets it as the currently
+	 *  selected image for the editing stage.
+	 */
+	function SetSelectEffects(IMG, IMG_TEXT) {
+		IMG.addEventListener("mousedown", function (event) {
 			console.log(event.currentTarget);
 			currentSelection = event.currentTarget;
-			currentSelectionID = event.currentTarget.name;
-			//xOffset = event.stageX - event.currentTarget.x;
-			//yOffset = event.stageY - event.currentTarget.y;
-			img.scaleX = img.scaleBackX * 1.1;
-			img.scaleY = img.scaleBackY * 1.1;
-			infoText.text = game.imageText[index][i];
+			IMG.scaleX = IMG.scaleBackX * 1.1;
+			IMG.scaleY = IMG.scaleBackY * 1.1;
+			game.getStage().update();
+		});
+		
+		IMG.addEventListener("mousedown", SetDisplayText);
+		
+		/**
+		 *  @function SetDisplayText
+		 *  Sets the display text for the image clicked.
+		 */
+		function SetDisplayText() {
+			infoText.text = IMG_TEXT;
 			infoText.font = "25px Arial";
 			infoText.color = "black";
 			infoText.x = 289;
@@ -188,33 +242,76 @@ function eventEditGame() {
 			infoTextInner.outline = false;
 			infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
 			infoText.outline = 3;
+			console.log("TEXT OBJECT**************");
+			console.log(infoText);
 			infoPage.addChild(infoText, infoTextInner);
 			game.getStage().update();
-		});
+		}
 		
-		img.addEventListener("pressup", function (event) {
-			img.scaleX = img.scaleBackX;
-			img.scaleY = img.scaleBackY;
+		
+		IMG.addEventListener("pressup", function (event) {
+			IMG.scaleX = IMG.scaleBackX;
+			IMG.scaleY = IMG.scaleBackY;
 			infoPage.removeChild(infoText, infoTextInner);
 			game.getStage().update();
 		});
 	}
 	
-	function setBiomeInfo() {
+	/**
+	 *  @function CBMAppend
+	 *  @param CB_ID
+	 *  Appends an option to the end of the 
+	 *  Checkbox Menu List.
+	 */
+	function CBMAppend(CB_ID) {
+		var $newField = $('<div/>', { id: CB_ID, style: "overflow: hidden" });
+		var $InputText = $('<label/>', { style: "display: inline-block" }).html(CB_ID).prepend($('<input/>').attr({ class: 'checkbox', type: 'checkbox'}));
+		$newField.append($InputText);
+		$("#CheckboxMenu").append($newField);
+	}
+	
+	/**
+	 *  @function AddToScreen
+	 *  @param IMG
+	 *  @param IMG_ID
+	 *  @param IMG_SCALE
+	 *  @param IMG_X
+	 *  @param IMG_Y
+	 *  @param IMG_TEXT
+	 *  Adds images to the screen based on
+	 *  their settings in the manifest.
+	 */
+	function AddToScreen(IMG, IMG_ID, IMG_SCALE, IMG_X, IMG_Y, IMG_TEXT) {
+		var newImage = new createjs.Bitmap(IMG);
+		newImage.name = IMG_ID;
+		infoPage.addChild(newImage);
+		SetImg(newImage, IMG_SCALE, IMG_X, IMG_Y);
+		ImagesOnScreen.push(IMG_ID);
+		TextOnScreen.push(IMG_TEXT);
+		SetSelectEffects(newImage, IMG_TEXT);
+	}
+	
+	/**
+	 *  @function SetBiomeInfo
+	 *  Sets everything in the editing stage for 
+	 *  the chosen biome once the temperature and 
+	 *  precipitation images have been loaded.
+	 */
+	function SetBiomeInfo() {
 		bgrnd = new createjs.Bitmap(back);
 		infoPage.addChild(bgrnd);
 		var index = game.currentBiome.num-1;
 		for (var i=0; i<game.displayedImageNum[index]; i++) {
-			var newImage = new createjs.Bitmap(game.assets[index][i].result);
-		    newImage.name = game.assets[index][i].item.id;
-		    newImage.number = i;
-			infoPage.addChild(newImage);
-			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-			setSelectEffects(newImage, index, i);
-			var $newField = $('<div/>', { id: newImage.name, style: "overflow: hidden" });
-			var $InputText = $('<label/>', { style: "display: inline-block" }).html(newImage.name).prepend($('<input/>').attr({ class: 'checkbox', type: 'checkbox'}));
-			$newField.append($InputText);
-			$("#CheckboxMenu").append($newField);
+			AddToScreen (game.assets[index][i].result,
+						 game.assets[index][i].item.id,
+						 game.imageScale[index][i],
+						 game.imageX[index][i],
+						 game.imageY[index][i],
+						 game.imageText[index][i][0]);
+			CBMAppend(game.assets[index][i].item.id);
+		}
+		for (var i=game.displayedImageNum[index]; i<game.numImages[index]; i++) {
+			CBMAppend (game.assets[index][i].item.id);
 		}
 		console.log(infoPage);
 		
@@ -224,11 +321,11 @@ function eventEditGame() {
 		temperature = new createjs.Bitmap(temp);
 		temperature.name = "temperature";
 		i = game.imageScale[index].length-2;
-		setImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setSelectEffects(precip, index, i);
+		SetImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
+		SetSelectEffects(precip, game.imageText[index][i][0]);
 		i = game.imageScale[index].length-1;
-		setImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setSelectEffects(temperature, index, i);
+		SetImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
+		SetSelectEffects(temperature, game.imageText[index][i][0]);
 		
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;
@@ -251,29 +348,41 @@ function eventEditGame() {
 		game.getStage().update();
 	}
 	
-	function setInfoBG(event) {	
+	/**
+	 *  @function SetInfoBG
+	 *  Sets the background for the editing
+	 *  stage based upon which biome was chosen.
+	 */
+	function SetInfoBG(event) {	
 		if (game.currentBiome.num == 1){
 			back.src        = "deciduous.jpg";
-			back.onload     = setBiomeInfo;
+			back.onload     = SetBiomeInfo;
 		} 
 		else if (game.currentBiome.num == 2) {
 			back.src        = "desert.jpg";
-			back.onload     = setBiomeInfo;
+			back.onload     = SetBiomeInfo;
 		}
 		else if (game.currentBiome.num == 3) {
 			back.src        = "grassland.jpg";
-			back.onload     = setBiomeInfo;
+			back.onload     = SetBiomeInfo;
 		}
 		else if (game.currentBiome.num == 4) {
 			back.src        = "rainforest.jpg";
-			back.onload     = setBiomeInfo;
+			back.onload     = SetBiomeInfo;
 		}
 		else if (game.currentBiome.num == 5) {
 			back.src        = "tundra.jpg";
-			back.onload     = setBiomeInfo;
+			back.onload     = SetBiomeInfo;
 		}
 	}
 	
+	/**
+	 *  @function handleKeyDown
+	 *  @param e
+	 *  Handles all key presses during editing
+	 *  stage and determines how key presses are
+	 *  handled.
+	 */
 	function handleKeyDown(e) {
 		//cross browser issues exist
 		if (!e) {
@@ -287,7 +396,7 @@ function eventEditGame() {
 				CBMReset();
 				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
-				eventMoveAroundEarth();
+				parseManifest();
 				return false;
 			case KEYCODE_D:
 				console.log("D pressed");
@@ -352,6 +461,11 @@ function eventEditGame() {
 				return false;
 		}
 		
+		/**
+		 *  @function CBMReset
+		 *  Sets/resets the location of the Image
+		 *  Checkbox Menu.
+		 */
 		function CBMReset() {
 			$(".checkbox").prop('checked', false);
 			
@@ -377,12 +491,29 @@ function eventEditGame() {
 			CBMDelete.style.left = "72px";
 		}
 		
+		/**
+		 *  @function Handle_D_Pressed
+		 *  Handles D Press during editing stage. If an
+		 *  image has been clicked that can be modified, 
+		 *  it removes the image from the editing stage. If 
+		 *  not, it alerts the user that no image has been
+		 *  clicked.
+		 */
 		function Handle_D_Pressed() {
+			var toRemove = $.inArray(currentSelection.name, ImagesOnScreen);
+			ImagesOnScreen.splice(toRemove, 1);
+			ImagesNotOnScreen.push(currentSelection.name);
 			infoPage.removeChild(currentSelection);
 			currentSelection = null;
 			game.getStage().update();
 		}
 		
+		/**
+		 *  @function Handle_H_Pressed
+		 *  Handles H Press during editing stage. Toggles
+		 *  a help dialog for whichever state the edit
+		 *  stage is in.
+		 */
 		function Handle_H_Pressed() {
 			var HelpBkgrd;
 			if (HelpDisplayed === false) {
@@ -403,17 +534,31 @@ function eventEditGame() {
 			}
 		}
 		
+		/**
+		 *  @function Handle_I_Pressed
+		 *  Handles I Press during editing stage. Pulls
+		 *  up the Image Checkbox Menu, which allows the
+		 *  user to remove images from the manifest and/
+		 *  or add images to the editing stage that are
+		 *  available in the manifest. Image Checkbox
+		 *  Menu is a scrollable/movable dialog box.
+		 */
 		function Handle_I_Pressed() {
 			if (!CBMDisplayed) {
 				CBMDisplayed = true;
-				enableCBM();
+				EnableCBM();
 			}
 			else {
 				CBMDisplayed = false;
 				CBMReset();
 			}
 			
-			function enableCBM(){
+			/**
+			 *  @function EnableCBM
+			 *  Sets the Image Checkbox Menu and enables
+			 *  it to be moved around on the screen.
+			 */
+			function EnableCBM(){
 				CheckboxMenuBkgrd.style.display = 'inline';
 				CheckboxMenuAdd.style.display = 'inline';
 				CheckboxMenuDelete.style.display = 'inline';
@@ -430,6 +575,13 @@ function eventEditGame() {
 					console.log(xOffset);
 					console.log(yOffset);*/
 					window.addEventListener("mousemove", CBMHandleMove, true);
+					
+					/**
+					 *  @function CBMHandleMove
+					 *  Moves all of the pieces of the Image
+					 *  Checkbox Menu whenever it is dragged
+					 *  and dropped.
+					 */
 					function CBMHandleMove(event) {
 						CBMBkgrd.style.position = 'absolute';
 						CBMBkgrd.style.top = event.clientY + 'px';
@@ -449,15 +601,49 @@ function eventEditGame() {
 					}
 					
 					window.addEventListener("mouseup", CBMHandleMouseUp, false);
+					
+					/**
+					 *  @function CBMHandleMouseUp
+					 *  @param event
+					 *  Deactivates movability for the Image
+					 *  Checkbox Menu whenever the mouse is
+					 *  released.
+					 */
 					function CBMHandleMouseUp(event) {
 						console.log("RELEASED");
 						window.removeEventListener("mousemove", CBMHandleMove, true);
 						window.removeEventListener("mouseup", CBMHandleMouseUp, false);
 					}
 				});
-				console.log("THIS MAKES NO SENSE");
 				$("#CheckboxMenuAdd").on('click', function() { 
 					console.log("ADD CLICKED");
+					var AddList = [];
+					$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
+						if($(this) === null) {
+							alert("No checkboxes selected...")
+						}
+						if ( $.inArray($(this).parent()[0].innerText, ImagesOnScreen) === -1 ) {
+							AddList.push($(this).parent()[0].innerText);
+							var toRemove = $.inArray($(this).parent()[0].innerText, ImagesNotOnScreen);
+							ImagesNotOnScreen.splice(toRemove, 1);
+						}
+						else {
+							alert("The image for " + $(this).parent()[0].innerText + " is already on the screen...");
+						}
+					});
+					console.log(AddList);
+					var index = game.currentBiome.num-1;
+					for (var j = 0; j < AddList.length; j++) {
+						var i = 0;
+						while (i<game.assets[index].length && AddList[j] !== game.assets[index][i].item.id) { i++; console.log(i); }
+						AddToScreen (game.assets[index][i].result,
+						 game.assets[index][i].item.id,
+						 game.imageScale[index][i],
+						 game.imageX[index][i],
+						 game.imageY[index][i],
+						 game.imageText[index][i][0]);
+					}
+					game.getStage().update();
 					$(".checkbox").prop('checked', false);
 				});
 				$("#CheckboxMenuDelete").on('click', function() { 
@@ -470,8 +656,14 @@ function eventEditGame() {
 							DeleteList.push($(this).parent()[0].innerText);
 						});
 						console.log(DeleteList);
-						for (var i = 0; i < DeleteList.length; i++) {
-							infoPage.removeChild(infoPage.getChildByName(DeleteList[i]));
+						console.log(ImagesOnScreen);
+						for (var j = 0; j < DeleteList.length; j++) {
+							var toRemove = $.inArray(DeleteList[j], ImagesOnScreen);
+							console.log(toRemove);
+							if (toRemove > -1 ) {
+								infoPage.removeChild(infoPage.getChildByName(DeleteList[j]));
+								ImagesOnScreen.splice(toRemove, 1);
+							}
 						}
 						game.getStage().update();
 						console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
@@ -481,6 +673,14 @@ function eventEditGame() {
 			}
 		}
 		
+		/**
+		 *  @function Handle_M_Pressed
+		 *  Handles M Press during editing stage. If an
+		 *  image has been clicked that can be modified, 
+		 *  it allows the user to move that image. If 
+		 *  not, it alerts the user that no image has been
+		 *  clicked.
+		 */
 		function Handle_M_Pressed() {
 			var upHeld = false;
 			var downHeld = false;
@@ -563,6 +763,12 @@ function eventEditGame() {
 				}
 			}
 			
+			/**
+			 *  @function tick
+			 *  @param event
+			 *  Timer function for moving state of
+			 *  editing stage.
+			 */
 			function tick(event) {
 				if (HelpDisplayed === false) {
 					if (upHeld) {
@@ -584,6 +790,14 @@ function eventEditGame() {
 			}
 		}
 		
+		/**
+		 *  @function Handle_S_Pressed
+		 *  Handles S Press during editing stage. If an
+		 *  image has been clicked that can be modified, 
+		 *  it allows the user to scale that image. If 
+		 *  not, it alerts the user that no image has been
+		 *  clicked.
+		 */
 		function Handle_S_Pressed() {
 			var upHeld = false;
 			var downHeld = false;
@@ -646,6 +860,12 @@ function eventEditGame() {
 				}
 			}
 			
+			/**
+			 *  @function tick
+			 *  @param event
+			 *  Timer function for scaling state of
+			 *  editing stage.
+			 */
 			function tick(event) {
 				if (HelpDisplayed === false) {
 					if (upHeld) {
@@ -667,37 +887,45 @@ function eventEditGame() {
 					}
 					if (upHeld || downHeld) {
 						game.getStage().update();
-				x	}
+					}
 				}
 			}
 		}
 
-	    function closeEditInfoBox() {
-		editInfoBoxOpen = false;
-		EditInfoDiv.style.display = "none";
-	    }
+		function closeEditInfoBox() {
+			editInfoBoxOpen = false;
+			EditInfoDiv.style.display = "none";
+		}
 
-	    function submitChange() {
-		// Save the new text
-		game.imageText[game.currentBiome.num-1][currentSelection.number] =
-		    EditInfoDiv.children[0].value;
-		closeEditInfoBox();
-	    }
-	    
-	    function Handle_T_Pressed() {
-		// I tried doing this from HTML instead but had trouble
-		EditInfoDiv.children[0].value = infoText.text;
-		var changeInfoButton = EditInfoDiv.children[1];
-		changeInfoButton.addEventListener("click", submitChange);
-		var cancelButton = EditInfoDiv.children[2];
-		cancelButton.addEventListener("click", closeEditInfoBox);
-		var itemLabel = EditInfoDiv.children[3];
-		itemLabel.innerHTML = currentSelectionID;
-		editInfoBoxOpen = true;
-		EditInfoDiv.style.display = "inline";
-//				editInfoBox.style.display = "inline";
-//		    var person = prompt("Please edit the text", infoText);
-	    }
+		function submitChange() {
+			// Save the new text
+			game.imageText[game.currentBiome.num-1][currentSelection.number] =
+			EditInfoDiv.children[0].value;
+			closeEditInfoBox();
+		}
+		
+		/**
+		 *  @function Handle_T_Pressed
+		 *  Handles T Press during editing stage. If an
+		 *  image has been clicked that can be modified, 
+		 *  it allows the user to add/modify image text. 
+		 *  If not, it alerts the user that no image has
+		 *  been clicked.
+		 */
+		function Handle_T_Pressed() {
+			// I tried doing this from HTML instead but had trouble
+			EditInfoDiv.children[0].value = infoText.text;
+			var changeInfoButton = EditInfoDiv.children[1];
+			changeInfoButton.addEventListener("click", submitChange);
+			var cancelButton = EditInfoDiv.children[2];
+			cancelButton.addEventListener("click", closeEditInfoBox);
+			var itemLabel = EditInfoDiv.children[3];
+			itemLabel.innerHTML = currentSelection.name;
+			editInfoBoxOpen = true;
+			EditInfoDiv.style.display = "inline";
+//			editInfoBox.style.display = "inline";
+//			var person = prompt("Please edit the text", infoText);
+		}
 	}
 
 }

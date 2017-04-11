@@ -104,107 +104,110 @@ function eventSelectManifest(purpose) {
 			}
 		}
 	}
-	
-	/**
-	 *  @function parseManifest
-	 *  Parses manifest and stores values into array for preloading.
-	 */
-	function parseManifest(file) {
-		var numImages;
-		var numDescriptions;
-		var source;
-		var imgID;
-		var imageManifest = [];
-		var index = -1;
-		game.workingManifest = file;
-		console.log(file);
-		var results = file.split("\n");
-		//id scale x y
-		for (var i=0; i<results.length; i++) {
-			if (isNumber(results[i])) {
-				console.log("New Biome!!!!!!!!!");
-				numImages = results[i];
-				console.log("NumImages: "+numImages);
-				index++;
+}
+
+/**
+ *  @function parseManifest
+ *  Parses manifest and stores values into array for preloading.
+ */
+function parseManifest(file) {
+	var numImages;
+	var numDescriptions;
+	var source;
+	var imgID;
+	var imageManifest = [];
+	var index = -1;
+	game.workingManifest = file;
+	console.log(file);
+	var results = file.split("\n");
+	//id scale x y
+	for (var i=0; i<results.length; i++) {
+		if (isNumber(results[i])) {
+			console.log("New Biome!!!!!!!!!");
+			numImages = results[i];
+			index++;
+			game.numImages[index] = results[i];
+			console.log("NumImages: "+game.numImages[index]);
+			i++;
+			game.displayedImageNum[index] = results[i];
+			console.log("DisplayedImageNum: " +results[i]);
+			game.imageText[index]  = [];
+			game.imageScale[index] = [];
+			game.imageX[index]     = [];
+			game.imageY[index]     = [];
+			var imageNum = 0;
+			while(game.numImages[index]>imageNum) {
 				i++;
-				game.displayedImageNum[index] = results[i];
-				console.log("DisplayedImageNum: " +results[i]);
-				game.imageText[index]  = [];
-				game.imageScale[index] = [];
-				game.imageX[index]     = [];
-				game.imageY[index]     = [];
-				var imageNum = 0;
-				while(numImages>imageNum) {
-					i++;
-					source = results[i];
-					console.log("Image:" + results[i]);
-					i++;
-					imgID = results[i];
-					console.log("HERE IS THE ID: " + imgID);
-					if (imageManifest[index]) {
-						imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
-					}
-					else {
-						imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source, id: imgID}];
-					}
-					game.imageScale[index][imageNum] = results[++i];
-					game.imageX[index][imageNum]     = results[++i];
-					game.imageY[index][imageNum]     = results[++i];
-					numDescriptions = results[++i];
-					console.log("numDescriptions = " + numDescriptions);
-					while(numDescriptions>0) {
-						i++;
-						//game.getStage().update();
-						if (game.imageText[index][imageNum]) {
-							game.imageText[index][imageNum].push(prettifyText(results[i]));
-						}
-						else {
-							game.imageText[index][imageNum] = [prettifyText(results[i])];
-						}
-						console.log("Description" + results[i]);
-						numDescriptions--;
-					}
-					imageNum++;
+				source = results[i];
+				console.log("Image:" + results[i]);
+				i++;
+				imgID = results[i];
+				console.log("HERE IS THE ID: " + imgID);
+				if (imageManifest[index]) {
+					imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
 				}
-				//source = results[++i];
-				//console.log("Bkgrd Src: " + source);
-				//imageManifest[index].push([{type: createjs.AbstractLoader.IMAGE, src: source}]);
+				else {
+					imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source, id: imgID}];
+				}
 				game.imageScale[index][imageNum] = results[++i];
 				game.imageX[index][imageNum]     = results[++i];
 				game.imageY[index][imageNum]     = results[++i];
-				i++;
-				console.log("NumPrecDescriptions: " + results[i]);
-				var numPrecDescriptions = results[i];
-				while (numPrecDescriptions>0) {
+				numDescriptions = results[++i];
+				console.log("numDescriptions = " + numDescriptions);
+				while(numDescriptions>0) {
 					i++;
+					//game.getStage().update();
 					if (game.imageText[index][imageNum]) {
 						game.imageText[index][imageNum].push(prettifyText(results[i]));
 					}
 					else {
 						game.imageText[index][imageNum] = [prettifyText(results[i])];
 					}
-					numPrecDescriptions--;
+					console.log("Description" + results[i]);
+					numDescriptions--;
 				}
 				imageNum++;
-				game.imageScale[index][imageNum] = results[++i];
-				game.imageX[index][imageNum]     = results[++i];
-				game.imageY[index][imageNum]     = results[++i];
+			}
+			//source = results[++i];
+			//console.log("Bkgrd Src: " + source);
+			//imageManifest[index].push([{type: createjs.AbstractLoader.IMAGE, src: source}]);
+			i++;
+			game.imageScale[index][imageNum] = results[++i];
+			game.imageX[index][imageNum]     = results[++i];
+			game.imageY[index][imageNum]     = results[++i];
+			i++;
+			console.log("NumPrecDescriptions: " + results[i]);
+			var numPrecDescriptions = results[i];
+			while (numPrecDescriptions>0) {
 				i++;
-				var numTempDescriptions = results[i];
-				while (numTempDescriptions>0) {
-					i++;
-					if (game.imageText[index][imageNum]) {
-						game.imageText[index][imageNum].push(prettifyText(results[i]));
-					}
-					else {
-						game.imageText[index][imageNum] = [prettifyText(results[i])];
-					}
-					numTempDescriptions--;
+				if (game.imageText[index][imageNum]) {
+					game.imageText[index][imageNum].push(prettifyText(results[i]));
 				}
+				else {
+					game.imageText[index][imageNum] = [prettifyText(results[i])];
+				}
+				numPrecDescriptions--;
+			}
+			imageNum++;
+			i++;
+			game.imageScale[index][imageNum] = results[++i];
+			game.imageX[index][imageNum]     = results[++i];
+			game.imageY[index][imageNum]     = results[++i];
+			i++;
+			var numTempDescriptions = results[i];
+			while (numTempDescriptions>0) {
+				i++;
+				if (game.imageText[index][imageNum]) {
+					game.imageText[index][imageNum].push(prettifyText(results[i]));
+				}
+				else {
+					game.imageText[index][imageNum] = [prettifyText(results[i])];
+				}
+				numTempDescriptions--;
 			}
 		}
-		eventPreloadAssets(imageManifest);
 	}
+	eventPreloadAssets(imageManifest);
 }
 
 /**
@@ -214,14 +217,14 @@ function eventSelectManifest(purpose) {
  */
 function prettifyText(inputText) {
 	"use strict";
-	var checkpoint = 39;
+	var checkpoint = 44;
 	var checking;
 	var temp;
 	while (checkpoint < inputText.length) {
 		checking = checkpoint;
 		while (inputText.charAt(checking) != " ") {
 			checking--;
-			if (checking == checkpoint - 39) {
+			if (checking == checkpoint - 44) {
 				alert("Text issue encountered!!!");
 				return inputText;
 			}
@@ -230,7 +233,7 @@ function prettifyText(inputText) {
 			temp = inputText.substring(0,checking) + "\n" + inputText.substring(checking+1,inputText.length+1);
 			inputText = temp;
 		}
-		checkpoint += 40;
+		checkpoint += 45;
 	}
 	return inputText;
 }

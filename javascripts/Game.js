@@ -45,6 +45,7 @@ function Game(easelStage) {
 	this.imageX            = [];
 	this.imageY            = [];
     this.assets            = [];
+	this.numImages         = [];
 	this.displayedImageNum = [];
 	this.currentBiome;
 	this.started = false;
@@ -209,7 +210,7 @@ function Game(easelStage) {
     };
     
     this.defaultManifest = 
-	"3\n"+
+	"4\n"+
 	"3\n"+
 	"./Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png\n"+
 	"Black Bear\n"+
@@ -233,11 +234,20 @@ function Game(easelStage) {
 	"250\n"+
 	"1\n"+
 	"   Salamanders are amphibians that can regenerate body parts that they have lost.\n"+
+	"./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n"+
+	"Salamander2\n"+
+	"70\n"+
+	"100\n"+
+	"150\n"+
+	"1\n"+
+	"   Salamanders are amphibians that can regenerate body parts that they have lost.\n"+
+	"precip\n"+
 	"70\n"+
 	"20\n"+
 	"20\n"+
 	"1\n"+
 	"   The annual precipitation for deciduous forests is at around 75-150 cm (30-60 inches).\n"+
+	"temperature\n"+
 	"65\n"+
 	"20\n"+
 	"350\n"+
@@ -266,11 +276,13 @@ function Game(easelStage) {
 	"230\n"+
 	"1\n"+
 	"   The tiny sand cat is the only cat exclusively native to the desert; its feet have thick fur to help it travel across the sand.\n"+
+	"precip\n"+
 	"70\n"+
 	"20\n"+
 	"20\n"+
 	"1\n"+
 	"   The annual precipitation for the desert is less than 25 cm (10 inches).\n"+
+	"temperature\n"+
 	"65\n"+
 	"20\n"+
 	"350\n"+
@@ -299,11 +311,13 @@ function Game(easelStage) {
 	"100\n"+
 	"1\n"+
 	"   Bees are a social insect that can live in colonies with up to 50 others; they feed on nectar from flowers.\n"+
+	"precip\n"+
 	"70\n"+
 	"20\n"+
 	"20\n"+
 	"1\n"+
 	"   The annual precipitation for a grassland is between 15 and 45 inches.\n"+
+	"temperature\n"+
 	"65\n"+
 	"20\n"+
 	"350\n"+
@@ -332,11 +346,13 @@ function Game(easelStage) {
 	"100\n"+
 	"1\n"+
 	"   The rainforest is home to a large variety of butterflies that don't live anywhere else in the world.\n"+
+	"precip\n"+
 	"70\n"+
 	"20\n"+
 	"20\n"+
 	"1\n"+
 	"   The annual precipitation for temperate rainforests is at least 200 cm (78.74 in) and can go up to 350 cm (137.79 in).\n"+
+	"temperature\n"+
 	"65\n"+
 	"20\n"+
 	"350\n"+
@@ -365,11 +381,13 @@ function Game(easelStage) {
 	"330\n"+
 	"1\n"+
 	"   Trout and salmon are a common freshwater fish and are an important food source for bears and birds of prey.\n"+
+	"precip\n"+
 	"70\n"+
 	"20\n"+
 	"20\n"+
 	"1\n"+
 	"   The annual precipitation for the tundra is only around 6-10 inches per year (15-25 cm).\n"+
+	"temperature\n"+
 	"65\n"+
 	"20\n"+
 	"350\n"+
