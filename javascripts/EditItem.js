@@ -215,7 +215,7 @@ function eventEditGame() {
 	 *  given image and sets it as the currently
 	 *  selected image for the editing stage.
 	 */
-	function SetSelectEffects(IMG, IMG_TEXT) {
+	function SetSelectEffects(IMG, index, i) {
 		IMG.addEventListener("mousedown", function (event) {
 			console.log(event.currentTarget);
 			currentSelection = event.currentTarget;
@@ -231,7 +231,7 @@ function eventEditGame() {
 		 *  Sets the display text for the image clicked.
 		 */
 		function SetDisplayText() {
-			infoText.text = IMG_TEXT;
+			infoText.text = game.imageText[index][i][0];
 			infoText.font = "25px Arial";
 			infoText.color = "black";
 			infoText.x = 289;
@@ -272,23 +272,19 @@ function eventEditGame() {
 	
 	/**
 	 *  @function AddToScreen
-	 *  @param IMG
-	 *  @param IMG_ID
-	 *  @param IMG_SCALE
-	 *  @param IMG_X
-	 *  @param IMG_Y
-	 *  @param IMG_TEXT
+	 *  @param index
+	 *  @param i
 	 *  Adds images to the screen based on
 	 *  their settings in the manifest.
 	 */
-	function AddToScreen(IMG, IMG_ID, IMG_SCALE, IMG_X, IMG_Y, IMG_TEXT) {
-		var newImage = new createjs.Bitmap(IMG);
-		newImage.name = IMG_ID;
+	function AddToScreen(index, i) {
+		var newImage = new createjs.Bitmap(game.assets[index][i].result);
+		newImage.name = game.assets[index][i].item.id;
 		infoPage.addChild(newImage);
-		SetImg(newImage, IMG_SCALE, IMG_X, IMG_Y);
-		ImagesOnScreen.push(IMG_ID);
-		TextOnScreen.push(IMG_TEXT);
-		SetSelectEffects(newImage, IMG_TEXT);
+		SetImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
+		ImagesOnScreen.push(game.assets[index][i].item.id);
+		TextOnScreen.push(game.imageText[index][i][0]);
+		SetSelectEffects(newImage, index, i);
 	}
 	
 	/**
@@ -302,12 +298,7 @@ function eventEditGame() {
 		infoPage.addChild(bgrnd);
 		var index = game.currentBiome.num-1;
 		for (var i=0; i<game.displayedImageNum[index]; i++) {
-			AddToScreen (game.assets[index][i].result,
-						 game.assets[index][i].item.id,
-						 game.imageScale[index][i],
-						 game.imageX[index][i],
-						 game.imageY[index][i],
-						 game.imageText[index][i][0]);
+			AddToScreen (game.currentBiome.num-1, i);
 			CBMAppend(game.assets[index][i].item.id);
 		}
 		for (var i=game.displayedImageNum[index]; i<game.numImages[index]; i++) {
@@ -322,10 +313,10 @@ function eventEditGame() {
 		temperature.name = "temperature";
 		i = game.imageScale[index].length-2;
 		SetImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		SetSelectEffects(precip, game.imageText[index][i][0]);
+		SetSelectEffects(precip, index, i);
 		i = game.imageScale[index].length-1;
 		SetImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		SetSelectEffects(temperature, game.imageText[index][i][0]);
+		SetSelectEffects(temperature, index, i);
 		
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;
@@ -388,7 +379,7 @@ function eventEditGame() {
 		if (!e) {
 			var e = window.event;
 		}
-	    if (editInfoBoxOpen == true) return;
+	    if (editInfoBoxOpen) return;
 		switch (e.keyCode) {
 			case KEYCODE_B:
 				console.log("B pressed");
@@ -396,7 +387,9 @@ function eventEditGame() {
 				CBMReset();
 				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
-				parseManifest();
+				eventMoveAroundEarth();
+				//parseManifest();
+				
 				return false;
 			case KEYCODE_D:
 				console.log("D pressed");
@@ -634,14 +627,7 @@ function eventEditGame() {
 					console.log(AddList);
 					var index = game.currentBiome.num-1;
 					for (var j = 0; j < AddList.length; j++) {
-						var i = 0;
-						while (i<game.assets[index].length && AddList[j] !== game.assets[index][i].item.id) { i++; console.log(i); }
-						AddToScreen (game.assets[index][i].result,
-						 game.assets[index][i].item.id,
-						 game.imageScale[index][i],
-						 game.imageX[index][i],
-						 game.imageY[index][i],
-						 game.imageText[index][i][0]);
+						AddToScreen(game.currentBiome.num-1, GetAssetIndexByID(AddList[j]));
 					}
 					game.getStage().update();
 					$(".checkbox").prop('checked', false);
@@ -899,7 +885,7 @@ function eventEditGame() {
 
 		function submitChange() {
 			// Save the new text
-			game.imageText[game.currentBiome.num-1][currentSelection.number] =
+			game.imageText[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)][0] =
 			EditInfoDiv.children[0].value;
 			closeEditInfoBox();
 		}
@@ -925,6 +911,21 @@ function eventEditGame() {
 			EditInfoDiv.style.display = "inline";
 //			editInfoBox.style.display = "inline";
 //			var person = prompt("Please edit the text", infoText);
+		}
+		
+		/**
+		 *  @function GetAssetIndexByID
+		 *  @param OBJECT_ID
+		 *  Finds the index of an asset by id in
+		 *  the game.assets array.
+		 */
+		function GetAssetIndexByID(OBJECT_ID) {
+			for (var i=0; i< game.assets[game.currentBiome.num-1].length; i++) {
+				if (game.assets[game.currentBiome.num-1][i].item.id === OBJECT_ID) {
+					return i;
+				}
+			}
+			return -1;
 		}
 	}
 
