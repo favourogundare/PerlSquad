@@ -1,7 +1,7 @@
 var timestamp;
 /**
  * @function eventScrollGame
- * Mini-game portion of the game. Players collect objects
+ * Mini-game portion of the game. Players click animals
  * that belong to the biome and avoid ones that don't.
  */
 var bgrnd;
@@ -60,17 +60,22 @@ function eventScrollGame() {
     };
     
     canvas = document.getElementById("main");
+	// big container for elements of scroll game
     big_contain = new createjs.Container();
     
     canvas.onmousedown = onMouseDown;
     canvas.onmouseup = onMouseUp;
 	
+	// pre game info screen
 	var start_contain = new createjs.Container();
 	
+	// container for animals
 	var anim_contain = new createjs.Container();
 	
+	// get index for biome from the game class
 	var bioindex = game.currentBiome.num - 1;
 	
+	// picks a "bad" index that isn't the same as current biome
 	if (bioindex > 0){
 		var bad_bio = bioindex - 1;
 	}
@@ -78,6 +83,7 @@ function eventScrollGame() {
 		var bad_bio = bioindex + 1;
 	}	
 	
+	// get background image
 	bg = new Image();
 	switch(bioindex){
 		case 0:
@@ -98,14 +104,18 @@ function eventScrollGame() {
 	}
     bg.onload = setBG;
 	
-	var good1 =  new createjs.Bitmap(game.assets[bioindex][1].result);
+	// "good" animal is retreived from the assets array
+	var good1 = new createjs.Bitmap(game.assets[bioindex][1].result);
 	good1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	good1.name = "good1";
+	// scales the image to be roughly the same size as the others
+	// height or width (whichever is bigger) is used to scale dimensions
 	var good1bounds = good1.getBounds();
 	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
 	good1.scaleX = good1.scaleBackX = 140/maxgood1;
 	good1.scaleY = good1.scaleBackY = 140/maxgood1;
     
+	// "bad" animal retrieved
     var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
 	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	bad1.name = "bad1";
@@ -133,6 +143,8 @@ function eventScrollGame() {
     /**
      * @function setBG
      * Sets the background for the mini-game.
+	 * Also creates a selection screen for difficulty as well as some brief info about the rules
+	 * of the game
      */
     function setBG(event){
         bgrnd = new createjs.Bitmap(bg);
@@ -214,7 +226,7 @@ function eventScrollGame() {
 	createjs.Ticker.addEventListener("tick", tick);
 	createjs.Ticker.setFPS(30);
 	
-	
+	// generates 2 animals using the bitmap given
     function createAnimals(bitmp){
 		var l = 2;
         for (var i=0; i<l; i++){
@@ -228,6 +240,7 @@ function eventScrollGame() {
         }
     }
 	
+	// gradually speeds up animals
 	var speed_up = 0.0;
   
     /**
@@ -244,6 +257,8 @@ function eventScrollGame() {
     /**
      * @function tick
      * Ticker function for animation.
+	 * speed up increases by difficulty^2 times 0.02 plus 0.05 on every object clicked
+	 * whenever an animal is reset, it's speed is increased by speed_up
      */
     function tick(){
         /** check for clicking */
@@ -329,7 +344,8 @@ function eventScrollGame() {
 
 		var infoText = new createjs.Text();
 		var infoTextInner
-		
+	
+		// used for post-game info screen
 	function setImg (img, imgX, imgY) {
 		var bounds = img.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
