@@ -2,7 +2,7 @@ Alex:
 Finish customization button actions
 
 Eric:
-Improve minigame instructions
+Improve minigame instructions/documentation improvements
 
 Brian:
 Manifest modification
