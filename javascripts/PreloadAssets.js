@@ -14,6 +14,10 @@ function eventPreloadAssets(manifest) {
 	var BiomeIndex;
 	var loadItem;
 	
+	for (var i=0; i<game.assets.length; i++) {
+		game.assets[i] = [];
+	}
+	
     itemProgressText = new createjs.Text("", "32px Arial", "#000000");
 	itemProgressText.x = game.getStage().width/2;
 	itemProgressText.y = game.getStage().height/2+40;

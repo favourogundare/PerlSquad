@@ -131,14 +131,16 @@ function parseManifest(file) {
 			i++;
 			game.displayedImageNum[index] = results[i];
 			console.log("DisplayedImageNum: " +results[i]);
-			game.imageText[index]  = [];
-			game.imageScale[index] = [];
-			game.imageX[index]     = [];
-			game.imageY[index]     = [];
+			game.imageSources[index] = [];
+			game.imageText[index]    = [];
+			game.imageScale[index]   = [];
+			game.imageX[index]       = [];
+			game.imageY[index]       = [];
 			var imageNum = 0;
 			while(game.numImages[index]>imageNum) {
 				i++;
 				source = results[i];
+				game.imageSources[index].push(source);
 				console.log("Image:" + results[i]);
 				i++;
 				imgID = results[i];
@@ -235,7 +237,7 @@ function prettifyText(inputText) {
 		}
 		checkpoint += 45;
 	}
-	return inputText;
+	return "   " + inputText;
 }
 
 /**

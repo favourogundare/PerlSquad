@@ -24,6 +24,8 @@ function eventEditGame() {
     var CBMDisplayed      = false;
 	var BiomeSectionSplit = false;
     var editInfoBoxOpen   = false;
+	var moveModeOn        = false;
+	var scaleModeOn       = false;
     var editInfoBox = document.getElementById("EditInfoDiv");
 	var CBMBkgrd    = document.getElementById("CheckboxMenuBkgrd");
 	var CBM         = document.getElementById("CheckboxMenu");
@@ -31,9 +33,8 @@ function eventEditGame() {
 	var CBMDelete   = document.getElementById("CheckboxMenuDelete");
 	var HelpContainer;
 	var ManifestBiomeSection;
-	var ManifestImageSection;
-	var ManifestBiomeSectionBeforeSplit;
-	var ManifestBiomeSectionAfterSplit;
+	var ManifestBiomeSectionPreSplit  = "";
+	var ManifestBiomeSectionPostSplit = "";
 	var ImagesOnScreen    = [];
 	var ImagesNotOnScreen = [];
 	var TextOnScreen      = [];
@@ -48,6 +49,60 @@ function eventEditGame() {
 	game.getStage().enableMouseOver(10);
 	
 	document.onkeydown = handleKeyDown;
+	
+	CBMAdd.addEventListener('click', CBMAddClicked);
+	function CBMAddClicked() {
+		console.log("ADD CLICKED");
+		var AddList = [];
+		$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
+			if($(this) === null) {
+				alert("No checkboxes selected...")
+			}
+			if ( $.inArray($(this).parent()[0].innerText, ImagesOnScreen) === -1 ) {
+				AddList.push($(this).parent()[0].innerText);
+				var toRemove = $.inArray($(this).parent()[0].innerText, ImagesNotOnScreen);
+				ImagesNotOnScreen.splice(toRemove, 1);
+			}
+			else {
+				alert("The image for " + $(this).parent()[0].innerText + " is already on the screen...");
+			}
+		});
+		console.log(AddList);
+		var index = game.currentBiome.num-1;
+		for (var j = 0; j < AddList.length; j++) {
+			AddToScreen(game.currentBiome.num-1, GetAssetIndexByID(AddList[j]));
+		}
+		game.getStage().update();
+		$(".checkbox").prop('checked', false);
+	}
+	CBMDelete.addEventListener('click', CBMDeleteClicked);
+	function CBMDeleteClicked() {
+		console.log("DELETE CLICKED");
+		var DelConfirm = confirm("Are you sure you want to permanently delete these from the manifest?");
+		if (DelConfirm) {
+			//console.log(document.getElementsByName());
+			var DeleteList = [];
+			$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
+				DeleteList.push($(this).parent()[0].innerText);
+			});
+			console.log(DeleteList);
+			console.log(ImagesOnScreen);
+			for (var j = 0; j < DeleteList.length; j++) {
+				var toRemove = $.inArray(DeleteList[j], ImagesOnScreen);
+				console.log(toRemove);
+				if (toRemove > -1 ) {
+					infoPage.removeChild(infoPage.getChildByName(DeleteList[j]));
+					ImagesOnScreen.splice(toRemove, 1);
+				}
+				else {
+					ImagesNotOnScreen.splice($.inArray(DeleteList[j], ImagesNotOnScreen), 1);
+				}
+			}
+			game.getStage().update();
+			console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
+			$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
+		}
+	}
 	
 	var HelpText = new createjs.Text();
 		HelpText.textAlign    = "center";
@@ -83,35 +138,57 @@ function eventEditGame() {
 		var lines = game.workingManifest.split("\n");
 		var BiomeSectionNum = 0;
 		for (var i=0; i<lines.length; i++) {
+			//en
 			if (isNumber(lines[i])) {
 				console.log("New Biome!!!!!!!!!");
 				BiomeSectionNum++;
+				//if not the biome section we're looking for
 				if (BiomeSectionNum != game.currentBiome.num) {
+					if (BiomeSectionNum < game.currentBiome.num) {
+						OuterSection = ManifestBiomeSectionPreSplit;
+					}
+					else {
+						OuterSection = ManifestBiomeSectionPostSplit + "\n";
+					}
+					
+					OuterSection = OuterSection.concat(lines[i]);
 					numImages = lines[i];
 					console.log("NumImages: "+numImages);
-					i++;
+					OuterSection = OuterSection.concat("\n"+lines[++i]);
 					while(numImages>0) {
-						i+=5;
-						numDescriptions = lines[++i];
+						for (var j=0; j<5; j++) {
+							OuterSection = OuterSection.concat("\n"+lines[++i]);
+						}
+						OuterSection = OuterSection.concat("\n"+lines[++i]);
+						numDescriptions = lines[i];
 						console.log("numDescriptions = " + numDescriptions);
 						while(numDescriptions>0) {
-							i++;
+							OuterSection = OuterSection.concat("\n"+lines[++i]);
 							numDescriptions--;
 						}
 						numImages--;
 					}
-					i+=5;
+					for (var j=0; j<5; j++) {
+						OuterSection = OuterSection.concat("\n"+lines[++i]);
+					}
 					var numPrecDescriptions = lines[i];
-					console.log("PRECDESC: " + numPrecDescriptions);
 					while (numPrecDescriptions>0) {
-						i++;
+						OuterSection = OuterSection.concat("\n"+lines[++i]);
 						numPrecDescriptions--;
 					}
-					i+=5;
+					for(var j=0; j<5; j++) {
+						OuterSection = OuterSection.concat("\n"+lines[++i]);
+					}
 					var numTempDescriptions = lines[i];
 					while (numTempDescriptions>0) {
-						i++;
+						OuterSection = OuterSection.concat("\n"+lines[++i]);
 						numTempDescriptions--;
+					}
+					if (BiomeSectionNum < game.currentBiome.num) {
+						ManifestBiomeSectionPreSplit = OuterSection + "\n";
+					}
+					else {
+						ManifestBiomeSectionPostSplit = OuterSection;
 					}
 				}
 				else {
@@ -164,8 +241,62 @@ function eventEditGame() {
 	 */
 	function ReformManifest() {
 		//ImagesOnScreen; TextOnScreen
-		var lines = game.workingManifest.split("\n");
-		var TempSection = game.numImages[game.currentBiome.num];
+		var index = game.currentBiome.num-1;
+		var reformedBiome = ImagesOnScreen.length+ImagesNotOnScreen.length;
+		reformedBiome += "\n" + ImagesOnScreen.length;
+		for (var j=0; j<ImagesOnScreen.length;j++){
+			var i = GetAssetIndexByID(ImagesOnScreen[j]);
+			reformedBiome += "\n" + game.imageSources[index][i]
+						   + "\n" + ImagesOnScreen[j]
+						   + "\n" + game.imageScale[index][i]
+						   + "\n" + game.imageX[index][i]
+						   + "\n" + game.imageY[index][i]
+						   + "\n" + game.imageText[index][i].length;
+			for (var k=0; k<game.imageText[index][i].length; k++) {
+				reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
+			}
+		}
+		for (var j=0; j<ImagesNotOnScreen.length;j++){
+			var i = GetAssetIndexByID(ImagesNotOnScreen[j]);
+			reformedBiome += "\n" + game.imageSources[index][i]
+						   + "\n" + ImagesNotOnScreen[j]
+						   + "\n" + game.imageScale[index][i]
+						   + "\n" + game.imageX[index][i]
+						   + "\n" + game.imageY[index][i]
+						   + "\n" + game.imageText[index][i].length;
+			for (var k=0; k<game.imageText[index][i].length; k++) {
+				reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
+			}
+		}
+		var i = game.imageScale[index].length-2;
+		reformedBiome += "\ntemperature"
+					   + "\n" + game.imageScale[index][i]
+					   + "\n" + game.imageX[index][i]
+					   + "\n" + game.imageY[index][i]
+					   + "\n" + game.imageText[index][i].length;
+		for (var k=0; k<game.imageText[index][i].length; k++) {
+			reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
+		}
+		var i = game.imageScale[index].length-1;
+		reformedBiome += "\nprecip"
+					   + "\n" + game.imageScale[index][i]
+					   + "\n" + game.imageX[index][i]
+					   + "\n" + game.imageY[index][i]
+					   + "\n" + game.imageText[index][i].length;
+		for (var k=0; k<game.imageText[index][i].length; k++) {
+			reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
+		}
+		
+		
+		//console.log(reformedBiome);
+		
+		return ManifestBiomeSectionPreSplit + reformedBiome + ManifestBiomeSectionPostSplit;
+		
+		function SimplifyText(InputText) {
+			InputText = InputText.replace(/(\r\n|\n|\r)/gm," ");
+			InputText = InputText.replace(/\s+/g," ");
+			return InputText.trim();
+		}
 	}
 	
 	/**
@@ -217,39 +348,35 @@ function eventEditGame() {
 	 */
 	function SetSelectEffects(IMG, index, i) {
 		IMG.addEventListener("mousedown", function (event) {
-			console.log(event.currentTarget);
-			currentSelection = event.currentTarget;
 			IMG.scaleX = IMG.scaleBackX * 1.1;
 			IMG.scaleY = IMG.scaleBackY * 1.1;
+			
+			if (!moveModeOn && !scaleModeOn) {
+				console.log(event.currentTarget);
+				currentSelection = event.currentTarget;
+				infoText.text = game.imageText[index][i][0];
+				infoText.font = "25px Arial";
+				infoText.color = "black";
+				infoText.x = 289;
+				infoText.y = 50;
+				infoTextInner = infoText.clone();
+				infoTextInner.color = "white";
+				infoTextInner.shadow = undefined;
+				infoTextInner.outline = false;
+				infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+				infoText.outline = 3;
+				infoPage.addChild(infoText, infoTextInner);
+			}
 			game.getStage().update();
 		});
 		
-		IMG.addEventListener("mousedown", SetDisplayText);
-		
-		/**
-		 *  @function SetDisplayText
-		 *  Sets the display text for the image clicked.
-		 */
-		function SetDisplayText() {
-			infoText.text = game.imageText[index][i][0];
-			infoText.font = "25px Arial";
-			infoText.color = "black";
-			infoText.x = 289;
-			infoText.y = 50;
-			infoTextInner = infoText.clone();
-			infoTextInner.color = "white";
-			infoTextInner.shadow = undefined;
-			infoTextInner.outline = false;
-			infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
-			infoText.outline = 3;
-			console.log("TEXT OBJECT**************");
-			console.log(infoText);
-			infoPage.addChild(infoText, infoTextInner);
-			game.getStage().update();
-		}
-		
-		
 		IMG.addEventListener("pressup", function (event) {
+			if (moveModeOn) {
+				alert("Move mode on... Press M to toggle off before switching images.");
+			}
+			if (scaleModeOn){
+				alert("Scale mode on... Press S to toggle off before switching images.");
+			}
 			IMG.scaleX = IMG.scaleBackX;
 			IMG.scaleY = IMG.scaleBackY;
 			infoPage.removeChild(infoText, infoTextInner);
@@ -302,7 +429,8 @@ function eventEditGame() {
 			CBMAppend(game.assets[index][i].item.id);
 		}
 		for (var i=game.displayedImageNum[index]; i<game.numImages[index]; i++) {
-			CBMAppend (game.assets[index][i].item.id);
+			CBMAppend(game.assets[index][i].item.id);
+			ImagesNotOnScreen.push(game.assets[index][i].item.id);
 		}
 		console.log(infoPage);
 		
@@ -383,18 +511,29 @@ function eventEditGame() {
 		switch (e.keyCode) {
 			case KEYCODE_B:
 				console.log("B pressed");
+				//ReformManifest();
 				document.onkeydown = null;
+				CBMAdd.removeEventListener("click", CBMAddClicked);
+				CBMDelete.removeEventListener("click", CBMDeleteClicked);
 				CBMReset();
 				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
-				eventMoveAroundEarth();
-				//parseManifest();
+				//eventMoveAroundEarth();
+				parseManifest(ReformManifest());
 				
 				return false;
 			case KEYCODE_D:
 				console.log("D pressed");
 				if (currentSelection) {
-					Handle_D_Pressed();
+					if (currentSelection.name === "precip") {
+						alert("Cannot delete the precipitation image...");
+					}
+					else if (currentSelection.name === "temperature") {
+						alert("Cannot delete the temperature image...");
+					}
+					else {
+						Handle_D_Pressed();
+					}
 				}
 				else {
 					alert("No image selected. Please Select an image first");
@@ -447,6 +586,8 @@ function eventEditGame() {
 			case KEYCODE_X:
 				console.log("X pressed");
 				document.onkeydown = null;
+				CBMAdd.removeEventListener("click", CBMAddClicked);
+				CBMDelete.removeEventListener("click", CBMDeleteClicked);
 				CBMReset();
 				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
@@ -548,114 +689,13 @@ function eventEditGame() {
 			
 			/**
 			 *  @function EnableCBM
-			 *  Sets the Image Checkbox Menu and enables
-			 *  it to be moved around on the screen.
+			 *  Sets the Image Checkbox Menu to be visible.
 			 */
 			function EnableCBM(){
 				CheckboxMenuBkgrd.style.display = 'inline';
 				CheckboxMenuAdd.style.display = 'inline';
 				CheckboxMenuDelete.style.display = 'inline';
 				CheckboxMenu.style.display = 'inline';
-				CBMBkgrd.addEventListener("mousedown", function(event) {
-					currentSelection = null;
-					/*console.log("ClientX: " + event.PageX);
-					console.log("ClientY: " + event.clientY);
-					console.log("CurrentTargetX: " + CBMBkgrd.style.left);
-					console.log("CurrentTargetY: " + CBMBkgrd.style.top);
-					xOffset = event.PageX;
-					xOffset = xOffset - CBMBkgrd.style.left;
-					yOffset = event.clientY + 'px' - CBMBkgrd.style.top;
-					console.log(xOffset);
-					console.log(yOffset);*/
-					window.addEventListener("mousemove", CBMHandleMove, true);
-					
-					/**
-					 *  @function CBMHandleMove
-					 *  Moves all of the pieces of the Image
-					 *  Checkbox Menu whenever it is dragged
-					 *  and dropped.
-					 */
-					function CBMHandleMove(event) {
-						CBMBkgrd.style.position = 'absolute';
-						CBMBkgrd.style.top = event.clientY + 'px';
-						CBMBkgrd.style.left = event.clientX + 'px';
-						
-						CBM.style.position = 'absolute';
-						CBM.style.top = event.clientY + 20 + 'px';
-						CBM.style.left = event.clientX + 'px';
-						
-						CBMAdd.style.position = 'absolute';
-						CBMAdd.style.top = event.clientY + 172 + 'px';
-						CBMAdd.style.left = event.clientX -0.5 + 'px';
-						
-						CBMDelete.style.position = 'absolute';
-						CBMDelete.style.top = event.clientY + 172 + 'px';
-						CBMDelete.style.left = event.clientX + 61 + 'px';
-					}
-					
-					window.addEventListener("mouseup", CBMHandleMouseUp, false);
-					
-					/**
-					 *  @function CBMHandleMouseUp
-					 *  @param event
-					 *  Deactivates movability for the Image
-					 *  Checkbox Menu whenever the mouse is
-					 *  released.
-					 */
-					function CBMHandleMouseUp(event) {
-						console.log("RELEASED");
-						window.removeEventListener("mousemove", CBMHandleMove, true);
-						window.removeEventListener("mouseup", CBMHandleMouseUp, false);
-					}
-				});
-				$("#CheckboxMenuAdd").on('click', function() { 
-					console.log("ADD CLICKED");
-					var AddList = [];
-					$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
-						if($(this) === null) {
-							alert("No checkboxes selected...")
-						}
-						if ( $.inArray($(this).parent()[0].innerText, ImagesOnScreen) === -1 ) {
-							AddList.push($(this).parent()[0].innerText);
-							var toRemove = $.inArray($(this).parent()[0].innerText, ImagesNotOnScreen);
-							ImagesNotOnScreen.splice(toRemove, 1);
-						}
-						else {
-							alert("The image for " + $(this).parent()[0].innerText + " is already on the screen...");
-						}
-					});
-					console.log(AddList);
-					var index = game.currentBiome.num-1;
-					for (var j = 0; j < AddList.length; j++) {
-						AddToScreen(game.currentBiome.num-1, GetAssetIndexByID(AddList[j]));
-					}
-					game.getStage().update();
-					$(".checkbox").prop('checked', false);
-				});
-				$("#CheckboxMenuDelete").on('click', function() { 
-					console.log("DELETE CLICKED");
-					var DelConfirm = confirm("Are you sure you want to permanently delete these from the manifest?");
-					if (DelConfirm) {
-						//console.log(document.getElementsByName());
-						var DeleteList = [];
-						$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
-							DeleteList.push($(this).parent()[0].innerText);
-						});
-						console.log(DeleteList);
-						console.log(ImagesOnScreen);
-						for (var j = 0; j < DeleteList.length; j++) {
-							var toRemove = $.inArray(DeleteList[j], ImagesOnScreen);
-							console.log(toRemove);
-							if (toRemove > -1 ) {
-								infoPage.removeChild(infoPage.getChildByName(DeleteList[j]));
-								ImagesOnScreen.splice(toRemove, 1);
-							}
-						}
-						game.getStage().update();
-						console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
-						$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
-					}
-				});
 			}
 		}
 		
@@ -672,6 +712,8 @@ function eventEditGame() {
 			var downHeld = false;
 			var leftHeld = false;
 			var rightHeld = false;
+			
+			moveModeOn = true;
 			
 			HelpText.text = HelpTextInner.text =
 			"Up: Move Image Up\n"+
@@ -714,6 +756,19 @@ function eventEditGame() {
 						return false;
 					case KEYCODE_M:
 						console.log("M pressed");
+						moveModeOn = false;
+						var i;
+						if (currentSelection.name === "precip") {
+							i = game.imageX[game.currentBiome.num-1].length-1;
+						}
+						else if(currentSelection.name === "temperature") {
+							i = game.imageX[game.currentBiome.num-1].length-2;
+						}
+						else {
+							i = GetAssetIndexByID(currentSelection.name);
+						}
+						game.imageX[game.currentBiome.num-1][i] = currentSelection.x;
+						game.imageY[game.currentBiome.num-1][i] = currentSelection.y;
 						document.onkeyup   = null;
 						document.onkeydown = handleKeyDown;
 						createjs.Ticker.removeAllEventListeners();
@@ -785,8 +840,10 @@ function eventEditGame() {
 		 *  clicked.
 		 */
 		function Handle_S_Pressed() {
-			var upHeld = false;
+			var upHeld   = false;
 			var downHeld = false;
+			
+			scaleModeOn  = true;
 			
 			HelpText.text = HelpTextInner.text =
 			"Up: Scale Image Up\n"+
@@ -819,6 +876,21 @@ function eventEditGame() {
 						return false;
 					case KEYCODE_S:
 						console.log("S pressed");
+						scaleModeOn = false;
+						var bounds = currentSelection.getBounds();
+						var maxBound = Math.max(bounds.height, bounds.width);
+						var i;
+						if (currentSelection.name === "precip") {
+							i = game.imageScale[game.currentBiome.num-1].length-1;
+						}
+						else if(currentSelection.name === "temperature") {
+							i = game.imageScale[game.currentBiome.num-1].length-2;
+						}
+						else {
+							i = GetAssetIndexByID(currentSelection.name);
+						}
+						game.imageScale[game.currentBiome.num-1][i] = currentSelection.scaleX*maxBound;
+						console.log(game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)]);
 						document.onkeyup   = null;
 						document.onkeydown = handleKeyDown;
 						createjs.Ticker.removeAllEventListeners();
@@ -885,7 +957,17 @@ function eventEditGame() {
 
 		function submitChange() {
 			// Save the new text
-			game.imageText[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)][0] =
+			var i;
+			if (currentSelection.name === "precip") {
+				i = game.imageText[game.currentBiome.num-1].length-1;
+			}
+			else if(currentSelection.name === "temperature") {
+				i = game.imageText[game.currentBiome.num-1].length-2;
+			}
+			else {
+				i = GetAssetIndexByID(currentSelection.name);
+			}
+			game.imageText[game.currentBiome.num-1][i][0] =
 			EditInfoDiv.children[0].value;
 			closeEditInfoBox();
 		}
@@ -912,23 +994,22 @@ function eventEditGame() {
 //			editInfoBox.style.display = "inline";
 //			var person = prompt("Please edit the text", infoText);
 		}
-		
-		/**
-		 *  @function GetAssetIndexByID
-		 *  @param OBJECT_ID
-		 *  Finds the index of an asset by id in
-		 *  the game.assets array.
-		 */
-		function GetAssetIndexByID(OBJECT_ID) {
-			for (var i=0; i< game.assets[game.currentBiome.num-1].length; i++) {
-				if (game.assets[game.currentBiome.num-1][i].item.id === OBJECT_ID) {
-					return i;
-				}
-			}
-			return -1;
-		}
 	}
-
+	
+	/**
+	 *  @function GetAssetIndexByID
+	 *  @param OBJECT_ID
+	 *  Finds the index of an asset by id in
+	 *  the game.assets array.
+	 */
+	function GetAssetIndexByID(OBJECT_ID) {
+		for (var i=0; i< game.assets[game.currentBiome.num-1].length; i++) {
+			if (game.assets[game.currentBiome.num-1][i].item.id === OBJECT_ID) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }
 
 
