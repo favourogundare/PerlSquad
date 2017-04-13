@@ -441,10 +441,10 @@ function eventEditGame() {
 		temperature.name = "temperature";
 		i = game.imageScale[index].length-2;
 		SetImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		SetSelectEffects(precip, index, i);
+		SetSelectEffects(temperature, index, i);
 		i = game.imageScale[index].length-1;
 		SetImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		SetSelectEffects(temperature, index, i);
+		SetSelectEffects(precip, index, i);
 		
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;
@@ -585,13 +585,21 @@ function eventEditGame() {
 				return false;
 			case KEYCODE_X:
 				console.log("X pressed");
-				document.onkeydown = null;
-				CBMAdd.removeEventListener("click", CBMAddClicked);
-				CBMDelete.removeEventListener("click", CBMDeleteClicked);
-				CBMReset();
-				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
-				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
-				eventOptionsMenu();
+				var exit=window.confirm("Are you sure you want to exit?")
+				if (exit) {
+					document.onkeydown = null;
+					CBMAdd.removeEventListener("click", CBMAddClicked);
+					CBMDelete.removeEventListener("click", CBMDeleteClicked);
+					CBMReset();
+					game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
+					$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
+					var fileName = prompt("Please enter the name for your manifest file.\nPress cancel to discard changes.", "Manifest.txt");
+					if (fileName != null) {
+						var blob = new Blob([ReformManifest()], {type: "text/plain;charset=utf-8"});
+						saveAs(blob, fileName);
+					}
+					eventOptionsMenu();
+				}
 				return false;
 		}
 		

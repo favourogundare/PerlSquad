@@ -178,24 +178,7 @@ function parseManifest(file) {
 			game.imageX[index][imageNum]     = results[++i];
 			game.imageY[index][imageNum]     = results[++i];
 			i++;
-			console.log("NumPrecDescriptions: " + results[i]);
-			var numPrecDescriptions = results[i];
-			while (numPrecDescriptions>0) {
-				i++;
-				if (game.imageText[index][imageNum]) {
-					game.imageText[index][imageNum].push(prettifyText(results[i]));
-				}
-				else {
-					game.imageText[index][imageNum] = [prettifyText(results[i])];
-				}
-				numPrecDescriptions--;
-			}
-			imageNum++;
-			i++;
-			game.imageScale[index][imageNum] = results[++i];
-			game.imageX[index][imageNum]     = results[++i];
-			game.imageY[index][imageNum]     = results[++i];
-			i++;
+			console.log("NumTempDescriptions: " + results[i]);
 			var numTempDescriptions = results[i];
 			while (numTempDescriptions>0) {
 				i++;
@@ -206,6 +189,23 @@ function parseManifest(file) {
 					game.imageText[index][imageNum] = [prettifyText(results[i])];
 				}
 				numTempDescriptions--;
+			}
+			imageNum++;
+			i++;
+			game.imageScale[index][imageNum] = results[++i];
+			game.imageX[index][imageNum]     = results[++i];
+			game.imageY[index][imageNum]     = results[++i];
+			i++;
+			var numPrecDescriptions = results[i];
+			while (numPrecDescriptions>0) {
+				i++;
+				if (game.imageText[index][imageNum]) {
+					game.imageText[index][imageNum].push(prettifyText(results[i]));
+				}
+				else {
+					game.imageText[index][imageNum] = [prettifyText(results[i])];
+				}
+				numPrecDescriptions--;
 			}
 		}
 	}

@@ -36,7 +36,7 @@ function eventInfoScreen(){
 		img.on("rollover", function (event) {
 			this.scaleX = this.scaleBackX * 1.1;
 			this.scaleY = this.scaleBackY * 1.1;
-			infoText.text = game.imageText[index][i];
+			infoText.text = game.imageText[index][i][0];
 			infoText.font = "25px Arial";
 			infoText.color = "black";
 			infoText.x = 289;
@@ -75,10 +75,10 @@ function eventInfoScreen(){
 		temperature = new createjs.Bitmap(temp);
 		i = game.imageScale[index].length-2;
 		setImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setHoverEffects(precip, index, i);
+		setHoverEffects(temperature, index, i);
 		i = game.imageScale[index].length-1;
 		setImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setHoverEffects(temperature, index, i);
+		setHoverEffects(precip, index, i);
 		
 		infoOK = makeOKButton(890, 15, onInfoOK);
 		infoPage.addChild(temperature, precip, infoOK);       
