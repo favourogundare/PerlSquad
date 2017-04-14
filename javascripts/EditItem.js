@@ -51,6 +51,14 @@ function eventEditGame() {
 	document.onkeydown = handleKeyDown;
 	
 	CBMAdd.addEventListener('click', CBMAddClicked);
+	
+	/**
+	 *  @function CBMAddClicked
+	 *  Handler function for clicking the add 
+	 *  button on the checkbox menu. Adds all 
+	 *  checked images to the stage unless they 
+	 *  are already in the stage.
+	 */
 	function CBMAddClicked() {
 		console.log("ADD CLICKED");
 		var AddList = [];
@@ -76,11 +84,20 @@ function eventEditGame() {
 		$(".checkbox").prop('checked', false);
 	}
 	CBMDelete.addEventListener('click', CBMDeleteClicked);
+	
+	/**
+	 *  @function CBMDeleteClicked
+	 *  Handler function for clicking the delete
+	 *  button on the checkbox menu. Asks the user to 
+	 *  confirm whether or not they wish to permanently 
+	 *  delete the images from the manifest. If confirmed, 
+	 *  removes all checked images from the ImagesOnScreen/
+	 *  ImagesNotOnScreen arrays as well as the checkbox menu.
+	 */
 	function CBMDeleteClicked() {
 		console.log("DELETE CLICKED");
 		var DelConfirm = confirm("Are you sure you want to permanently delete these from the manifest?");
 		if (DelConfirm) {
-			//console.log(document.getElementsByName());
 			var DeleteList = [];
 			$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
 				DeleteList.push($(this).parent()[0].innerText);
@@ -104,6 +121,135 @@ function eventEditGame() {
 		}
 	}
 	
+	if(window.FileReader) { 
+		var load      = new Event('load');
+		var loadend   = new Event('loadend');
+		
+		function cancel(e) {
+			if (e.preventDefault) { e.preventDefault(); }
+			return false;
+		}
+		
+		// Tells the browser that we *can* drop on this target
+		var dropzone = document.getElementById("main");
+		dropzone.addEventListener('dragover', cancel);
+		dropzone.addEventListener('dragenter', cancel);
+		dropzone.addEventListener('drop', function(e) {
+			e = e || window.event; // get window.event if e argument missing (in IE)   
+			if (e.preventDefault) { console.log("prevented"); e.preventDefault(); } // stops the browser from redirecting off to the image.
+			document.onkeydown = null;
+			console.log(e);
+			
+			var files = e.dataTransfer.files;
+			for (var i=0; i<files.length; i++) {
+				var file = files[i];
+				
+				if (file.size < 2000000) {
+					var reader = new FileReader();
+					var progressText = new createjs.Text("", "64px Arial", "#ffffff");
+						progressText.x = game.getStage().width/2;
+						progressText.y = game.getStage().height/2;
+						progressText.textAlign = "center";
+						progressText.textBaseline = "middle";
+					game.getStage().addChild(progressText);
+					reader.addEventListener('progress', function(prog_e) {
+						progressText.text = "Image " + (prog_e.loaded / prog_e.total * 100|0) + "% Loaded";
+						game.getStage().update();
+					});
+					
+					reader.addEventListener('loadend', function (event) {
+						game.getStage().removeChild(progressText);
+						var imgX = e.clientX;
+						var imgY = e.clientY;
+						var previewImage = new Image();
+						previewImage.src = event.target.result;
+						console.log(event.target);
+						previewImage.onload = function() {
+							console.log(previewImage);
+							var previewBtmp = new createjs.Bitmap(previewImage);
+							var bounds = previewBtmp.getBounds();
+							var imgScale = 1;
+							previewBtmp.x = imgX;
+							previewBtmp.y = imgY;
+							var maxBound = Math.max(bounds.height, bounds.width);
+							console.log(maxBound);
+							if (maxBound > 120) {
+								imgScale =
+								previewBtmp.scaleX = previewBtmp.scaleBackX =
+								previewBtmp.scaleY = previewBtmp.scaleBackY = 120/maxBound;
+								console.log("Resized image");
+							}
+							infoPage.addChild(previewBtmp);
+							game.getStage().update();
+							var imgID = "";
+							while (imgID === "") {
+								imgID = prompt("Please enter the id for your image.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
+							}
+							var imgText = "";
+							while (imgText === "") {
+								imgText = prompt("Please enter the text for your image.\nSuggestion: The id should describe something about the image.", "");
+							}
+							ImagesOnScreen.push(imgID);
+							CBMAppend(imgID);
+							previewBtmp.name = imgID;
+							game.imageSources[game.currentBiome.num-1].push("fakeSource"); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////NEED TO CHANGE
+							game.imageScale[game.currentBiome.num-1].push(imgScale);
+							game.imageX[game.currentBiome.num-1].push(imgX);
+							game.imageY[game.currentBiome.num-1].push(imgY);
+							game.imageText[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = [imgText];
+							game.assets[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = { result: previewImage, item: {id: imgID} };
+							SetSelectEffects(previewBtmp, game.currentBiome.num-1, game.imageScale[game.currentBiome.num-1].length-1);
+						};
+						//bgrnd.sourceRect = new createjs.Rectangle(0,0,300,300);
+					});
+					reader.readAsDataURL(file);
+				}
+				else {
+					alert("Woah there! File size limit is 2MB...\nTry uploading a smaller file.");
+				}
+				
+				//attach event handlers here...
+				/*Function.prototype.bindToEventHandler = function bindToEventHandler() {
+					var handler = this;
+					var boundParameters = Array.prototype.slice.call(arguments);
+					//create closure
+					return function(e) {
+						e = e || window.event; // get window.event if e argument missing (in IE)   
+						boundParameters.unshift(e);
+						handler.apply(this, boundParameters);
+					}
+				};*/
+				
+				/*reader.addEventListener('loadend', function(e, file) {
+					console.log(file);
+					var bin           = this.result; 
+					var newFile       = document.createElement('div');
+					newFile.innerHTML = 'Loaded : '+file.name+' size '+file.size+' B';
+					list.appendChild(newFile);  
+					var fileNumber = list.getElementsByTagName('div').length;
+					status.innerHTML = fileNumber < files.length 
+									 ? 'Loaded 100% of file '+fileNumber+' of '+files.length+'...' 
+									 : 'Done loading. processed '+fileNumber+' files.';
+
+					var img = document.createElement("img"); 
+					img.file = file;   
+					img.src = bin;
+					list.appendChild(img);
+				}.bindToEventHandler(file));
+				
+				reader.readAsDataURL(file);*/
+			
+			
+			}
+			document.onkeydown = handleKeyDown;
+			return false;
+		});
+	}
+	else {
+		alert('Your browser does not support the HTML5 FileReader. Try another browser.');
+	}
+	
+	console.log ("NOT BROKEN");
 	var HelpText = new createjs.Text();
 		HelpText.textAlign    = "center";
 		HelpText.textBaseline = "middle";
@@ -138,7 +284,6 @@ function eventEditGame() {
 		var lines = game.workingManifest.split("\n");
 		var BiomeSectionNum = 0;
 		for (var i=0; i<lines.length; i++) {
-			//en
 			if (isNumber(lines[i])) {
 				console.log("New Biome!!!!!!!!!");
 				BiomeSectionNum++;
@@ -240,7 +385,6 @@ function eventEditGame() {
 	 *  selected biome section.
 	 */
 	function ReformManifest() {
-		//ImagesOnScreen; TextOnScreen
 		var index = game.currentBiome.num-1;
 		var reformedBiome = ImagesOnScreen.length+ImagesNotOnScreen.length;
 		reformedBiome += "\n" + ImagesOnScreen.length;
@@ -268,23 +412,21 @@ function eventEditGame() {
 				reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
 			}
 		}
-		var i = game.imageScale[index].length-2;
 		reformedBiome += "\ntemperature"
-					   + "\n" + game.imageScale[index][i]
-					   + "\n" + game.imageX[index][i]
-					   + "\n" + game.imageY[index][i]
-					   + "\n" + game.imageText[index][i].length;
-		for (var k=0; k<game.imageText[index][i].length; k++) {
-			reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
+					   + "\n" + game.otherScale[index][0]
+					   + "\n" + game.otherX[index][0]
+					   + "\n" + game.otherY[index][0]
+					   + "\n" + game.otherText[index][0].length;
+		for (var k=0; k<game.otherText[index][0].length; k++) {
+			reformedBiome += "\n" + SimplifyText(game.otherText[index][0][k]);
 		}
-		var i = game.imageScale[index].length-1;
 		reformedBiome += "\nprecip"
-					   + "\n" + game.imageScale[index][i]
-					   + "\n" + game.imageX[index][i]
-					   + "\n" + game.imageY[index][i]
-					   + "\n" + game.imageText[index][i].length;
-		for (var k=0; k<game.imageText[index][i].length; k++) {
-			reformedBiome += "\n" + SimplifyText(game.imageText[index][i][k]);
+					   + "\n" + game.otherScale[index][1]
+					   + "\n" + game.otherX[index][1]
+					   + "\n" + game.otherY[index][1]
+					   + "\n" + game.otherText[index][1].length;
+		for (var k=0; k<game.otherText[index][1].length; k++) {
+			reformedBiome += "\n" + SimplifyText(game.otherText[index][1][k]);
 		}
 		
 		
@@ -292,8 +434,17 @@ function eventEditGame() {
 		
 		return ManifestBiomeSectionPreSplit + reformedBiome + ManifestBiomeSectionPostSplit;
 		
+		/**
+		 *  @function SimplifyText
+		 *  @param InputText
+		 *  @return InputText.trim()
+		 *  Helper function for reform manifest that
+		 *  gets rid of any pesky newlines/tabs/spaces
+		 *  in the display text.
+		 */
 		function SimplifyText(InputText) {
 			InputText = InputText.replace(/(\r\n|\n|\r)/gm," ");
+			InputText = InputText.replace(/\t+/g, " ");
 			InputText = InputText.replace(/\s+/g," ");
 			return InputText.trim();
 		}
@@ -354,7 +505,12 @@ function eventEditGame() {
 			if (!moveModeOn && !scaleModeOn) {
 				console.log(event.currentTarget);
 				currentSelection = event.currentTarget;
-				infoText.text = game.imageText[index][i][0];
+				if (IMG.name !== 'precip' && IMG.name !== 'temperature') {
+					infoText.text = game.imageText[index][i][0];
+				}
+				else {
+					infoText.text = game.otherText[index][i][0];
+				}
 				infoText.font = "25px Arial";
 				infoText.color = "black";
 				infoText.x = 289;
@@ -405,6 +561,7 @@ function eventEditGame() {
 	 *  their settings in the manifest.
 	 */
 	function AddToScreen(index, i) {
+		console.log(game.assets[index][i]);
 		var newImage = new createjs.Bitmap(game.assets[index][i].result);
 		newImage.name = game.assets[index][i].item.id;
 		infoPage.addChild(newImage);
@@ -439,12 +596,12 @@ function eventEditGame() {
 		precip.name = "precip";
 		temperature = new createjs.Bitmap(temp);
 		temperature.name = "temperature";
-		i = game.imageScale[index].length-2;
-		SetImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		SetSelectEffects(temperature, index, i);
+		i = game.otherScale[index].length-2;
+		SetImg(temperature, game.otherScale[index][0], game.otherX[index][0], game.otherY[index][0]);
+		SetSelectEffects(temperature, index, 0);
 		i = game.imageScale[index].length-1;
-		SetImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		SetSelectEffects(precip, index, i);
+		SetImg(precip, game.otherScale[index][1], game.otherX[index][1], game.otherY[index][1]);
+		SetSelectEffects(precip, index, 1);
 		
 		infoOK = new createjs.Text("OK", "36px Arial", "#FFFFFF");
 		infoOK.x = 890;
@@ -511,14 +668,12 @@ function eventEditGame() {
 		switch (e.keyCode) {
 			case KEYCODE_B:
 				console.log("B pressed");
-				//ReformManifest();
 				document.onkeydown = null;
 				CBMAdd.removeEventListener("click", CBMAddClicked);
 				CBMDelete.removeEventListener("click", CBMDeleteClicked);
 				CBMReset();
 				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
-				//eventMoveAroundEarth();
 				parseManifest(ReformManifest());
 				
 				return false;
@@ -765,18 +920,20 @@ function eventEditGame() {
 					case KEYCODE_M:
 						console.log("M pressed");
 						moveModeOn = false;
-						var i;
 						if (currentSelection.name === "precip") {
 							i = game.imageX[game.currentBiome.num-1].length-1;
+							game.otherX[game.currentBiome.num-1][1] = currentSelection.x;
+							game.otherY[game.currentBiome.num-1][1] = currentSelection.y;
 						}
 						else if(currentSelection.name === "temperature") {
 							i = game.imageX[game.currentBiome.num-1].length-2;
+							game.otherX[game.currentBiome.num-1][0] = currentSelection.x;
+							game.otherY[game.currentBiome.num-1][0] = currentSelection.y;
 						}
 						else {
-							i = GetAssetIndexByID(currentSelection.name);
+							game.imageX[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.x;
+							game.imageY[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.y;
 						}
-						game.imageX[game.currentBiome.num-1][i] = currentSelection.x;
-						game.imageY[game.currentBiome.num-1][i] = currentSelection.y;
 						document.onkeyup   = null;
 						document.onkeydown = handleKeyDown;
 						createjs.Ticker.removeAllEventListeners();
@@ -887,17 +1044,15 @@ function eventEditGame() {
 						scaleModeOn = false;
 						var bounds = currentSelection.getBounds();
 						var maxBound = Math.max(bounds.height, bounds.width);
-						var i;
 						if (currentSelection.name === "precip") {
-							i = game.imageScale[game.currentBiome.num-1].length-1;
+							game.otherScale[game.currentBiome.num-1][1] = currentSelection.scaleX*maxBound;
 						}
 						else if(currentSelection.name === "temperature") {
-							i = game.imageScale[game.currentBiome.num-1].length-2;
+							game.otherScale[game.currentBiome.num-1][0] = currentSelection.scaleX*maxBound;
 						}
 						else {
-							i = GetAssetIndexByID(currentSelection.name);
+							game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.scaleX*maxBound;
 						}
-						game.imageScale[game.currentBiome.num-1][i] = currentSelection.scaleX*maxBound;
 						console.log(game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)]);
 						document.onkeyup   = null;
 						document.onkeydown = handleKeyDown;
@@ -965,18 +1120,15 @@ function eventEditGame() {
 
 		function submitChange() {
 			// Save the new text
-			var i;
 			if (currentSelection.name === "precip") {
-				i = game.imageText[game.currentBiome.num-1].length-1;
+				game.otherText[game.currentBiome.num-1][1][0] = EditInfoDiv.children[0].value;
 			}
 			else if(currentSelection.name === "temperature") {
-				i = game.imageText[game.currentBiome.num-1].length-2;
+				game.otherText[game.currentBiome.num-1][0][0] = EditInfoDiv.children[0].value;
 			}
 			else {
-				i = GetAssetIndexByID(currentSelection.name);
+				game.imageText[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)][0] = EditInfoDiv.children[0].value;
 			}
-			game.imageText[game.currentBiome.num-1][i][0] =
-			EditInfoDiv.children[0].value;
 			closeEditInfoBox();
 		}
 		
@@ -1019,26 +1171,3 @@ function eventEditGame() {
 		return -1;
 	}
 }
-
-
-/**
- *  Add existing [I]mages/remove from manifest
- *  [S]cale
- *  Change [T]ext
- *  [R]otate
- *  E[X]it
- */
- 
- 
-	
-	
-	
-	
-	
-	
-	/*
-	item.on("pressmove", function(event) {
-					event.currentTarget.x = event.stageX-xOffset; 
-					event.currentTarget.y = event.stageY-yOffset;
-					game.getStage().update(); // this updates the canvas with the new position
-				});*/

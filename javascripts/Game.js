@@ -45,6 +45,10 @@ function Game(easelStage) {
 	this.imageScale        = [];
 	this.imageX            = [];
 	this.imageY            = [];
+	this.otherText         = [];
+	this.otherScale        = [];
+	this.otherX            = [];
+	this.otherY            = [];
     this.assets            = [];
 	this.numImages         = [];
 	this.displayedImageNum = [];

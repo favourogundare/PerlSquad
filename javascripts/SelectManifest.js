@@ -136,6 +136,10 @@ function parseManifest(file) {
 			game.imageScale[index]   = [];
 			game.imageX[index]       = [];
 			game.imageY[index]       = [];
+			game.otherText[index]    = [];
+			game.otherScale[index]   = [];
+			game.otherX[index]       = [];
+			game.otherY[index]       = [];
 			var imageNum = 0;
 			while(game.numImages[index]>imageNum) {
 				i++;
@@ -174,37 +178,28 @@ function parseManifest(file) {
 			//console.log("Bkgrd Src: " + source);
 			//imageManifest[index].push([{type: createjs.AbstractLoader.IMAGE, src: source}]);
 			i++;
-			game.imageScale[index][imageNum] = results[++i];
-			game.imageX[index][imageNum]     = results[++i];
-			game.imageY[index][imageNum]     = results[++i];
+			game.otherScale[index][0] = results[++i];
+			game.otherX[index][0]     = results[++i];
+			game.otherY[index][0]     = results[++i];
 			i++;
 			console.log("NumTempDescriptions: " + results[i]);
 			var numTempDescriptions = results[i];
+			game.otherText[index][0] = [];
 			while (numTempDescriptions>0) {
 				i++;
-				if (game.imageText[index][imageNum]) {
-					game.imageText[index][imageNum].push(prettifyText(results[i]));
-				}
-				else {
-					game.imageText[index][imageNum] = [prettifyText(results[i])];
-				}
+				game.otherText[index][0].push(prettifyText(results[i]));
 				numTempDescriptions--;
 			}
-			imageNum++;
 			i++;
-			game.imageScale[index][imageNum] = results[++i];
-			game.imageX[index][imageNum]     = results[++i];
-			game.imageY[index][imageNum]     = results[++i];
+			game.otherScale[index][1] = results[++i];
+			game.otherX[index][1]     = results[++i];
+			game.otherY[index][1]     = results[++i];
 			i++;
 			var numPrecDescriptions = results[i];
+			game.otherText[index][1] = [];
 			while (numPrecDescriptions>0) {
 				i++;
-				if (game.imageText[index][imageNum]) {
-					game.imageText[index][imageNum].push(prettifyText(results[i]));
-				}
-				else {
-					game.imageText[index][imageNum] = [prettifyText(results[i])];
-				}
+				game.otherText[index][1].push(prettifyText(results[i]));
 				numPrecDescriptions--;
 			}
 		}

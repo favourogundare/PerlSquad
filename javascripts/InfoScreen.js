@@ -36,7 +36,12 @@ function eventInfoScreen(){
 		img.on("rollover", function (event) {
 			this.scaleX = this.scaleBackX * 1.1;
 			this.scaleY = this.scaleBackY * 1.1;
-			infoText.text = game.imageText[index][i][0];
+			if (img.name !== 'precip' && img.name !== 'temperature') {
+				infoText.text = game.imageText[index][i][0];
+			}
+			else {
+				infoText.text = game.otherText[index][i][0];
+			}
 			infoText.font = "25px Arial";
 			infoText.color = "black";
 			infoText.x = 289;
@@ -65,20 +70,21 @@ function eventInfoScreen(){
 		var index = game.currentBiome.num-1;
 		for (var i=0; i<game.displayedImageNum[index]; i++) {
 			var newImage = new createjs.Bitmap(game.assets[index][i].result);
+			newImage.name = game.assets[index][i].item.id;
 			infoPage.addChild(newImage);
 			setImg(newImage, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
 			setHoverEffects(newImage, index, i);
 		}
 		
 		//set temp and prec
-		precip      = new createjs.Bitmap(prec);
-		temperature = new createjs.Bitmap(temp);
-		i = game.imageScale[index].length-2;
-		setImg(temperature, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setHoverEffects(temperature, index, i);
-		i = game.imageScale[index].length-1;
-		setImg(precip, game.imageScale[index][i], game.imageX[index][i], game.imageY[index][i]);
-		setHoverEffects(precip, index, i);
+		precip           = new createjs.Bitmap(prec);
+		precip.name      = "precip";
+		temperature      = new createjs.Bitmap(temp);
+		temperature.name = "temperature";
+		setImg(temperature, game.otherScale[index][0], game.otherX[index][0], game.otherY[index][0]);
+		setHoverEffects(temperature, index, 0);
+		setImg(precip, game.otherScale[index][1], game.otherX[index][1], game.otherY[index][1]);
+		setHoverEffects(precip, index, 1);
 		
 		infoOK = makeOKButton(890, 15, onInfoOK);
 		infoPage.addChild(temperature, precip, infoOK);       
