@@ -77,7 +77,6 @@ function eventEditGame() {
 			}
 		});
 		console.log(AddList);
-		var index = game.currentBiome.num-1;
 		for (var j = 0; j < AddList.length; j++) {
 			AddToScreen(game.currentBiome.num-1, GetAssetIndexByID(AddList[j]));
 		}
@@ -192,18 +191,18 @@ function eventEditGame() {
 						previewImage.onload = function() {
 							console.log(previewImage);
 							var previewBtmp = new createjs.Bitmap(previewImage);
-							var bounds = previewBtmp.getBounds();
-							var imgScale = 1;
 							previewBtmp.x = imgX;
 							previewBtmp.y = imgY;
+							var bounds = previewBtmp.getBounds();
 							var maxBound = Math.max(bounds.height, bounds.width);
+							var imgScale = maxBound;
 							console.log(maxBound);
 							if (maxBound > 120) {
-								imgScale =
-								previewBtmp.scaleX = previewBtmp.scaleBackX =
-								previewBtmp.scaleY = previewBtmp.scaleBackY = 120/maxBound;
+								previewBtmp.scaleX = previewBtmp.scaleY = 120/maxBound;
+								imgScale = previewBtmp.scaleX*maxBound;
 								console.log("Resized image");
 							}
+							previewBtmp.scaleBackX = previewBtmp.scaleBackY = previewBtmp.scaleX;
 							infoPage.addChild(previewBtmp);
 							game.getStage().update();
 							var imgID = "";
@@ -503,7 +502,7 @@ function eventEditGame() {
 	 *  scales it based upon the arguments
 	 *  provided.
 	 */
-	function SetImg (img, imgScale, imgX, imgY) {
+	function SetImg(img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
 		img.scaleX = img.scaleBackX = imgScale/maxBound;
@@ -524,6 +523,7 @@ function eventEditGame() {
 	 */
 	function SetSelectEffects(IMG, index, i) {
 		IMG.addEventListener("mousedown", function (event) {
+			console.log("SBX: "+IMG.scaleBackX);
 			IMG.scaleX = IMG.scaleBackX * 1.1;
 			IMG.scaleY = IMG.scaleBackY * 1.1;
 			

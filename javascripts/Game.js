@@ -217,7 +217,7 @@ function Game(easelStage) {
     this.defaultManifest = 
 	"4\n"+
 	"3\n"+
-	"./Pictures/Animals/Deciduous_Forest/Animal - BlackBear - Large - Black.png\n"+
+	"./Pictures/Animals/Deciduous Forest/Animal - BlackBear - Large - Black.png\n"+
 	"Black Bear\n"+
 	"150\n"+
 	"480\n"+
@@ -225,21 +225,21 @@ function Game(easelStage) {
 	"2\n"+
 	"The black bear is the world's most common species of bear; there are over twice as many black bears as all other species combined.\n"+
 	"	DUMMY TEXT\n"+
-	"./Pictures/Animals/Deciduous_Forest/Animal - WhiteTailDeer - Medium - Brown.png\n"+
+	"./Pictures/Animals/Deciduous Forest/Animal - WhiteTailDeer - Medium - Brown.png\n"+
 	"White-tailed Deer\n"+
 	"190\n"+
 	"600\n"+
 	"280\n"+
 	"1\n"+
 	"The white-tailed deer is commonly found in North America, but can also be found throughout Central and South America.\n"+
-	"./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n"+
+	"./Pictures/Animals/Deciduous Forest/Animal - Salamander - Small - Black.png\n"+
 	"Salamander\n"+
 	"70\n"+
 	"200\n"+
 	"250\n"+
 	"1\n"+
 	"Salamanders are amphibians that can regenerate body parts that they have lost.\n"+
-	"./Pictures/Animals/Deciduous_Forest/Animal - Salamander - Small - Black.png\n"+
+	"./Pictures/Animals/Deciduous Forest/Animal - Salamander - Small - Black.png\n"+
 	"Salamander2\n"+
 	"70\n"+
 	"100\n"+
