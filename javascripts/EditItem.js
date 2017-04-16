@@ -31,6 +31,7 @@ function eventEditGame() {
 	var CBM         = document.getElementById("CheckboxMenu");
 	var CBMAdd      = document.getElementById("CheckboxMenuAdd");
 	var CBMDelete   = document.getElementById("CheckboxMenuDelete");
+	var dropzone    = document.getElementById("main");
 	var HelpContainer;
 	var ManifestBiomeSection;
 	var ManifestBiomeSectionPreSplit  = "";
@@ -121,6 +122,28 @@ function eventEditGame() {
 		}
 	}
 	
+	function createFormData(image) {
+		var formImage = new FormData();
+		formImage.append('subDir', game.currentBiome.name);
+		formImage.append('userImage', image);
+		console.log(formImage.get('subDir'));
+		uploadFormData(formImage);
+		function uploadFormData(formData) {
+			$.ajax({
+				url: "upload_image.php",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: function(data) {
+					//$('#drop-area').html(data);
+					console.log("Success: " + data);
+				}
+			});
+		}
+	}
+	
 	if(window.FileReader) { 
 		var load      = new Event('load');
 		var loadend   = new Event('loadend');
@@ -131,10 +154,10 @@ function eventEditGame() {
 		}
 		
 		// Tells the browser that we *can* drop on this target
-		var dropzone = document.getElementById("main");
 		dropzone.addEventListener('dragover', cancel);
 		dropzone.addEventListener('dragenter', cancel);
-		dropzone.addEventListener('drop', function(e) {
+		dropzone.addEventListener('drop', HandleDrop);
+		function HandleDrop(e) {
 			e = e || window.event; // get window.event if e argument missing (in IE)   
 			if (e.preventDefault) { console.log("prevented"); e.preventDefault(); } // stops the browser from redirecting off to the image.
 			document.onkeydown = null;
@@ -143,6 +166,8 @@ function eventEditGame() {
 			var files = e.dataTransfer.files;
 			for (var i=0; i<files.length; i++) {
 				var file = files[i];
+				console.log("FILEEEE: "+ file);
+				createFormData(file);
 				
 				if (file.size < 2000000) {
 					var reader = new FileReader();
@@ -192,7 +217,7 @@ function eventEditGame() {
 							ImagesOnScreen.push(imgID);
 							CBMAppend(imgID);
 							previewBtmp.name = imgID;
-							game.imageSources[game.currentBiome.num-1].push("fakeSource"); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////NEED TO CHANGE
+							game.imageSources[game.currentBiome.num-1].push("Pictures/Animals/"+game.currentBiome.name+"/"+file.name);
 							game.imageScale[game.currentBiome.num-1].push(imgScale);
 							game.imageX[game.currentBiome.num-1].push(imgX);
 							game.imageY[game.currentBiome.num-1].push(imgY);
@@ -243,7 +268,7 @@ function eventEditGame() {
 			}
 			document.onkeydown = handleKeyDown;
 			return false;
-		});
+		}
 	}
 	else {
 		alert('Your browser does not support the HTML5 FileReader. Try another browser.');
@@ -671,6 +696,9 @@ function eventEditGame() {
 				document.onkeydown = null;
 				CBMAdd.removeEventListener("click", CBMAddClicked);
 				CBMDelete.removeEventListener("click", CBMDeleteClicked);
+				dropzone.removeEventListener('dragover', cancel);
+				dropzone.removeEventListener('dragenter', cancel);
+				dropzone.removeEventListener('drop', HandleDrop);
 				CBMReset();
 				game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 				$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
@@ -745,6 +773,9 @@ function eventEditGame() {
 					document.onkeydown = null;
 					CBMAdd.removeEventListener("click", CBMAddClicked);
 					CBMDelete.removeEventListener("click", CBMDeleteClicked);
+					dropzone.removeEventListener('dragover', cancel);
+					dropzone.removeEventListener('dragenter', cancel);
+					dropzone.removeEventListener('drop', HandleDrop);
 					CBMReset();
 					game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 					$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
