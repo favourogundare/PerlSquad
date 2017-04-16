@@ -207,11 +207,11 @@ function eventEditGame() {
 							game.getStage().update();
 							var imgID = "";
 							while (imgID === "") {
-								imgID = prompt("Please enter the id for your image.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
+								imgID = prompt("Please enter the id for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
 							}
 							var imgText = "";
 							while (imgText === "") {
-								imgText = prompt("Please enter the text for your image.\nSuggestion: The id should describe something about the image.", "");
+								imgText = prompt("Please enter the text for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe something about the image.", "");
 							}
 							ImagesOnScreen.push(imgID);
 							CBMAppend(imgID);
