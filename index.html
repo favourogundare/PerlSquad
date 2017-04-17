@@ -45,7 +45,7 @@
   </head>
   <body onload="init();">
 	<canvas id="main" width="960" height="444"></canvas>
-	<div class = "hidden" id = "DefaultBrowseButton" style = "position:absolute;left:360px;top:50px;"><input type = file id = "BrowseButton" /></div>
+	<div class = "hidden" id = "DefaultBrowseButton" style = "position:absolute;left:360px;top:50px;"><input type = "file" accept=".txt" id = "BrowseButton" /></div>
     <input type = "button" class = "hidden" id = "AltBrowseButton" value = "Browse..." style = "position:absolute;left:360px;top:50px;" onclick = "document.getElementById('BrowseButton').click();"/>
 	<textarea class = "hidden" id = "ImageSource" placeholder = "Insert image link or filepath here." style = "position:absolute;left:85px;top:50px;width:275px; height:23px"></textarea>
     <textarea class = "hidden" id = "Description" placeholder = "Insert item description here." style = "position:absolute;left:85px;top:85px;width:350px; height:200px"></textarea>
@@ -62,7 +62,5 @@
 	  <button type="button" style="font-size: 18px;">Cancel</button>
 	  <h2 style="display:inline;"></h2>
 	</div>
-<!--          <input type="submit" id="EditInfoButton" value="Change" onclick="change()"/>	  -->
-	<!--	    <input type="text" id="EditInfoInput"/> -->
   </body>
 </html>

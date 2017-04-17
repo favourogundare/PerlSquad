@@ -159,6 +159,23 @@ function eventEditGame() {
 		function HandleDrop(e) {
 			e = e || window.event; // get window.event if e argument missing (in IE)   
 			if (e.preventDefault) { console.log("prevented"); e.preventDefault(); } // stops the browser from redirecting off to the image.
+			if (moveModeOn) {
+				toggleOffMoveMode();
+			}
+			if (scaleModeOn) {
+				toggleOffScaleMode();
+			}
+			if (editInfoBoxOpen) {
+				if (confirm("Would you like to save changes to the text?")) {
+					submitChange();
+				}
+				if(editInfoBoxOpen) {
+					closeEditInfoBox();
+				}
+			}
+			if (HelpDisplayed) {
+				toggleOffHelp();
+			}
 			document.onkeydown = null;
 			console.log(e);
 			
@@ -168,7 +185,10 @@ function eventEditGame() {
 				console.log("FILEEEE: "+ file);
 				createFormData(file);
 				
-				if (file.size < 2000000) {
+				if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+					alert('Woah there! Images uploaded must be in\none of the following formats:\n{.jpg, .jpeg, .png, .gif}');
+				}
+				else if (file.size < 2000000) {
 					var reader = new FileReader();
 					var progressText = new createjs.Text("", "64px Arial", "#ffffff");
 						progressText.x = game.getStage().width/2;
@@ -278,7 +298,7 @@ function eventEditGame() {
 		HelpText.textAlign    = "center";
 		HelpText.textBaseline = "middle";
 		HelpText.x = game.getStage().width/2;
-		HelpText.y = game.getStage().height/3;
+		HelpText.y = game.getStage().height/3-15;
 		HelpText.font = "25px Arial";
 		HelpText.color = "black";
 		HelpTextInner = HelpText.clone();
@@ -488,7 +508,8 @@ function eventEditGame() {
 		"M: Toggle Image Moving\n"+
 		"S: Toggle Image Scaling\n"+
 		"T: Toggle Text Editing\n"+
-		"X: Exit Editing Menu";
+		"X: Exit Editing Menu\n"+
+		"Drag images into biome to upload";
 		
 	}
 	
@@ -856,9 +877,7 @@ function eventEditGame() {
 				game.getStage().update();
 			}
 			else {
-				HelpDisplayed = false;
-				infoPage.removeChild(HelpContainer);
-				game.getStage().update();
+				toggleOffHelp();
 			}
 		}
 		
@@ -950,26 +969,7 @@ function eventEditGame() {
 						return false;
 					case KEYCODE_M:
 						console.log("M pressed");
-						moveModeOn = false;
-						if (currentSelection.name === "precip") {
-							i = game.imageX[game.currentBiome.num-1].length-1;
-							game.otherX[game.currentBiome.num-1][1] = currentSelection.x;
-							game.otherY[game.currentBiome.num-1][1] = currentSelection.y;
-						}
-						else if(currentSelection.name === "temperature") {
-							i = game.imageX[game.currentBiome.num-1].length-2;
-							game.otherX[game.currentBiome.num-1][0] = currentSelection.x;
-							game.otherY[game.currentBiome.num-1][0] = currentSelection.y;
-						}
-						else {
-							game.imageX[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.x;
-							game.imageY[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.y;
-						}
-						document.onkeyup   = null;
-						document.onkeydown = handleKeyDown;
-						createjs.Ticker.removeAllEventListeners();
-						ResetHelpText();
-						game.getStage().update();
+						toggleOffMoveMode();
 						return false;
 					case KEYCODE_B: case KEYCODE_D: case KEYCODE_I: case KEYCODE_S: case KEYCODE_T: case KEYCODE_X:
 						alert("Currently in Move Mode... Please Press M to toggle off before attempting to access a separate mode!!!")
@@ -1072,24 +1072,7 @@ function eventEditGame() {
 						return false;
 					case KEYCODE_S:
 						console.log("S pressed");
-						scaleModeOn = false;
-						var bounds = currentSelection.getBounds();
-						var maxBound = Math.max(bounds.height, bounds.width);
-						if (currentSelection.name === "precip") {
-							game.otherScale[game.currentBiome.num-1][1] = currentSelection.scaleX*maxBound;
-						}
-						else if(currentSelection.name === "temperature") {
-							game.otherScale[game.currentBiome.num-1][0] = currentSelection.scaleX*maxBound;
-						}
-						else {
-							game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.scaleX*maxBound;
-						}
-						console.log(game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)]);
-						document.onkeyup   = null;
-						document.onkeydown = handleKeyDown;
-						createjs.Ticker.removeAllEventListeners();
-						ResetHelpText();
-						game.getStage().update();
+						toggleOffScaleMode();
 						return false;
 					case KEYCODE_B: case KEYCODE_D: case KEYCODE_I: case KEYCODE_M: case KEYCODE_T: case KEYCODE_X:
 						alert("Currently in Scale Mode... Please Press S to toggle off before attempting to access a separate mode!!!")
@@ -1143,25 +1126,6 @@ function eventEditGame() {
 				}
 			}
 		}
-
-		function closeEditInfoBox() {
-			editInfoBoxOpen = false;
-			EditInfoDiv.style.display = "none";
-		}
-
-		function submitChange() {
-			// Save the new text
-			if (currentSelection.name === "precip") {
-				game.otherText[game.currentBiome.num-1][1][0] = EditInfoDiv.children[0].value;
-			}
-			else if(currentSelection.name === "temperature") {
-				game.otherText[game.currentBiome.num-1][0][0] = EditInfoDiv.children[0].value;
-			}
-			else {
-				game.imageText[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)][0] = EditInfoDiv.children[0].value;
-			}
-			closeEditInfoBox();
-		}
 		
 		/**
 		 *  @function Handle_T_Pressed
@@ -1185,6 +1149,73 @@ function eventEditGame() {
 //			editInfoBox.style.display = "inline";
 //			var person = prompt("Please edit the text", infoText);
 		}
+	}
+	
+	function toggleOffHelp() {
+		HelpDisplayed = false;
+		infoPage.removeChild(HelpContainer);
+		game.getStage().update();
+	}
+	
+	function toggleOffMoveMode() {
+		moveModeOn = false;
+		if (currentSelection.name === "precip") {
+			game.otherX[game.currentBiome.num-1][1] = currentSelection.x;
+			game.otherY[game.currentBiome.num-1][1] = currentSelection.y;
+		}
+		else if(currentSelection.name === "temperature") {
+			game.otherX[game.currentBiome.num-1][0] = currentSelection.x;
+			game.otherY[game.currentBiome.num-1][0] = currentSelection.y;
+		}
+		else {
+			game.imageX[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.x;
+			game.imageY[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.y;
+		}
+		document.onkeyup   = null;
+		document.onkeydown = handleKeyDown;
+		createjs.Ticker.removeAllEventListeners();
+		ResetHelpText();
+		game.getStage().update();
+	}
+	
+	function toggleOffScaleMode() {
+		scaleModeOn = false;
+		var bounds = currentSelection.getBounds();
+		var maxBound = Math.max(bounds.height, bounds.width);
+		if (currentSelection.name === "precip") {
+			game.otherScale[game.currentBiome.num-1][1] = currentSelection.scaleX*maxBound;
+		}
+		else if(currentSelection.name === "temperature") {
+			game.otherScale[game.currentBiome.num-1][0] = currentSelection.scaleX*maxBound;
+		}
+		else {
+			game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)] = currentSelection.scaleX*maxBound;
+		}
+		console.log(game.imageScale[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)]);
+		document.onkeyup   = null;
+		document.onkeydown = handleKeyDown;
+		createjs.Ticker.removeAllEventListeners();
+		ResetHelpText();
+		game.getStage().update();
+	}
+		
+	function closeEditInfoBox() {
+		editInfoBoxOpen = false;
+		EditInfoDiv.style.display = "none";
+	}
+
+	function submitChange() {
+		// Save the new text
+		if (currentSelection.name === "precip") {
+			game.otherText[game.currentBiome.num-1][1][0] = EditInfoDiv.children[0].value;
+		}
+		else if(currentSelection.name === "temperature") {
+			game.otherText[game.currentBiome.num-1][0][0] = EditInfoDiv.children[0].value;
+		}
+		else {
+			game.imageText[game.currentBiome.num-1][GetAssetIndexByID(currentSelection.name)][0] = EditInfoDiv.children[0].value;
+		}
+		closeEditInfoBox();
 	}
 	
 	/**
