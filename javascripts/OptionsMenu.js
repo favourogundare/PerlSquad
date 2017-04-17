@@ -1,5 +1,6 @@
 //declare options menu button containers
 function eventOptionsMenu() {
+	"use strict";
 	var edit_button;
 	var done_button;
 	var options_title;

@@ -4,6 +4,7 @@
 * board, a segue to another part of a game, an animation, mini-game, etc...
 */
 function GameEvent(actionFunction) {
+	"use strict";
     //-- Private --//
     var icon; // Reference to EaselJS Shape object
 

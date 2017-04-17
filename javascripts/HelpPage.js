@@ -10,7 +10,7 @@ var helpPagePic
  *  Explains game mechanics for minigames as well
  */
 function eventHelpPage() {
-
+	"use strict";
     /*
         help page container
         background

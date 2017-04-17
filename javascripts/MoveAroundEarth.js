@@ -2,11 +2,10 @@
  * @function eventMoveAroundEarth
  * Allows player to pick a biome to visit.
  */
-
-var timestamp;
-
 function eventMoveAroundEarth() {
-    timestamp = new Date();
+	"use strict";
+    var timestamp = new Date();
+	var moveOK;
     
     var moveText;
 	function handleClick(event) {
@@ -74,16 +73,6 @@ function eventMoveAroundEarth() {
     game.getMainContainer().addChild(moveOK);
     game.getMainContainer().addChild(playerIcon);
     game.getStage().update();
-    
-    
-    /**
-     * @function this.transition
-     * Moves from one GameEvent to the other, simply takes away old eventListeners
-     */
-    this.transition = function() {
-        game.getCurrentPlayer().getIcon().removeAllEventListeners();
-    }
-    
 }
 
 

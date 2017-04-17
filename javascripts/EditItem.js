@@ -5,6 +5,7 @@
  *  user to edit the images in the game.
  */
 function eventEditGame() {
+	"use strict";
 	console.log("editing");
 	var KEYCODE_B     = 66;
 	var KEYCODE_D     = 68;
@@ -46,6 +47,8 @@ function eventEditGame() {
 	var infoText = new createjs.Text();
 	var infoTextInner;
 	var infoPage = new createjs.Container();
+	var numDescriptions, numImages;
+	var bounds, maxBound;
 	
 	game.getStage().enableMouseOver(10);
 	
@@ -143,154 +146,116 @@ function eventEditGame() {
 		}
 	}
 	
-	if(window.FileReader) { 
-		var load      = new Event('load');
-		var loadend   = new Event('loadend');
-		
-		function cancel(e) {
-			if (e.preventDefault) { e.preventDefault(); }
-			return false;
-		}
-		
-		// Tells the browser that we *can* drop on this target
-		dropzone.addEventListener('dragover', cancel);
-		dropzone.addEventListener('dragenter', cancel);
-		dropzone.addEventListener('drop', HandleDrop);
-		function HandleDrop(e) {
-			e = e || window.event; // get window.event if e argument missing (in IE)   
-			if (e.preventDefault) { console.log("prevented"); e.preventDefault(); } // stops the browser from redirecting off to the image.
-			if (moveModeOn) {
-				toggleOffMoveMode();
-			}
-			if (scaleModeOn) {
-				toggleOffScaleMode();
-			}
-			if (editInfoBoxOpen) {
-				if (confirm("Would you like to save changes to the text?")) {
-					submitChange();
-				}
-				if(editInfoBoxOpen) {
-					closeEditInfoBox();
-				}
-			}
-			if (HelpDisplayed) {
-				toggleOffHelp();
-			}
-			document.onkeydown = null;
-			console.log(e);
-			
-			var files = e.dataTransfer.files;
-			for (var i=0; i<files.length; i++) {
-				var file = files[i];
-				console.log("FILEEEE: "+ file);
-				createFormData(file);
-				
-				if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
-					alert('Woah there! Images uploaded must be in\none of the following formats:\n{.jpg, .jpeg, .png, .gif}');
-				}
-				else if (file.size < 2000000) {
-					var reader = new FileReader();
-					var progressText = new createjs.Text("", "64px Arial", "#ffffff");
-						progressText.x = game.getStage().width/2;
-						progressText.y = game.getStage().height/2;
-						progressText.textAlign = "center";
-						progressText.textBaseline = "middle";
-					game.getStage().addChild(progressText);
-					reader.addEventListener('progress', function(prog_e) {
-						progressText.text = "Image " + (prog_e.loaded / prog_e.total * 100|0) + "% Loaded";
-						game.getStage().update();
-					});
-					
-					reader.addEventListener('loadend', function (event) {
-						game.getStage().removeChild(progressText);
-						var imgX = e.clientX;
-						var imgY = e.clientY;
-						var previewImage = new Image();
-						previewImage.src = event.target.result;
-						console.log(event.target);
-						previewImage.onload = function() {
-							console.log(previewImage);
-							var previewBtmp = new createjs.Bitmap(previewImage);
-							previewBtmp.x = imgX;
-							previewBtmp.y = imgY;
-							var bounds = previewBtmp.getBounds();
-							var maxBound = Math.max(bounds.height, bounds.width);
-							var imgScale = maxBound;
-							console.log(maxBound);
-							if (maxBound > 120) {
-								previewBtmp.scaleX = previewBtmp.scaleY = 120/maxBound;
-								imgScale = previewBtmp.scaleX*maxBound;
-								console.log("Resized image");
-							}
-							previewBtmp.scaleBackX = previewBtmp.scaleBackY = previewBtmp.scaleX;
-							infoPage.addChild(previewBtmp);
-							game.getStage().update();
-							var imgID = "";
-							while (imgID === "") {
-								imgID = prompt("Please enter the id for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
-							}
-							var imgText = "";
-							while (imgText === "") {
-								imgText = prompt("Please enter the text for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe something about the image.", "");
-							}
-							ImagesOnScreen.push(imgID);
-							CBMAppend(imgID);
-							previewBtmp.name = imgID;
-							game.imageSources[game.currentBiome.num-1].push("Pictures/Animals/"+game.currentBiome.name+"/"+file.name);
-							game.imageScale[game.currentBiome.num-1].push(imgScale);
-							game.imageX[game.currentBiome.num-1].push(imgX);
-							game.imageY[game.currentBiome.num-1].push(imgY);
-							game.imageText[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = [imgText];
-							game.assets[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = { result: previewImage, item: {id: imgID} };
-							SetSelectEffects(previewBtmp, game.currentBiome.num-1, game.imageScale[game.currentBiome.num-1].length-1);
-						};
-						//bgrnd.sourceRect = new createjs.Rectangle(0,0,300,300);
-					});
-					reader.readAsDataURL(file);
-				}
-				else {
-					alert("Woah there! File size limit is 2MB...\nTry uploading a smaller file.");
-				}
-				
-				//attach event handlers here...
-				/*Function.prototype.bindToEventHandler = function bindToEventHandler() {
-					var handler = this;
-					var boundParameters = Array.prototype.slice.call(arguments);
-					//create closure
-					return function(e) {
-						e = e || window.event; // get window.event if e argument missing (in IE)   
-						boundParameters.unshift(e);
-						handler.apply(this, boundParameters);
-					}
-				};*/
-				
-				/*reader.addEventListener('loadend', function(e, file) {
-					console.log(file);
-					var bin           = this.result; 
-					var newFile       = document.createElement('div');
-					newFile.innerHTML = 'Loaded : '+file.name+' size '+file.size+' B';
-					list.appendChild(newFile);  
-					var fileNumber = list.getElementsByTagName('div').length;
-					status.innerHTML = fileNumber < files.length 
-									 ? 'Loaded 100% of file '+fileNumber+' of '+files.length+'...' 
-									 : 'Done loading. processed '+fileNumber+' files.';
-
-					var img = document.createElement("img"); 
-					img.file = file;   
-					img.src = bin;
-					list.appendChild(img);
-				}.bindToEventHandler(file));
-				
-				reader.readAsDataURL(file);*/
-			
-			
-			}
-			document.onkeydown = handleKeyDown;
-			return false;
-		}
+	function cancel(e) {
+		if (e.preventDefault) { e.preventDefault(); }
+		return false;
 	}
-	else {
-		alert('Your browser does not support the HTML5 FileReader. Try another browser.');
+	
+	var load      = new Event('load');
+	var loadend   = new Event('loadend');
+	
+	// Tells the browser that we *can* drop on this target
+	dropzone.addEventListener('dragover', cancel);
+	dropzone.addEventListener('dragenter', cancel);
+	dropzone.addEventListener('drop', HandleDrop);
+	function HandleDrop(e) {
+		e = e || window.event; // get window.event if e argument missing (in IE)   
+		if (e.preventDefault) { console.log("prevented"); e.preventDefault(); } // stops the browser from redirecting off to the image.
+		if (moveModeOn) {
+			toggleOffMoveMode();
+		}
+		if (scaleModeOn) {
+			toggleOffScaleMode();
+		}
+		if (editInfoBoxOpen) {
+			if (confirm("Would you like to save changes to the text?")) {
+				submitChange();
+			}
+			if(editInfoBoxOpen) {
+				closeEditInfoBox();
+			}
+		}
+		if (HelpDisplayed) {
+			toggleOffHelp();
+		}
+		document.onkeydown = null;
+		console.log(e);
+		
+		var files = e.dataTransfer.files;
+		for (var i=0; i<files.length; i++) {
+			var file = files[i];
+			console.log("FILEEEE: "+ file);
+			createFormData(file);
+			
+			if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+				alert('Woah there! Images uploaded must be in\none of the following formats:\n{.jpg, .jpeg, .png, .gif}');
+			}
+			else if (file.size < 2000000) {
+				var reader = new FileReader();
+				var progressText = new createjs.Text("", "64px Arial", "#ffffff");
+					progressText.x = game.getStage().width/2;
+					progressText.y = game.getStage().height/2;
+					progressText.textAlign = "center";
+					progressText.textBaseline = "middle";
+				game.getStage().addChild(progressText);
+				reader.addEventListener('progress', function(prog_e) {
+					progressText.text = "Image " + (prog_e.loaded / prog_e.total * 100|0) + "% Loaded";
+					game.getStage().update();
+				});
+				
+				reader.addEventListener('loadend', function (event) {
+					game.getStage().removeChild(progressText);
+					var imgX = e.clientX;
+					var imgY = e.clientY;
+					var previewImage = new Image();
+					previewImage.src = event.target.result;
+					console.log(event.target);
+					previewImage.onload = function() {
+						console.log(previewImage);
+						var previewBtmp = new createjs.Bitmap(previewImage);
+						previewBtmp.x = imgX;
+						previewBtmp.y = imgY;
+						var bounds = previewBtmp.getBounds();
+						var maxBound = Math.max(bounds.height, bounds.width);
+						var imgScale = maxBound;
+						console.log(maxBound);
+						if (maxBound > 120) {
+							previewBtmp.scaleX = previewBtmp.scaleY = 120/maxBound;
+							imgScale = previewBtmp.scaleX*maxBound;
+							console.log("Resized image");
+						}
+						previewBtmp.scaleBackX = previewBtmp.scaleBackY = previewBtmp.scaleX;
+						infoPage.addChild(previewBtmp);
+						game.getStage().update();
+						var imgID = "";
+						while (imgID === "") {
+							imgID = prompt("Please enter the id for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
+						}
+						var imgText = "";
+						while (imgText === "") {
+							imgText = prompt("Please enter the text for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe something about the image.", "");
+						}
+						ImagesOnScreen.push(imgID);
+						CBMAppend(imgID);
+						previewBtmp.name = imgID;
+						game.imageSources[game.currentBiome.num-1].push("Pictures/Animals/"+game.currentBiome.name+"/"+file.name);
+						game.imageScale[game.currentBiome.num-1].push(imgScale);
+						game.imageX[game.currentBiome.num-1].push(imgX);
+						game.imageY[game.currentBiome.num-1].push(imgY);
+						game.imageText[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = [imgText];
+						game.assets[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = { result: previewImage, item: {id: imgID} };
+						SetSelectEffects(previewBtmp, game.currentBiome.num-1, game.imageScale[game.currentBiome.num-1].length-1);
+					};
+					//bgrnd.sourceRect = new createjs.Rectangle(0,0,300,300);
+				});
+				reader.readAsDataURL(file);
+			}
+			else {
+				alert("Woah there! File size limit is 2MB...\nTry uploading a smaller file.");
+			}
+		}
+		document.onkeydown = handleKeyDown;
+		return false;
 	}
 	
 	console.log ("NOT BROKEN");
@@ -301,7 +266,7 @@ function eventEditGame() {
 		HelpText.y = game.getStage().height/3-15;
 		HelpText.font = "25px Arial";
 		HelpText.color = "black";
-		HelpTextInner = HelpText.clone();
+	var HelpTextInner = HelpText.clone();
 		HelpTextInner.color = "white";
 		HelpTextInner.shadow = undefined;
 		HelpTextInner.outline = false;
@@ -327,6 +292,7 @@ function eventEditGame() {
 	function GetManifestBiomeSection() {
 		var lines = game.workingManifest.split("\n");
 		var BiomeSectionNum = 0;
+		var OuterSection;
 		for (var i=0; i<lines.length; i++) {
 			if (isNumber(lines[i])) {
 				console.log("New Biome!!!!!!!!!");

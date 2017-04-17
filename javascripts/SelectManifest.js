@@ -111,26 +111,20 @@ function eventSelectManifest(purpose) {
  *  Parses manifest and stores values into array for preloading.
  */
 function parseManifest(file) {
-	var numImages;
-	var numDescriptions;
-	var source;
-	var imgID;
+	"use strict";
+	game.workingManifest = file;
+	var numImages, numDescriptions, numTempDescriptions, numPrecDescriptions, imageNum;
+	var source, imgID;
 	var imageManifest = [];
 	var index = -1;
-	game.workingManifest = file;
-	console.log(file);
 	var results = file.split("\n");
-	//id scale x y
 	for (var i=0; i<results.length; i++) {
 		if (isNumber(results[i])) {
-			console.log("New Biome!!!!!!!!!");
-			numImages = results[i];
 			index++;
-			game.numImages[index] = results[i];
-			console.log("NumImages: "+game.numImages[index]);
-			i++;
-			game.displayedImageNum[index] = results[i];
-			console.log("DisplayedImageNum: " +results[i]);
+			numImages = results[i];
+			game.numImages[index]         = results[i];
+			game.displayedImageNum[index] = results[++i];
+			
 			game.imageSources[index] = [];
 			game.imageText[index]    = [];
 			game.imageScale[index]   = [];
@@ -140,66 +134,43 @@ function parseManifest(file) {
 			game.otherScale[index]   = [];
 			game.otherX[index]       = [];
 			game.otherY[index]       = [];
-			var imageNum = 0;
+			imageManifest[index]     = [];
+			
+			imageNum = 0;
 			while(game.numImages[index]>imageNum) {
-				i++;
-				source = results[i];
+				source = results[++i];
 				game.imageSources[index].push(source);
-				console.log("Image:" + results[i]);
-				i++;
-				imgID = results[i];
-				console.log("HERE IS THE ID: " + imgID);
-				if (imageManifest[index]) {
-					imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
-				}
-				else {
-					imageManifest[index] = [{type: createjs.AbstractLoader.IMAGE, src: source, id: imgID}];
-				}
+				imgID = results[++i];
+				imageManifest[index].push({type: createjs.AbstractLoader.IMAGE, src: source, id: imgID});
 				game.imageScale[index][imageNum] = results[++i];
 				game.imageX[index][imageNum]     = results[++i];
 				game.imageY[index][imageNum]     = results[++i];
-				numDescriptions = results[++i];
-				console.log("numDescriptions = " + numDescriptions);
+				numDescriptions                  = results[++i];
+				game.imageText[index][imageNum]  = [];
 				while(numDescriptions>0) {
-					i++;
-					//game.getStage().update();
-					if (game.imageText[index][imageNum]) {
-						game.imageText[index][imageNum].push(prettifyText(results[i]));
-					}
-					else {
-						game.imageText[index][imageNum] = [prettifyText(results[i])];
-					}
-					console.log("Description" + results[i]);
+					game.imageText[index][imageNum].push(prettifyText(results[++i]));
 					numDescriptions--;
 				}
 				imageNum++;
 			}
-			//source = results[++i];
-			//console.log("Bkgrd Src: " + source);
-			//imageManifest[index].push([{type: createjs.AbstractLoader.IMAGE, src: source}]);
 			i++;
 			game.otherScale[index][0] = results[++i];
 			game.otherX[index][0]     = results[++i];
 			game.otherY[index][0]     = results[++i];
-			i++;
-			console.log("NumTempDescriptions: " + results[i]);
-			var numTempDescriptions = results[i];
-			game.otherText[index][0] = [];
+			numTempDescriptions       = results[++i];
+			game.otherText[index][0]  = [];
 			while (numTempDescriptions>0) {
-				i++;
-				game.otherText[index][0].push(prettifyText(results[i]));
+				game.otherText[index][0].push(prettifyText(results[++i]));
 				numTempDescriptions--;
 			}
 			i++;
 			game.otherScale[index][1] = results[++i];
 			game.otherX[index][1]     = results[++i];
 			game.otherY[index][1]     = results[++i];
-			i++;
-			var numPrecDescriptions = results[i];
-			game.otherText[index][1] = [];
+			var numPrecDescriptions   = results[++i];
+			game.otherText[index][1]  = [];
 			while (numPrecDescriptions>0) {
-				i++;
-				game.otherText[index][1].push(prettifyText(results[i]));
+				game.otherText[index][1].push(prettifyText(results[++i]));
 				numPrecDescriptions--;
 			}
 		}
@@ -241,6 +212,7 @@ function prettifyText(inputText) {
 	 *  Checks if a value is a number
 	 */
 	function isNumber(n) {
+		"use strict";
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 

@@ -4,6 +4,7 @@
  * Scroll over objects for information.
  */
 function eventInfoScreen(){
+	"use strict";
     var timestamp = new Date(); // For analytics
 	var infoTextInner;
 	var infoText;

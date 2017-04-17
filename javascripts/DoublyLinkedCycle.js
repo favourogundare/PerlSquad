@@ -6,6 +6,7 @@
  *  Node class for doubly linked cycle, storing the next and previous nodes for that node.
  */
 function Node(num, name, x, y) {
+	"use strict";
 	this.num      = num;
 	this.name     = name;
 	this.x        = x;
@@ -19,6 +20,7 @@ function Node(num, name, x, y) {
  *  DoublyLinkedCycle class, storing length, head, and tail
  */
 function DoublyLinkedCycle() {
+	"use strict";
 	this.length = 0;
 	this.head = null;
 	this.tail = null;
@@ -34,6 +36,7 @@ function DoublyLinkedCycle() {
  *  Otherwise, it makes the new node the tail, and connects the tail to the head both directions.
  */
 DoublyLinkedCycle.prototype.add = function(num, name, x, y) {
+	"use strict";
     var node = new Node(num, name, x, y);
  
     if (this.length > 0) {

@@ -10,16 +10,17 @@
  *
  */
 function makeOKButton(xCord, yCord, eventListener) {
+	"use strict";
     var container = new createjs.Container();
-    container.x = xCord;
-    container.y = yCord;
+		container.x = xCord;
+		container.y = yCord;
     
     var rect = new createjs.Shape();
-    rect.graphics.beginFill("#18770e").drawRect(0, 0, 65, 45)
+		rect.graphics.beginFill("#18770e").drawRect(0, 0, 65, 45)
     
-    text = new createjs.Text("OK", "36px Arial", "#FFFFFF");
-    text.x = 6;
-    text.y = 3;
+    var text = new createjs.Text("OK", "36px Arial", "#FFFFFF");
+		text.x = 6;
+		text.y = 3;
     
     container.addChild(rect)
     container.addChild(text)
@@ -40,6 +41,7 @@ function makeOKButton(xCord, yCord, eventListener) {
  *  Rectangular button class.
  */
 function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH, outColor, buttonEvent, buttonFunction) {
+	"use strict";
 	this.container        = new createjs.Container();
 	this.container.x      = buttonX;
 	this.container.y      = buttonY;
@@ -73,6 +75,7 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
  *  Circular button class.
  */
 function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, buttonColor, buttonX, buttonY, buttonR, outColor, buttonEvent, buttonFunction) {
+	"use strict";
 	this.container        = new createjs.Container();
 	this.container.x      = buttonX;
 	this.container.y      = buttonY;

@@ -1,17 +1,15 @@
-var timestamp;
 /**
  * @function eventScrollGame
  * Mini-game portion of the game. Players click animals
  * that belong to the biome and avoid ones that don't.
  */
-var bgrnd;
 function eventScrollGame() {
-	timestamp = new Date();
-    /** standard canvas and stage variables */
+	"use strict";
+	var timestamp = new Date();
+    /** standard canvas variable */
     var canvas;
-    var stage;
     /** background image*/
-    var bg;
+    var bg, bgrnd;
     /** keeps track of correctly and incorrectly clicked objects */
     var correct = 0;
 	var incorrect = 0;
@@ -34,6 +32,9 @@ function eventScrollGame() {
 	var difficulty = 1;
 	/** difficulty of the minigame - 1 is easy, 3 is normal, 5 is hard 
 		defaults to easy so that first objects generated are slower to ease player into the game*/
+	
+	/** big container for elements of scroll game */
+    var big_contain = new createjs.Container();
     
     /**
      * @function onMouseDown
@@ -60,8 +61,7 @@ function eventScrollGame() {
     };
     
     canvas = document.getElementById("main");
-	// big container for elements of scroll game
-    big_contain = new createjs.Container();
+	
     
     canvas.onmousedown = onMouseDown;
     canvas.onmouseup = onMouseUp;
@@ -105,7 +105,7 @@ function eventScrollGame() {
     bg.onload = setBG;
 	
 	// "good" animal is retreived from the assets array
-	var good1 = new createjs.Bitmap(game.assets[bioindex][1].result);
+	var good1 = new createjs.Bitmap(game.assets[bioindex][0].result);
 	good1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	good1.name = "good1";
 	// scales the image to be roughly the same size as the others
@@ -116,7 +116,7 @@ function eventScrollGame() {
 	good1.scaleY = good1.scaleBackY = 140/maxgood1;
     
 	// "bad" animal retrieved
-    var bad1 = new createjs.Bitmap(game.assets[bad_bio][1].result);
+    var bad1 = new createjs.Bitmap(game.assets[bad_bio][0].result);
 	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	bad1.name = "bad1";
 	var bad1bounds = bad1.getBounds();
@@ -124,7 +124,7 @@ function eventScrollGame() {
 	bad1.scaleX = bad1.scaleBackX = 140/maxbad1;
 	bad1.scaleY = bad1.scaleBackY = 140/maxbad1;
 	
-	var good2 = new createjs.Bitmap(game.assets[bioindex][2].result);
+	var good2 = new createjs.Bitmap(game.assets[bioindex][1].result);
 	good2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	var good2bounds = good2.getBounds();
 	var maxgood2 = Math.max(good2bounds.height, good2bounds.width);
@@ -132,7 +132,7 @@ function eventScrollGame() {
 	good2.scaleY = good2.scaleBackY = 140/maxgood2;
 	good2.name = "good2";
 	
-	var bad2 = new createjs.Bitmap(game.assets[bad_bio][2].result);
+	var bad2 = new createjs.Bitmap(game.assets[bad_bio][1].result);
 	bad2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	var bad2bounds = bad2.getBounds();
 	var maxbad2 = Math.max(bad2bounds.height, bad2bounds.width);
@@ -359,7 +359,7 @@ function eventScrollGame() {
 		img.on("rollover", function (event) {
 			this.scaleX = this.scaleBackX * 1.1;
 			this.scaleY = this.scaleBackY * 1.1;
-			infoText.text = game.imageText[index][i];
+			infoText.text = game.imageText[index][i][0];
 			infoText.font = "25px Arial";
 			infoText.color = "black";
 			infoText.x = 250;
@@ -383,16 +383,16 @@ function eventScrollGame() {
 	}
 	
 	function setBiomeInfo() {
-		for (var i=1; i<3; i++) {
+		for (var i=0; i<2; i++) {
 			var newImage = new createjs.Bitmap(game.assets[bioindex][i].result);
 			big_contain.addChild(newImage);
-			setImg(newImage, 85, 100 + 200 * (i-1) );
+			setImg(newImage, 85, 80 + 200 * i );
 			setHoverEffects(newImage, bioindex, i);
 		}
-		for (var i=1; i<3; i++) {
+		for (var i=0; i<2; i++) {
 			var newImage = new createjs.Bitmap(game.assets[bad_bio][i].result);
 			big_contain.addChild(newImage);
-			setImg(newImage, 775, 100 + 200 * (i-1) );
+			setImg(newImage, 775, 80 + 200 * i );
 			setHoverEffects(newImage, bad_bio, i);
 		}
 

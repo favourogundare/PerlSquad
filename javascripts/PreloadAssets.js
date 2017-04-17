@@ -1,5 +1,4 @@
 /* jshint strict: true */
-var preload;
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
@@ -7,12 +6,13 @@ var preload;
 function eventPreloadAssets(manifest) {
 	"use strict";
 	// Analytics
-    timestamp = new Date();
+    var timestamp = new Date();
 	
 	var itemProgressText;
 	var progressText;
 	var BiomeIndex;
 	var loadItem;
+	var preload;
 	
 	for (var i=0; i<game.assets.length; i++) {
 		game.assets[i] = [];
@@ -138,9 +138,4 @@ function eventPreloadAssets(manifest) {
 			}   
 		}
 	}
-}
-
-function getPreload() {
-	"use strict";
-    return preload;
 }

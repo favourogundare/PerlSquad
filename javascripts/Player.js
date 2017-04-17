@@ -3,6 +3,7 @@
 * Represents a player in the game
 */
 function Player(easelJSShape) {
+	"use strict";
     //-- Private --//
     /** Reference to EaselJS Shape  object, if the player has an avatar or similar */
     var icon = (easelJSShape !== undefined) ? easelJSShape : undefined; 

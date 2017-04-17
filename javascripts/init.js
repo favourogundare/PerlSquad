@@ -3,13 +3,14 @@
  *  Initializes the game and hides the Description div.
  */
 function init() {
-    var stage = new createjs.Stage("main");
+	"use strict";
+	var stage = new createjs.Stage("main");
 	var CBMBkgrd = document.getElementById("CheckboxMenuBkgrd");
 	var CBM         = document.getElementById("CheckboxMenu");
 	var CBMAdd      = document.getElementById("CheckboxMenuAdd");
 	var CBMDelete   = document.getElementById("CheckboxMenuDelete");
-    Description.value = '';
-    ImageSource.value = '';
+	Description.value = '';
+	ImageSource.value = '';
 	CBMBkgrd.addEventListener("mousedown", function(event) {
 		currentSelection = null;
 		window.addEventListener("mousemove", CBMHandleMove, true);
