@@ -51,7 +51,7 @@ function eventStartMenu() {
 	 */
 	function onHelp() {
 		game.getStage().update();
-		game.getStage().update();
+		game.getStage().removeChild(start_page);
 		eventHelpPage();
 	}
 }

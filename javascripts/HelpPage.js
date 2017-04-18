@@ -59,7 +59,11 @@ function eventHelpPage() {
 		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 		
 		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
-		var HelpSubPageText = new createjs.Text("Click 'Start' then Default\n\n Select a Biome and then 'OK' to Play\n\n During the Minigame Click ONLY \n\nThe animals that belong within the biome \n\n Double Click Black Box Text Box to Exit", "30px Arial", "#ffffff");
+		var HelpSubPageText = new createjs.Text("Click 'Start'. Then, select a manifest.\n\n"+
+												"Pick default if you're unsure what to click.\n\n"+
+												"Follow in-game instructions from there.\n\n"+
+												"**********************************************\n\n"+
+												"(Double Click Black Box Text Box to Exit)", "30px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
@@ -82,7 +86,11 @@ function eventHelpPage() {
 		help_subcontainer_background.graphics.beginFill("#000000").drawRect(game.getStage().width/2 - 300, game.getStage().height/2 - 150, 600, 300);
 
 		//var HelpSubPageText = new createjs.Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit \n\n\n\nimage here\n\n\n\n\n Double Click to Exit", "24px Arial", "#000000");
-		var HelpSubPageText = new createjs.Text("Click 'Options' then 'Edit Image'\n\n Click 'Upload' or 'Browse' \n\n To add or edit an image in-game\n\nClick 'Done' when finished \n\n Double Click Black Box Text Box to Exit", "30px Arial", "#ffffff");
+		var HelpSubPageText = new createjs.Text("Click 'Options'. Then click 'Edit Image'\n\n"+
+												"Pick manifest to edit. Pick default if unsure.\n\n"+
+												"Pick biome to edit. Press 'H' for help.\n\n"+
+												"************************************************\n\n"+
+												"(Double Click Black Box Text Box to Exit)", "30px Arial", "#ffffff");
 		HelpSubPageText.x = game.getStage().width/2;
 		HelpSubPageText.y = 100;
 		HelpSubPageText.textAlign = "center";
