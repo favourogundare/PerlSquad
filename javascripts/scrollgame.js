@@ -149,22 +149,37 @@ function eventScrollGame() {
     function setBG(event){
         bgrnd = new createjs.Bitmap(bg);
         game.getStage().addChild(bgrnd, big_contain);
-		var start_text = new createjs.Text("Please select difficulty: \n", "32px Arial", "white");
-		var instruct_text = new createjs.Text("Click on the Animals that belong in the biome!\nThe animals will speed up over time\n", "28px Arial", "white");
-		instruct_text.shadow = new createjs.Shadow("#000000", 3, 3, 5);
-		start_text.x = game.getStage().width/2 - 135;
-		start_text.y = game.getStage().height/3 - 10;
-		start_text.align = "center";
-		instruct_text.x = game.getStage().width/4 - 40;
-		instruct_text.y = 60;
-		instruct_text.align = "center";
+		
+		var instruct_text = new createjs.Text("Click on the Animals that belong in the biome!\n"+
+											  "The animals will speed up over time\n", "32px Arial", "black");
+			instruct_text.x = game.getStage().width/2;
+			instruct_text.y = 60;
+			instruct_text.textAlign = "center";
+		var instruct_textInner = instruct_text.clone();
+			instruct_textInner.color = "white";
+			instruct_textInner.shadow = undefined;
+			instruct_textInner.outline = false;
+			instruct_text.shadow = new createjs.Shadow("#000", -3, -3, 25);
+			instruct_text.outline = 3;
+		
+		var start_text = new createjs.Text("Please select difficulty:\n", "32px Arial", "black");
+			start_text.x = game.getStage().width/2;
+			start_text.y = game.getStage().height/3 - 10;
+			start_text.textAlign = "center";
+		var start_textInner = start_text.clone();
+			start_textInner.color = "white";
+			start_textInner.shadow = undefined;
+			start_textInner.outline = false;
+			start_text.shadow = new createjs.Shadow("#000", -3, -3, 25);
+			start_text.outline = 3;
+		
 		var start_box = new createjs.Shape();
 		start_box.shadow = new createjs.Shadow("#000000", 5, 5, 10);
-		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 185, canvas.height/3 - 15, 410, 170);
-		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 120, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_easy);
-		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2 + 20, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_medium);
-		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 160, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_hard);
-        start_contain.addChildAt(start_box, start_text, instruct_text, easy_button.container, med_button.container, hard_button.container, 0);
+		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 205, canvas.height/3 - 15, 410, 170);
+		var easy_button = new CircleButton("Easy", "24px Arial", 0, 0, "#00e676", game.getStage().width/2 - 140, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_easy);
+		var med_button = new CircleButton("Medium", "24px Arial", 0, 0, "#ff9100", game.getStage().width/2, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_medium);
+		var hard_button = new CircleButton("Hard", "24px Arial", 0, 0, "#00b0ff", game.getStage().width/2 + 140, game.getStage().height/3 + 80, 55, "#bdbdbd", "click", pick_hard);
+        start_contain.addChild(start_box, start_text, start_textInner, instruct_text, instruct_textInner, easy_button.container, med_button.container, hard_button.container);
 		big_contain.addChild(start_contain);
 		game.getStage().update();
     }
@@ -324,7 +339,7 @@ function eventScrollGame() {
     function gameOver(){
         big_contain.removeAllChildren();
 		var scoreBox = new createjs.Shape();
-		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 245, canvas.height/3 - 30, 485, 210);
+		scoreBox.graphics.beginFill("#212121").drawRect(canvas.width/2 - 275, canvas.height/3 - 30, 550, 210);
 		scoreBox.shadow = new createjs.Shadow("#000000", 5, 5, 10);
 		big_contain.addChild(scoreBox);
         gameTxt = new createjs.Text("Game Over\n", "36px Arial", "white");
@@ -360,7 +375,7 @@ function eventScrollGame() {
 			this.scaleX = this.scaleBackX * 1.1;
 			this.scaleY = this.scaleBackY * 1.1;
 			infoText.text = game.imageText[index][i][0];
-			infoText.font = "25px Arial";
+			infoText.font = "28px Arial";
 			infoText.color = "black";
 			infoText.x = 250;
 			infoText.y = 10;
@@ -386,7 +401,7 @@ function eventScrollGame() {
 		for (var i=0; i<2; i++) {
 			var newImage = new createjs.Bitmap(game.assets[bioindex][i].result);
 			big_contain.addChild(newImage);
-			setImg(newImage, 85, 80 + 200 * i );
+			setImg(newImage, 45, 80 + 200 * i );
 			setHoverEffects(newImage, bioindex, i);
 		}
 		for (var i=0; i<2; i++) {

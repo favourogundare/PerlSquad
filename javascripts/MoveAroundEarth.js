@@ -7,14 +7,14 @@ function eventMoveAroundEarth() {
     var timestamp = new Date();
 	var moveOK;
     
-    var moveText;
+    var moveText, moveTextInner;
 	function handleClick(event) {
         game.currentBiome = game.currentBiome.next;
 		if (game.started === false) {
-			moveText.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Edit";
+			moveText.text = moveTextInner.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Edit";
 		}
 		else {
-			moveText.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit";
+			moveText.text = moveTextInner.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit";
 		}
         console.log(game.currentBiome.name);
         playerIcon.x = game.currentBiome.x;
@@ -24,9 +24,7 @@ function eventMoveAroundEarth() {
     function onMoveOK(event) {
 		// Analytics
 		sendUserTimeInfo("biome-selection", timestamp);
-        game.getMainContainer().removeChild(moveText);
-        game.getMainContainer().removeChild(playerIcon);
-        game.getMainContainer().removeChild(moveOK);
+        game.getMainContainer().removeChild(moveText, moveTextInner, playerIcon, moveOK);
 		playerIcon.removeAllEventListeners(); 
 		if (game.started === false) {
 			game.getStage().update();
@@ -60,18 +58,22 @@ function eventMoveAroundEarth() {
     playerIcon.y = game.currentBiome.y;
     playerIcon.addEventListener("click", handleClick);
     
-    moveText = new createjs.Text("Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit", "20px Arial", "#ff7700");
+    moveText = new createjs.Text("Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit", "30px Arial", "black");
     moveText.textAlign    = "center";
 	moveText.textBaseline = "middle";
     moveText.x = game.getStage().width/2;
-    moveText.y = game.getStage().height - 50;
+    moveText.y = game.getStage().height - 80;
+	moveTextInner = moveText.clone();
+	moveTextInner.color = "white";
+	moveTextInner.shadow = undefined;
+	moveTextInner.outline = false;
+	moveText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+	moveText.outline = 3;
     
     
     moveOK = makeOKButton(890, 15, onMoveOK)
     
-    game.getMainContainer().addChild(moveText);
-    game.getMainContainer().addChild(moveOK);
-    game.getMainContainer().addChild(playerIcon);
+    game.getMainContainer().addChild(moveText, moveTextInner, moveOK, playerIcon);
     game.getStage().update();
 }
 

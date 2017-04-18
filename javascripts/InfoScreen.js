@@ -5,16 +5,15 @@
  */
 function eventInfoScreen(){
 	"use strict";
-    var timestamp = new Date(); // For analytics
-	var infoTextInner;
-	var infoText;
+	var timestamp = new Date(); // For analytics
 	var back = new Image();
 	var prec, temp;
 	var bgrnd, precip, temperature, infoOK;
 	var infoText = new createjs.Text();
+	var infoTextInner;
 	
 	var infoPage = new createjs.Container();        
-    game.getStage().enableMouseOver(10);
+	game.getStage().enableMouseOver(10);
 
 	prec = new Image();
 	prec.src = "Pictures/icons/precipitation.png";
@@ -43,7 +42,7 @@ function eventInfoScreen(){
 			else {
 				infoText.text = game.otherText[index][i][0];
 			}
-			infoText.font = "25px Arial";
+			infoText.font = "28px Arial";
 			infoText.color = "black";
 			infoText.x = 289;
 			infoText.y = 50;

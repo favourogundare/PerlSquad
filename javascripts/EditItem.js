@@ -72,18 +72,22 @@ function eventEditGame() {
 			}
 			if ( $.inArray($(this).parent()[0].innerText, ImagesOnScreen) === -1 ) {
 				AddList.push($(this).parent()[0].innerText);
-				var toRemove = $.inArray($(this).parent()[0].innerText, ImagesNotOnScreen);
-				ImagesNotOnScreen.splice(toRemove, 1);
 			}
 			else {
 				alert("The image for " + $(this).parent()[0].innerText + " is already on the screen...");
 			}
 		});
 		console.log(AddList);
-		for (var j = 0; j < AddList.length; j++) {
-			AddToScreen(game.currentBiome.num-1, GetAssetIndexByID(AddList[j]));
+		if (AddList.length + ImagesOnScreen.length < 11) {
+			for (var j = 0; j < AddList.length; j++) {
+				AddToScreen(game.currentBiome.num-1, GetAssetIndexByID(AddList[j]));
+				var toRemove = $.inArray(AddList[j], ImagesNotOnScreen);
+				ImagesNotOnScreen.splice(toRemove, 1);
+			}
+			game.getStage().update();
+		} else {
+			alert("Cannot add that many images to the screen. At most 10 can be displayed...");
 		}
-		game.getStage().update();
 		$(".checkbox").prop('checked', false);
 	}
 	CBMDelete.addEventListener('click', CBMDeleteClicked);
@@ -107,20 +111,31 @@ function eventEditGame() {
 			});
 			console.log(DeleteList);
 			console.log(ImagesOnScreen);
+			var toRemoveFromScreen = 0;
 			for (var j = 0; j < DeleteList.length; j++) {
-				var toRemove = $.inArray(DeleteList[j], ImagesOnScreen);
-				console.log(toRemove);
-				if (toRemove > -1 ) {
-					infoPage.removeChild(infoPage.getChildByName(DeleteList[j]));
-					ImagesOnScreen.splice(toRemove, 1);
-				}
-				else {
-					ImagesNotOnScreen.splice($.inArray(DeleteList[j], ImagesNotOnScreen), 1);
+				if ($.inArray(DeleteList[j], ImagesOnScreen) > -1 ) {
+					toRemoveFromScreen++;
 				}
 			}
-			game.getStage().update();
-			console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
-			$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
+			if (ImagesOnScreen.length - toRemoveFromScreen > 1) {
+				for (var j = 0; j < DeleteList.length; j++) {
+					var toRemove = $.inArray(DeleteList[j], ImagesOnScreen);
+					console.log(toRemove);
+					if (toRemove > -1 ) {
+						infoPage.removeChild(infoPage.getChildByName(DeleteList[j]));
+						ImagesOnScreen.splice(toRemove, 1);
+					}
+					else {
+						ImagesNotOnScreen.splice($.inArray(DeleteList[j], ImagesNotOnScreen), 1);
+					}
+				}
+				game.getStage().update();
+				console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
+				$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
+			} else {
+				alert("Cannot delete images... There must be at least two animals on the screen.");
+				$(".checkbox").prop('checked', false);
+			}
 		}
 	}
 	
@@ -182,77 +197,81 @@ function eventEditGame() {
 		console.log(e);
 		
 		var files = e.dataTransfer.files;
-		for (var i=0; i<files.length; i++) {
-			var file = files[i];
-			console.log("FILEEEE: "+ file);
-			createFormData(file);
-			
-			if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
-				alert('Woah there! Images uploaded must be in\none of the following formats:\n{.jpg, .jpeg, .png, .gif}');
-			}
-			else if (file.size < 2000000) {
-				var reader = new FileReader();
-				var progressText = new createjs.Text("", "64px Arial", "#ffffff");
-					progressText.x = game.getStage().width/2;
-					progressText.y = game.getStage().height/2;
-					progressText.textAlign = "center";
-					progressText.textBaseline = "middle";
-				game.getStage().addChild(progressText);
-				reader.addEventListener('progress', function(prog_e) {
-					progressText.text = "Image " + (prog_e.loaded / prog_e.total * 100|0) + "% Loaded";
-					game.getStage().update();
-				});
+		if (ImagesOnScreen.length + files.length < 11) {
+			for (var i=0; i<files.length; i++) {
+				var file = files[i];
+				console.log("FILEEEE: "+ file);
+				createFormData(file);
 				
-				reader.addEventListener('loadend', function (event) {
-					game.getStage().removeChild(progressText);
-					var imgX = e.clientX;
-					var imgY = e.clientY;
-					var previewImage = new Image();
-					previewImage.src = event.target.result;
-					console.log(event.target);
-					previewImage.onload = function() {
-						console.log(previewImage);
-						var previewBtmp = new createjs.Bitmap(previewImage);
-						previewBtmp.x = imgX;
-						previewBtmp.y = imgY;
-						var bounds = previewBtmp.getBounds();
-						var maxBound = Math.max(bounds.height, bounds.width);
-						var imgScale = maxBound;
-						console.log(maxBound);
-						if (maxBound > 120) {
-							previewBtmp.scaleX = previewBtmp.scaleY = 120/maxBound;
-							imgScale = previewBtmp.scaleX*maxBound;
-							console.log("Resized image");
-						}
-						previewBtmp.scaleBackX = previewBtmp.scaleBackY = previewBtmp.scaleX;
-						infoPage.addChild(previewBtmp);
+				if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+					alert('Woah there! Images uploaded must be in\none of the following formats:\n{.jpg, .jpeg, .png, .gif}');
+				}
+				else if (file.size < 2000000) {
+					var reader = new FileReader();
+					var progressText = new createjs.Text("", "64px Arial", "#ffffff");
+						progressText.x = game.getStage().width/2;
+						progressText.y = game.getStage().height/2;
+						progressText.textAlign = "center";
+						progressText.textBaseline = "middle";
+					game.getStage().addChild(progressText);
+					reader.addEventListener('progress', function(prog_e) {
+						progressText.text = "Image " + (prog_e.loaded / prog_e.total * 100|0) + "% Loaded";
 						game.getStage().update();
-						var imgID = "";
-						while (imgID === "") {
-							imgID = prompt("Please enter the id for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
-						}
-						var imgText = "";
-						while (imgText === "") {
-							imgText = prompt("Please enter the text for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe something about the image.", "");
-						}
-						ImagesOnScreen.push(imgID);
-						CBMAppend(imgID);
-						previewBtmp.name = imgID;
-						game.imageSources[game.currentBiome.num-1].push("Pictures/Animals/"+game.currentBiome.name+"/"+file.name);
-						game.imageScale[game.currentBiome.num-1].push(imgScale);
-						game.imageX[game.currentBiome.num-1].push(imgX);
-						game.imageY[game.currentBiome.num-1].push(imgY);
-						game.imageText[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = [imgText];
-						game.assets[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = { result: previewImage, item: {id: imgID} };
-						SetSelectEffects(previewBtmp, game.currentBiome.num-1, game.imageScale[game.currentBiome.num-1].length-1);
-					};
-					//bgrnd.sourceRect = new createjs.Rectangle(0,0,300,300);
-				});
-				reader.readAsDataURL(file);
+					});
+					
+					reader.addEventListener('loadend', function (event) {
+						game.getStage().removeChild(progressText);
+						var imgX = e.clientX;
+						var imgY = e.clientY;
+						var previewImage = new Image();
+						previewImage.src = event.target.result;
+						console.log(event.target);
+						previewImage.onload = function() {
+							console.log(previewImage);
+							var previewBtmp = new createjs.Bitmap(previewImage);
+							previewBtmp.x = imgX;
+							previewBtmp.y = imgY;
+							var bounds = previewBtmp.getBounds();
+							var maxBound = Math.max(bounds.height, bounds.width);
+							var imgScale = maxBound;
+							console.log(maxBound);
+							if (maxBound > 120) {
+								previewBtmp.scaleX = previewBtmp.scaleY = 120/maxBound;
+								imgScale = previewBtmp.scaleX*maxBound;
+								console.log("Resized image");
+							}
+							previewBtmp.scaleBackX = previewBtmp.scaleBackY = previewBtmp.scaleX;
+							infoPage.addChild(previewBtmp);
+							game.getStage().update();
+							var imgID = "";
+							while (imgID === "") {
+								imgID = prompt("Please enter the id for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
+							}
+							var imgText = "";
+							while (imgText === "") {
+								imgText = prompt("Please enter the text for your image.\nIf uploading more than one, enter the ids for images left to right and top to bottom.\nSuggestion: The id should describe something about the image.", "");
+							}
+							ImagesOnScreen.push(imgID);
+							CBMAppend(imgID);
+							previewBtmp.name = imgID;
+							game.imageSources[game.currentBiome.num-1].push("Pictures/Animals/"+game.currentBiome.name+"/"+file.name);
+							game.imageScale[game.currentBiome.num-1].push(imgScale);
+							game.imageX[game.currentBiome.num-1].push(imgX);
+							game.imageY[game.currentBiome.num-1].push(imgY);
+							game.imageText[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = [imgText];
+							game.assets[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = { result: previewImage, item: {id: imgID} };
+							SetSelectEffects(previewBtmp, game.currentBiome.num-1, game.imageScale[game.currentBiome.num-1].length-1);
+						};
+						//bgrnd.sourceRect = new createjs.Rectangle(0,0,300,300);
+					});
+					reader.readAsDataURL(file);
+				}
+				else {
+					alert("Woah there! File size limit is 2MB...\nTry uploading a smaller file.");
+				}
 			}
-			else {
-				alert("Woah there! File size limit is 2MB...\nTry uploading a smaller file.");
-			}
+		} else {
+			alert("Cannot add that many images to the screen. At most 10 can be displayed...");
 		}
 		document.onkeydown = handleKeyDown;
 		return false;
@@ -523,7 +542,7 @@ function eventEditGame() {
 				else {
 					infoText.text = game.otherText[index][i][0];
 				}
-				infoText.font = "25px Arial";
+				infoText.font = "28px Arial";
 				infoText.color = "black";
 				infoText.x = 289;
 				infoText.y = 50;
@@ -815,12 +834,16 @@ function eventEditGame() {
 		 *  clicked.
 		 */
 		function Handle_D_Pressed() {
-			var toRemove = $.inArray(currentSelection.name, ImagesOnScreen);
-			ImagesOnScreen.splice(toRemove, 1);
-			ImagesNotOnScreen.push(currentSelection.name);
-			infoPage.removeChild(currentSelection);
-			currentSelection = null;
-			game.getStage().update();
+			if (ImagesOnScreen.length > 2) {
+				var toRemove = $.inArray(currentSelection.name, ImagesOnScreen);
+				ImagesOnScreen.splice(toRemove, 1);
+				ImagesNotOnScreen.push(currentSelection.name);
+				infoPage.removeChild(currentSelection);
+				currentSelection = null;
+				game.getStage().update();
+			} else {
+				alert("Cannot delete image... There must be at least two animals on the screen.");
+			}
 		}
 		
 		/**
