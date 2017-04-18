@@ -462,21 +462,6 @@ function eventEditGame() {
 		//console.log(reformedBiome);
 		
 		return ManifestBiomeSectionPreSplit + reformedBiome + ManifestBiomeSectionPostSplit;
-		
-		/**
-		 *  @function SimplifyText
-		 *  @param InputText
-		 *  @return InputText.trim()
-		 *  Helper function for reform manifest that
-		 *  gets rid of any pesky newlines/tabs/spaces
-		 *  in the display text.
-		 */
-		function SimplifyText(InputText) {
-			InputText = InputText.replace(/(\r\n|\n|\r)/gm," ");
-			InputText = InputText.replace(/\t+/g, " ");
-			InputText = InputText.replace(/\s+/g," ");
-			return InputText.trim();
-		}
 	}
 	
 	/**
@@ -1220,5 +1205,20 @@ function eventEditGame() {
 			}
 		}
 		return -1;
+	}
+	
+	/**
+	 *  @function SimplifyText
+	 *  @param InputText
+	 *  @return InputText.trim()
+	 *  Helper function for reform manifest that
+	 *  gets rid of any pesky newlines/tabs/spaces
+	 *  in the display text.
+	 */
+	function SimplifyText(InputText) {
+		InputText = InputText.replace(/(\r\n|\n|\r)/gm," ");
+		InputText = InputText.replace(/\t+/g, " ");
+		InputText = InputText.replace(/\s+/g," ");
+		return InputText.trim();
 	}
 }
