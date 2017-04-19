@@ -1,7 +1,7 @@
 /** 
 * @function Player
-* @param easelJSShape
 * Represents a player in the game
+* @param easelJSShape
 */
 function Player(easelJSShape) {
 	"use strict";
@@ -22,8 +22,8 @@ function Player(easelJSShape) {
 
     /**
      * @function this.setIcon
-	 * @param easelJSShape
      * Set a reference to the Player's EaselJS Shape object
+	 * @param easelJSShape
      */
     this.setIcon = function(easelJSShape) {
         if (easelJsShape !== undefined) icon = easelJSShape;
@@ -31,8 +31,8 @@ function Player(easelJSShape) {
 
     /** 
      * @function this.updateGamePosition
-	 * @param GameEvent
      * Provide an updated board position to the player.
+	 * @param GameEvent
      */
     this.updateGamePosition = function(GameEvent) {
         currentEvent = GameEvent;

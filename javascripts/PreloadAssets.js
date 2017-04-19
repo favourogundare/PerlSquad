@@ -1,8 +1,8 @@
 /* jshint strict: true */
 /**
  * @function eventPreloadAssets
- * @param manifest
  * Utilizes the manifest to preload assets into 
+ * @param manifest
  */
 function eventPreloadAssets(manifest) {
 	"use strict";
@@ -51,8 +51,8 @@ function eventPreloadAssets(manifest) {
 	
 	/**
 	 * @function handleError
-	 * @param event
 	 * Logs an error if the loading fails.
+	 * @param event
 	 */
 	function handleError(event) {
 		console.log("Error!",event.text);
@@ -66,8 +66,8 @@ function eventPreloadAssets(manifest) {
 	}
 	/**
 	 * @function handleItemProgress
-	 * @param event
 	 * Displays loading progress for files that take longer to load.
+	 * @param event
 	 */
 	function handleItemProgress(event) {
 		console.log(loadItem);
@@ -76,8 +76,8 @@ function eventPreloadAssets(manifest) {
 	}
 	/**
 	 * @function handleFileProgress
-	 * @param event
 	 * Displays loading progress for total loading.
+	 * @param event
 	 */
 	function handleFileProgress(event) {
 		var BiomeName;
@@ -104,8 +104,8 @@ function eventPreloadAssets(manifest) {
 	}
 	/**
 	 * @function handleFileLoad
-	 * @param event
 	 * Stores asset in array once loaded.
+	 * @param event
 	 */
 	function handleFileLoad(event) {
 		console.log("Finished Loading: " + event.item.id);

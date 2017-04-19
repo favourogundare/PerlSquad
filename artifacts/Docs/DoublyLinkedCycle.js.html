@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: DoublyLinkedCycle.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,75 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: DoublyLinkedCycle.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ *  @function Node
+ *  Node class for doubly linked cycle, storing the next and previous nodes for that node.
+ *  @param name
+ *  @param x
+ *  @param y
+ */
+function Node(num, name, x, y) {
+	"use strict";
+	this.num      = num;
+	this.name     = name;
+	this.x        = x;
+	this.y        = y;
+	this.previous = null;
+	this.next     = null;
+}
 
+/**
+ *  @function DoublyLinkedCycle
+ *  DoublyLinkedCycle class, storing length, head, and tail
+ */
+function DoublyLinkedCycle() {
+	"use strict";
+	this.length = 0;
+	this.head = null;
+	this.tail = null;
+}
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ *  @function add of class DoublyLinkedCycle
+ *  Sets new nodes and adds them to the cycle. 
+ *  If the cycle is empty, it sets the new node to head and tail. 
+ *  Otherwise, it makes the new node the tail, and connects the tail to the head both directions.
+ *  @param name
+ *  @param x
+ *  @param y
+ */
+DoublyLinkedCycle.prototype.add = function(num, name, x, y) {
+	"use strict";
+    var node = new Node(num, name, x, y);
+ 
+    if (this.length > 0) {
+        this.tail.next = node;
+        node.previous = this.tail;
+        this.tail = node;
+		this.tail.next = this.head;
+		this.head.prev = this.tail;
+    } else {
+        this.head = node;
+        this.tail = node;
+		this.tail.next = this.head;
+		this.head.prev = this.tail;
+    }
+ 
+    this.length++;
+     
+    return node;
+};</code></pre>
+        </article>
+    </section>
 
 
 

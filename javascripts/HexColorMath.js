@@ -1,8 +1,8 @@
 /**
  *  @function addHexColor
+ *  Adds two color hex values together.
  *  @param c1
  *  @param c2
- *  Adds two color hex values together.
  */
 function addHexColor(c1, c2) {
 	var hexStr = (parseInt(c1, 16) + parseInt(c2, 16)).toString(16);
@@ -12,11 +12,11 @@ function addHexColor(c1, c2) {
 
 /**
  *  @function minusHexColor
- *  @param c1
- *  @param c2
  *  Subtracts one color hex value c2 from
  *  another c1. Not designed to handle
  *  negatives.
+ *  @param c1
+ *  @param c2
  */
 function minusHexColor(c1, c2) {
 	var hexStr = (parseInt(c1, 16) - parseInt(c2, 16)).toString(16);

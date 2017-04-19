@@ -79,6 +79,7 @@ function makeOKButton(xCord, yCord, eventListener) {
 
 /**
  *  @function RectButton
+ *  Rectangular button class.
  *  @param buttonText
  *  @param buttonColor
  *  @param buttonX
@@ -87,7 +88,6 @@ function makeOKButton(xCord, yCord, eventListener) {
  *  @param buttonH
  *  @param buttonEvent
  *  @param buttonFunction
- *  Rectangular button class.
  */
 function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH, outColor, buttonEvent, buttonFunction) {
 	"use strict";
@@ -175,6 +175,7 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 
 /**
  *  @function CircleButton
+ *  Circular button class.
  *  @param buttonText
  *  @param buttonTextFormat
  *  @param buttonTextX
@@ -187,7 +188,6 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
  *  @param selectedColor
  *  @param buttonEvent
  *  @param buttonFunction
- *  Circular button class.
  */
 function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, buttonColor, buttonX, buttonY, buttonR, outColor, buttonEvent, buttonFunction) {
 	"use strict";

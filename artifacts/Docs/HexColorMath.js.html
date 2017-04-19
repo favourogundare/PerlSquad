@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: HexColorMath.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,42 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: HexColorMath.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ *  @function addHexColor
+ *  Adds two color hex values together.
+ *  @param c1
+ *  @param c2
+ */
+function addHexColor(c1, c2) {
+	var hexStr = (parseInt(c1, 16) + parseInt(c2, 16)).toString(16);
+	while (hexStr.length &lt; 6) { hexStr = '0' + hexStr; } // Zero pad.
+	return hexStr;
+}
 
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ *  @function minusHexColor
+ *  Subtracts one color hex value c2 from
+ *  another c1. Not designed to handle
+ *  negatives.
+ *  @param c1
+ *  @param c2
+ */
+function minusHexColor(c1, c2) {
+	var hexStr = (parseInt(c1, 16) - parseInt(c2, 16)).toString(16);
+	while (hexStr.length &lt; 6) { hexStr = '0' + hexStr; } // Zero pad.
+	return hexStr;
+}</code></pre>
+        </article>
+    </section>
 
 
 

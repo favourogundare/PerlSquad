@@ -18,8 +18,8 @@ function init() {
 	
 	/**
 	 *  @function touchmove
-	 *  @param e
 	 *  Prevents touch scrolling
+	 *  @param e
 	 */
 	function touchmove(e) {
 		e.preventDefault();
@@ -27,8 +27,8 @@ function init() {
 	
 	/**
 	 *  @function preventDefault
-	 *  @param e
 	 *  Prevents default behavior for listeners.
+	 *  @param e
 	 */
 	function preventDefault(e) {
 	  e = e || window.event;
@@ -108,10 +108,10 @@ function init() {
 		
 		/**
 		 *  @function CBMHandleMouseUp
-		 *  @param event
 		 *  Deactivates movability for the Image
 		 *  Checkbox Menu whenever the mouse is
 		 *  released.
+		 *  @param event
 		 */
 		function CBMHandleMouseUp(event) {
 			console.log("RELEASED");

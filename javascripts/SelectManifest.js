@@ -2,10 +2,10 @@
 
 /**
  *  @function eventSelectManifest
- *  @param purpose
  *  Allows the user to select which manifest they would like
  *  to use or edit and then calls on the preloading to load 
  *  that manifest
+ *  @param purpose
  */
 function eventSelectManifest(purpose) {
 	"use strict";
@@ -94,8 +94,8 @@ function eventSelectManifest(purpose) {
 		
 		/**
 		 *  @function processFile
-		 *  @param event
 		 *  Processes the input as text
+		 *  @param event
 		 */
 		function processFile(event) {
 			var file = event.target.result, results;
@@ -109,8 +109,8 @@ function eventSelectManifest(purpose) {
 
 /**
  *  @function parseManifest
- *  @param file
  *  Parses manifest and stores values into array for preloading.
+ *  @param file
  */
 function parseManifest(file) {
 	"use strict";
@@ -182,8 +182,8 @@ function parseManifest(file) {
 
 /**
  *  @function prettifyText
- *  @param inputText
  *  Rewrites text input from manifest to be multilined.
+ *  @param inputText
  */
 function prettifyText(inputText) {
 	"use strict";
@@ -210,8 +210,8 @@ function prettifyText(inputText) {
 
 /**
  *  @function isNumber
- *  @param n
  *  Checks if a value is a number
+ *  @param n
  */
 function isNumber(n) {
 	"use strict";

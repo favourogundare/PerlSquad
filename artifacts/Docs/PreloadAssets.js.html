@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: PreloadAssets.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,163 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: PreloadAssets.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* jshint strict: true */
+/**
+ * @function eventPreloadAssets
+ * Utilizes the manifest to preload assets into 
+ * @param manifest
+ */
+function eventPreloadAssets(manifest) {
+	"use strict";
+	/** Analytics */
+    var timestamp = new Date();
+	
+	var itemProgressText;
+	var progressText;
+	var BiomeIndex;
+	var loadItem;
+	var preload;
+	
+	for (var i=0; i&lt;game.assets.length; i++) {
+		game.assets[i] = [];
+	}
+	
+    itemProgressText = new createjs.Text("", "32px Arial", "#000000");
+	itemProgressText.x = game.getStage().width/2;
+	itemProgressText.y = game.getStage().height/2+40;
+	itemProgressText.textAlign = "center";
+	itemProgressText.textBaseline = "middle";
     
-
-
-
-
-
+	progressText = new createjs.Text("", "64px Arial", "#000000");
+	progressText.x = game.getStage().width/2;
+	progressText.y = game.getStage().height/2;
+	progressText.textAlign = "center";
+	progressText.textBaseline = "middle";
+	
+    game.getStage().addChild(progressText, itemProgressText);
+	game.getStage().update();
+    BiomeIndex  = 0;
+	
+	preload = new createjs.LoadQueue(false);
+    preload.on("error", handleError);
+    preload.on("fileerror", handleFileError);
+    preload.on("filestart", function(event){loadItem = event.item.id;});
+    preload.on("fileprogress", handleItemProgress);
+    preload.on("progress", handleFileProgress);
+	preload.on("fileload", handleFileLoad);
+	preload.on("complete", handleComplete);
+	
+	
+	if (typeof manifest[0] !== 'undefined' &amp;&amp; manifest[0] !== null &amp;&amp; manifest[0].length > 0){
+		preload.loadManifest(manifest[BiomeIndex]);
+	}
+	
+	/**
+	 * @function handleError
+	 * Logs an error if the loading fails.
+	 * @param event
+	 */
+	function handleError(event) {
+		console.log("Error!",event.text);
+	}
+	/**
+	 * @function handleFileError
+	 * Logs an error if an individual file load fails.
+	 */
+	function handleFileError() {
+		console.log("File error");
+	}
+	/**
+	 * @function handleItemProgress
+	 * Displays loading progress for files that take longer to load.
+	 * @param event
+	 */
+	function handleItemProgress(event) {
+		console.log(loadItem);
+		itemProgressText.text = loadItem + " " + (event.progress*100|0) + "% Loaded";
+		game.getStage().update();
+	}
+	/**
+	 * @function handleFileProgress
+	 * Displays loading progress for total loading.
+	 * @param event
+	 */
+	function handleFileProgress(event) {
+		var BiomeName;
+		switch (BiomeIndex) {
+			case 0:
+				BiomeName = "Deciduous Forest ";
+				break;
+			case 1:
+				BiomeName = "Desert ";
+				break;
+			case 2:
+				BiomeName = "Grassland ";
+				break;
+			case 3:
+				BiomeName = "Rainforest ";
+				break;
+			case 4:
+				BiomeName = "Tundra ";
+				break;
+		}
+		console.log("Loading " + event + "...");
+		progressText.text = BiomeName + (preload.progress*100|0) + "% Loaded";
+		game.getStage().update();
+	}
+	/**
+	 * @function handleFileLoad
+	 * Stores asset in array once loaded.
+	 * @param event
+	 */
+	function handleFileLoad(event) {
+		console.log("Finished Loading: " + event.item.id);
+		if (!game.assets[BiomeIndex]){
+			game.assets[BiomeIndex] = [event];
+		}
+		else {
+			game.assets[BiomeIndex].push(event);
+		}
+	}
+	/**
+	 * @function handleComplete
+	 * Calls game.progress() once loading is complete.
+	 */
+	function handleComplete() {
+		if (BiomeIndex &lt; 4) {
+			if (typeof manifest[0] !== 'undefined' &amp;&amp; manifest[0] !== null &amp;&amp; manifest[0].length > 0){
+				preload.loadManifest(manifest[++BiomeIndex]);
+			}
+		}
+		else {
+			
+			/** Analytics - how long did it take to load? */
+			sendUserTimeInfo("preloading", timestamp);
+			
+			game.getStage().removeChild(progressText, itemProgressText);
+			game.getStage().removeChild(progressText, itemProgressText);
+			
+			if (game.started === false) {
+				eventMoveAroundEarth();
+			} 
+			else {
+				game.progress();
+			}   
+		}
+	}
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

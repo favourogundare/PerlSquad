@@ -484,13 +484,13 @@ function eventEditGame() {
 	
 	/**
 	 *  @function SetImg
+	 *  Places the image on the screen and
+	 *  scales it based upon the arguments
+	 *  provided.
 	 *  @param img
 	 *  @param imgScale
 	 *  @param imgX
 	 *  @param imgY
-	 *  Places the image on the screen and
-	 *  scales it based upon the arguments
-	 *  provided.
 	 */
 	function SetImg(img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
@@ -503,13 +503,13 @@ function eventEditGame() {
 	
 	/**
 	 *  @function SetSelectEffects
-	 *  @param img
-	 *  @param index
-	 *  @param i
 	 *  Handles what happens when an image is
 	 *  selected. Displays the text for the
 	 *  given image and sets it as the currently
 	 *  selected image for the editing stage.
+	 *  @param img
+	 *  @param index
+	 *  @param i
 	 */
 	function SetSelectEffects(IMG, index, i) {
 		IMG.addEventListener("mousedown", function (event) {
@@ -559,9 +559,9 @@ function eventEditGame() {
 	
 	/**
 	 *  @function CBMAppend
-	 *  @param CB_ID
 	 *  Appends an option to the end of the 
 	 *  Checkbox Menu List.
+	 *  @param CB_ID
 	 */
 	function CBMAppend(CB_ID) {
 		var $newField = $('<div/>', { id: CB_ID, style: "overflow: hidden" });
@@ -572,10 +572,10 @@ function eventEditGame() {
 	
 	/**
 	 *  @function AddToScreen
-	 *  @param index
-	 *  @param i
 	 *  Adds images to the screen based on
 	 *  their settings in the manifest.
+	 *  @param index
+	 *  @param i
 	 */
 	function AddToScreen(index, i) {
 		console.log(game.assets[index][i]);
@@ -672,10 +672,10 @@ function eventEditGame() {
 	
 	/**
 	 *  @function handleKeyDown
-	 *  @param e
 	 *  Handles all key presses during editing
 	 *  stage and determines how key presses are
 	 *  handled.
+	 *  @param e
 	 */
 	function handleKeyDown(e) {
 		/** cross browser issues exist */
@@ -969,9 +969,9 @@ function eventEditGame() {
 			
 			/**
 			 *  @function tick
-			 *  @param event
 			 *  Timer function for moving state of
 			 *  editing stage.
+			 *  @param event
 			 */
 			function tick(event) {
 				event = event || window.event; // get window.event if e argument missing (in IE)
@@ -1065,9 +1065,9 @@ function eventEditGame() {
 			
 			/**
 			 *  @function tick
-			 *  @param event
 			 *  Timer function for scaling state of
 			 *  editing stage.
+			 *  @param event
 			 */
 			function tick(event) {
 				event = event || window.event; // get window.event if e argument missing (in IE)
@@ -1187,9 +1187,9 @@ function eventEditGame() {
 	
 	/**
 	 *  @function GetAssetIndexByID
-	 *  @param OBJECT_ID
 	 *  Finds the index of an asset by id in
 	 *  the game.assets array.
+	 *  @param OBJECT_ID
 	 */
 	function GetAssetIndexByID(OBJECT_ID) {
 		for (var i=0; i< game.assets[game.currentBiome.num-1].length; i++) {
@@ -1202,11 +1202,11 @@ function eventEditGame() {
 	
 	/**
 	 *  @function SimplifyText
-	 *  @param InputText
-	 *  @return InputText.trim()
 	 *  Helper function for reform manifest that
 	 *  gets rid of any pesky newlines/tabs/spaces
 	 *  in the display text.
+	 *  @param InputText
+	 *  @return InputText.trim()
 	 */
 	function SimplifyText(InputText) {
 		InputText = InputText.replace(/(\r\n|\n|\r)/gm," ");

@@ -87,12 +87,12 @@ function eventScrollGame() {
 	
 	/**
 	 *  @function HandleBadClicked
-	 *  @param e
 	 *  Handler function for whenever an image
 	 *  is clicked that does not belong to the 
 	 *  biome. Moves image clicked back to right
 	 *  of screen, increments incorrect count, 
 	 *  and accelerates image movement.
+	 *  @param e
 	 */
 	function HandleBadClicked(e) {
 		e = e || window.event; // get window.event if e argument missing (in IE)
@@ -111,12 +111,12 @@ function eventScrollGame() {
 	
 	/**
 	 *  @function HandleGoodClicked
-	 *  @param e
 	 *  Handler function for whenever an image
 	 *  is clicked that does not belong to the 
 	 *  biome. Moves image clicked back to right
 	 *  of screen, increments correct count, and 
 	 *  accelerates image movement.
+	 *  @param e
 	 */
 	function HandleGoodClicked(e) {
 		e = e || window.event; // get window.event if e argument missing (in IE)
@@ -175,10 +175,10 @@ function eventScrollGame() {
    
 	/**
 	 * @function setBG
-	 * @param event
 	 * Sets the background for the mini-game.
 	 * Also creates a selection screen for difficulty as well as some brief info about the rules
 	 * of the game
+	 * @param event
 	 */
 	function setBG(event){
 		bgrnd = new createjs.Bitmap(bg);
@@ -277,8 +277,8 @@ function eventScrollGame() {
 	
 	/**
 	 *  @function createAnimals
-	 *  @param bitmp
 	 *  Generates two animals using the bitmap given 
+	 *  @param bitmp
 	 */
 	function createAnimals(bitmp){
 		var l = 2;
@@ -298,8 +298,8 @@ function eventScrollGame() {
 	
 	/**
 	 * @function resetAnimal
-	 * @param animal
 	 * Places animals randomly into the mini-game to be clicked/not clicked.
+	 * @param animal
 	 */
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
@@ -366,11 +366,11 @@ function eventScrollGame() {
 	
 		/**
 		 * @function setImg
+		 *  Used to set images on post-game info
+		 *  screen.
 		 * @param img
 		 * @param imgX
 		 * @param imgY
-		 *  Used to set images on post-game info
-		 *  screen.
 		 */
 		function setImg (img, imgX, imgY) {
 			var bounds = img.getBounds();
@@ -383,11 +383,11 @@ function eventScrollGame() {
 		
 		/**
 		 *  @function setHoverEffects
+		 *  Used to set the hover effects of images
+		 *  on the post-game info screen.
 		 *  @param img
 		 *  @param index
 		 *  @param i
-		 *  Used to set the hover effects of images
-		 *  on the post-game info screen.
 		 */
 		function setHoverEffects(img, index, i) {
 			img.on("rollover", function (event) {

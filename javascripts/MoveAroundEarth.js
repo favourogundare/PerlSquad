@@ -11,9 +11,9 @@ function eventMoveAroundEarth() {
 	
 	/**
 	 *  @function handleClick
-	 *  @param event
 	 *  Handler function for clicking the avatar on
 	 *  the map. Moves the avatar to the next biome.
+	 *  @param event
 	 */
 	function handleClick(event) {
         game.currentBiome = game.currentBiome.next;

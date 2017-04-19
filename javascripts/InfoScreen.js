@@ -25,12 +25,12 @@ function eventInfoScreen(){
 	
 	/**
 	 *  @function setImg
+	 *  Sets the image on the screen for
+	 *  the info screen.
 	 *  @param img
 	 *  @param imgScale
 	 *  @param imgX
 	 *  @param imgY
-	 *  Sets the image on the screen for
-	 *  the info screen.
 	 */
 	function setImg (img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
@@ -43,11 +43,11 @@ function eventInfoScreen(){
 	
 	/**
 	 *  @function setHoverEffects
+	 *  Sets the hover over effects of
+	 *  the images on the info screen.
 	 *  @param img
 	 *  @param index
 	 *  @param i
-	 *  Sets the hover over effects of
-	 *  the images on the info screen.
 	 */
 	function setHoverEffects(img, index, i) {
 		img.on("rollover", function (event) {
@@ -116,9 +116,9 @@ function eventInfoScreen(){
 	
 	/**
 	 *  @function setInfoBG
-	 *  @param event
 	 *  Sets the info screen background for
 	 *  the given biome.
+	 *  @param event
 	 */
 	function setInfoBG(event) {	
 		if (game.currentBiome.num == 1){
