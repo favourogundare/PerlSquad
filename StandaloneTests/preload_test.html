@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+        <script>     
+            var assets;
+            var stage;
+            var w, h;
+			var preload;
+            var progressText;
+            function init() {
+                w = canvas.width;
+                h = canvas.height/2;
+                
+                assets = [];
+                
+                stage = new createjs.Stage("canvas");
+                progressText = new createjs.Text("", "20px Arial", "#000000");
+                progressText.x = w / 2;
+                progressText.y = 20;
+                progressText.textAlign = "center";
+                progressText.textBaseline = "middle";
+                stage.addChild(progressText);
+                stage.update();
+				
+                var manifest = 
+				[
+                    {type: createjs.AbstractLoader.IMAGE, src: "Background - Forest - River.jpg", id: "river"},
+                    {type: createjs.AbstractLoader.IMAGE, src: "Background - Forest - Taiga.jpg", id: "Taiga"}
+                    //For XHR loading:
+					//{src: "https://i.imgur.com/VgXCkh.jpg", id: "rain"},
+					//{src: "https://i.imgur.com/Z93tOy4.jpg", id: "sun"}
+				];
+                //For XHR loading:
+                //preload = new createjs.LoadQueue(true, null, true);
+                preload = new createjs.LoadQueue(false);
+                preload.on("error", handleError);
+                preload.on("fileerror", handleFileError);
+                preload.on("progress", handleFileProgress);
+                preload.on("fileload", handleFileLoad);
+                preload.on("complete", handleComplete);
+                console.log(manifest[0]);
+                preload.loadManifest(manifest);
+                
+            }
+            function handleError(event) {
+                console.log("Error!",event.text);
+            }
+            function handleFileError() {
+                console.log("File error");
+            }
+            function handleFileProgress(event) {
+                progressText.text = (preload.progress*100|0) + "% Loaded";
+                stage.update();
+            }
+            function handleFileLoad(event) {
+                console.log("Finished Loading: " + event.item.id);
+                assets.push(event);
+            }
+            function handleComplete() {
+                console.log("Loading Complete");
+				var offset = 0;
+                //var useThis = ["sun"];
+				for (i = 0; i < 2; i++){
+					//get from array
+					//var result = assets[i].result;
+					//get by id
+					var imageTest = preload.getResult("river");
+					var mybmp = new createjs.Bitmap(imageTest);
+					var bounds = mybmp.getBounds();
+					mybmp.scaleY = h/bounds.height;
+					mybmp.scaleX = w/bounds.width;
+					mybmp.y = offset;
+					stage.addChild(mybmp);
+					offset += h;
+				}
+                stage.update();
+            }
+        </script>
+    </head>
+    <body onLoad="init();">
+        <canvas id="canvas" width="600" height="400"></canvas>
+    </body>
+</html>

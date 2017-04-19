@@ -1,35 +1,41 @@
 <html>
   <head>
+	<title>Biome Game</title>
 	<meta charset="utf-8"/>
 	<style>
 	.hidden{
 		display : none;
 	}
+	.edit-info { border: 2px solid #ccc; background: #ddd;}
+	.CBMBkgrd { border: 2px solid #ccc; background: #ddd; width: 120px; height: 165px; }
+	.CBMBkgrd { border: 2px solid #ccc; background: #ddd; width: 120px; height: 165px; }
+	.CBM { border: 2px solid #ccc; background: #fff; position: absolute; top: 40px; left: 11px; width: 120px; height: 150px; overflow-x: scroll; overflow-y: scroll; }
+	.CBMAdd { background: #f44336; position: absolute; top: 192px; left: 10.5px; width: 62.75px; }
+	.CBMDel { background: #00e676; position: absolute; top: 192px; left: 72px; width: 62.75px; }
 	</style>
 	<!-- Game Engine Libraries ------------------------------------>
-    <script src="javascripts/createjs-2015.11.26.min.js"></script>
 	<script src="javascripts/jquery-3.1.1.min.js"></script>
 	<script src="javascripts/FileSaver.min.js"></script>
     <script src="javascripts/Blob.js"></script>
+    <script src="javascripts/createjs-2015.11.26.min.js"></script>
 	<script src="javascripts/Player.js"></script>
 	<script src="javascripts/Buttons.js"></script>
 	<script src="javascripts/DoublyLinkedCycle.js"></script>
 	<script src="javascripts/GameEvent.js"></script>
     <script src="javascripts/Game.js"></script>
-    <script src="javascripts/InfoScreen.js"></script>
     <script src="javascripts/LoadMap.js"></script>
+	<script src="javascripts/PreloadAssets.js"></script>
 	<script src="javascripts/SelectManifest.js"></script>
+	<script src="javascripts/HexColorMath.js"></script>
 	<!-- Global Game object initialization ----------------------->
 	<script> var game = new Game(); </script>
 	<!-- Code for different segments of the game ----------------->
-	<script src="javascripts/PreloadAssets.js"></script>
     <script src="javascripts/StartMenu.js"></script>
 	<script src="javascripts/HelpPage.js"></script>
+    <script src="javascripts/InfoScreen.js"></script>
     <script src="javascripts/MoveAroundEarth.js"></script>
     <script src="javascripts/OptionsMenu.js"></script>
-	<script src="javascripts/AddItem.js"></script>
 	<script src="javascripts/EditItem.js"></script>
-    <script src="javascripts/SelectCategory.js"></script>
 	<script src="javascripts/scrollgame.js"></script>
 	<!-- Start game ---------------------------------------------->
 	<script src="javascripts/init.js"></script>
@@ -38,9 +44,22 @@
   </head>
   <body onload="init();">
 	<canvas id="main" width="960" height="444"></canvas>
-	<div class = "hidden" id = "DefaultBrowseButton" style = "position:absolute;left:360px;top:50px;"><input type = file id = "BrowseButton" /></div>
+	<div class = "hidden" id = "DefaultBrowseButton" style = "position:absolute;left:360px;top:50px;"><input type = "file" accept=".txt" id = "BrowseButton" /></div>
     <input type = "button" class = "hidden" id = "AltBrowseButton" value = "Browse..." style = "position:absolute;left:360px;top:50px;" onclick = "document.getElementById('BrowseButton').click();"/>
 	<textarea class = "hidden" id = "ImageSource" placeholder = "Insert image link or filepath here." style = "position:absolute;left:85px;top:50px;width:275px; height:23px"></textarea>
     <textarea class = "hidden" id = "Description" placeholder = "Insert item description here." style = "position:absolute;left:85px;top:85px;width:350px; height:200px"></textarea>
+	<div style = "position: absolute; top: 20px; left: 11px;" class = "hidden CBMBkgrd" id="CheckboxMenuBkgrd"></div>
+	<button class="hidden CBMAdd" type="button" id="CheckboxMenuAdd">Add</button>
+	<button class="hidden CBMDel" type="button" id="CheckboxMenuDelete">Delete</button>
+	<div class="hidden CBM" id="CheckboxMenu"></div>
+	<div style = "position: absolute; top: 20px; left: 650px;" class = "hidden edit-info" id="EditInfoDiv">
+	  <textarea rows="6" wrap="hard"
+		    style="width: 100%; font-size: 18px; display: block;"></textarea>
+	  <button type="button" style="font-size: 18px;">
+	    Change Info
+	  </button>
+	  <button type="button" style="font-size: 18px;">Cancel</button>
+	  <h2 style="display:inline;"></h2>
+	</div>
   </body>
 </html>

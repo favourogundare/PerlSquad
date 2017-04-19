@@ -1,0 +1,10 @@
+Brian Reynolds
+Work on button actions for editing stage
+
+Alex Mayle
+Analyze analytics data, put together feedback survey, add it to new website
+
+Eric Keep
+Improve feedback screen, implement manifest changes to scroll game
+
+Rob Smith

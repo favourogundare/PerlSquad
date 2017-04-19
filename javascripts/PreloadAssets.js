@@ -1,18 +1,23 @@
 /* jshint strict: true */
-var preload;
 /**
  * @function eventPreloadAssets
  * Utilizes the manifest to preload assets into 
+ * @param manifest
  */
-function eventPreloadAssets(manifest, start) {
+function eventPreloadAssets(manifest) {
 	"use strict";
-	// Analytics
-    timestamp = new Date();
+	/** Analytics */
+    var timestamp = new Date();
 	
 	var itemProgressText;
 	var progressText;
 	var BiomeIndex;
 	var loadItem;
+	var preload;
+	
+	for (var i=0; i<game.assets.length; i++) {
+		game.assets[i] = [];
+	}
 	
     itemProgressText = new createjs.Text("", "32px Arial", "#000000");
 	itemProgressText.x = game.getStage().width/2;
@@ -42,12 +47,12 @@ function eventPreloadAssets(manifest, start) {
 	
 	if (typeof manifest[0] !== 'undefined' && manifest[0] !== null && manifest[0].length > 0){
 		preload.loadManifest(manifest[BiomeIndex]);
-    }
-	//preload.loadManifest(manifest);
+	}
 	
 	/**
 	 * @function handleError
 	 * Logs an error if the loading fails.
+	 * @param event
 	 */
 	function handleError(event) {
 		console.log("Error!",event.text);
@@ -62,6 +67,7 @@ function eventPreloadAssets(manifest, start) {
 	/**
 	 * @function handleItemProgress
 	 * Displays loading progress for files that take longer to load.
+	 * @param event
 	 */
 	function handleItemProgress(event) {
 		console.log(loadItem);
@@ -71,6 +77,7 @@ function eventPreloadAssets(manifest, start) {
 	/**
 	 * @function handleFileProgress
 	 * Displays loading progress for total loading.
+	 * @param event
 	 */
 	function handleFileProgress(event) {
 		var BiomeName;
@@ -98,6 +105,7 @@ function eventPreloadAssets(manifest, start) {
 	/**
 	 * @function handleFileLoad
 	 * Stores asset in array once loaded.
+	 * @param event
 	 */
 	function handleFileLoad(event) {
 		console.log("Finished Loading: " + event.item.id);
@@ -120,23 +128,18 @@ function eventPreloadAssets(manifest, start) {
 		}
 		else {
 			
-			// Analytics - how long did it take to load?
+			/** Analytics - how long did it take to load? */
 			sendUserTimeInfo("preloading", timestamp);
 			
 			game.getStage().removeChild(progressText, itemProgressText);
 			game.getStage().removeChild(progressText, itemProgressText);
 			
-			if (start === false) {
-				eventOptionsMenu();
+			if (game.started === false) {
+				eventMoveAroundEarth();
 			} 
 			else {
 				game.progress();
 			}   
 		}
 	}
-}
-
-function getPreload() {
-	"use strict";
-    return preload;
 }
