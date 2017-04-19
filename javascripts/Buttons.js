@@ -11,6 +11,7 @@
  */
 function makeOKButton(xCord, yCord, eventListener) {
 	"use strict";
+	game.getStage().enableMouseOver(10);
     var container = new createjs.Container();
 		container.x = xCord;
 		container.y = yCord;
@@ -28,19 +29,46 @@ function makeOKButton(xCord, yCord, eventListener) {
 	container.addEventListener("mousedown", HandleMouseDown);
 	container.addEventListener("pressup", HandlePressUp);
 	container.addEventListener("pressup", eventListener);
+	
+	/**
+	 *  @function HandleRollOver
+	 *  Handles rollover event for the OK
+	 *  button by slightly darkening the 
+	 *  button fill.
+	 */
 	function HandleRollOver() {
 		rect.graphics.clear().beginFill("#18660e").drawRect(0, 0, 65, 45);
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandleRollOut
+	 *  Handles rollout event for the OK
+	 *  button by slightly darkening the 
+	 *  button fill.
+	 */
 	function HandleRollOut() {
 		rect.graphics.clear().beginFill("#18770e").drawRect(0, 0, 65, 45);
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandleMouseDown
+	 *  Handles mousedown event for the OK
+	 *  button by darkening the button fill.
+	 */
 	function HandleMouseDown() {
 		rect.graphics.clear().beginFill("#18420e").drawRect(0, 0, 65, 45);
 		text.color = "#f5f5f5";
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandlePressUp
+	 *  Handles mousedown event for the OK
+	 *  button by lightening the button fill
+	 *  and calling the buttons event handler.
+	 */
 	function HandlePressUp() {
 		rect.graphics.clear().beginFill("#18660e").drawRect(0, 0, 65, 45);
 		text.color = "white";
@@ -86,6 +114,13 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 	this.container.addEventListener("mousedown", HandleMouseDown.bind(this));
 	this.container.addEventListener("pressup", HandlePressUp.bind(this));
 	this.container.addEventListener("pressup", buttonFunction);
+	
+	/**
+	 *  @function HandleRollOver
+	 *  Handles rollover event for the rectangle
+	 *  buttons by slightly darkening the button 
+	 *  fill.
+	 */
 	function HandleRollOver() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = minusHexColor(oldColor, "001100");
@@ -93,6 +128,13 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 		this.inRect.graphics.clear().beginFill(buttonColor).drawRect(10, 10, buttonW - 20, buttonH - 20);
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandleRollOut
+	 *  Handles rollout event for the rectangle
+	 *  buttons by slightly darkening the button 
+	 *  fill.
+	 */
 	function HandleRollOut() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = addHexColor(oldColor, "001100");
@@ -100,6 +142,12 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 		this.inRect.graphics.clear().beginFill(buttonColor).drawRect(10, 10, buttonW - 20, buttonH - 20);
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandleMouseDown
+	 *  Handles mousedown event for the rectangle
+	 *  buttons by darkening the button fill.
+	 */
 	function HandleMouseDown() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = minusHexColor(oldColor, "002400");
@@ -108,6 +156,13 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 		this.txtInner.color = "#f5f5f5";
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandlePressUp
+	 *  Handles mousedown event for the rectangle
+	 *  buttons by lightening the button fill
+	 *  and calling the buttons event handler.
+	 */
 	function HandlePressUp() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = addHexColor(oldColor, "002400");
@@ -159,6 +214,13 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 	this.container.addEventListener("mousedown", HandleMouseDown.bind(this));
 	this.container.addEventListener("pressup", HandlePressUp.bind(this));
 	this.container.addEventListener("pressup", buttonFunction);
+	
+	/**
+	 *  @function HandleRollOver
+	 *  Handles rollover event for the circle
+	 *  buttons by slightly darkening the button 
+	 *  fill.
+	 */
 	function HandleRollOver() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = minusHexColor(oldColor, "001100");
@@ -166,6 +228,13 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 		this.inCircle.graphics.clear().beginFill(buttonColor).drawCircle(0, 0, buttonR - 10);
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandleRollOut
+	 *  Handles rollout event for the circle
+	 *  buttons by slightly darkening the button 
+	 *  fill.
+	 */
 	function HandleRollOut() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = addHexColor(oldColor, "001100");
@@ -173,6 +242,12 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 		this.inCircle.graphics.clear().beginFill(buttonColor).drawCircle(0, 0, buttonR - 10);
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandleMouseDown
+	 *  Handles mousedown event for the circle
+	 *  buttons by darkening the button fill.
+	 */
 	function HandleMouseDown() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = minusHexColor(oldColor, "002400");
@@ -181,6 +256,13 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 		this.txtInner.color = "#f5f5f5";
 		game.getStage().update();
 	}
+	
+	/**
+	 *  @function HandlePressUp
+	 *  Handles mousedown event for the circle
+	 *  buttons by lightening the button fill
+	 *  and calling the buttons event handler.
+	 */
 	function HandlePressUp() {
 		var oldColor  = buttonColor.replace("#", "");
 		var tempColor = addHexColor(oldColor, "002400");

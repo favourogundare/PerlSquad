@@ -7,7 +7,7 @@
  *  to use or edit and then calls on the preloading to load 
  *  that manifest
  */
-function eventSelectManifest(purpose) {	
+function eventSelectManifest(purpose) {
 	"use strict";
 	var selectManifestText = new createjs.Text("Select Manifest to " + purpose, "46px Arial", "#000000");
 	selectManifestText.x = game.getStage().width/2;
@@ -80,13 +80,13 @@ function eventSelectManifest(purpose) {
 		
 		var input = fileInput.get(0);
 
-		// Create a reader object
+		/** Create a reader object */
 		var reader = new FileReader();
 		if (input.files.length) {
 			var textFile = input.files[0];
-			// Read the file
+			/** Read the file */
 			reader.readAsText(textFile);
-			// When it's loaded, process it
+			/** When it's loaded, process it */
 			$(reader).on('load', processFile);
 		} else {
 			alert('Please upload a file before continuing');
@@ -94,6 +94,7 @@ function eventSelectManifest(purpose) {
 		
 		/**
 		 *  @function processFile
+		 *  @param event
 		 *  Processes the input as text
 		 */
 		function processFile(event) {
@@ -108,6 +109,7 @@ function eventSelectManifest(purpose) {
 
 /**
  *  @function parseManifest
+ *  @param file
  *  Parses manifest and stores values into array for preloading.
  */
 function parseManifest(file) {
@@ -167,7 +169,7 @@ function parseManifest(file) {
 			game.otherScale[index][1] = results[++i];
 			game.otherX[index][1]     = results[++i];
 			game.otherY[index][1]     = results[++i];
-			var numPrecDescriptions   = results[++i];
+			numPrecDescriptions   = results[++i];
 			game.otherText[index][1]  = [];
 			while (numPrecDescriptions>0) {
 				game.otherText[index][1].push(prettifyText(results[++i]));
@@ -207,14 +209,14 @@ function prettifyText(inputText) {
 }
 
 /**
-	 *  @function isNumber
-	 *  @param n
-	 *  Checks if a value is a number
-	 */
-	function isNumber(n) {
-		"use strict";
-		return !isNaN(parseFloat(n)) && isFinite(n);
-	}
+ *  @function isNumber
+ *  @param n
+ *  Checks if a value is a number
+ */
+function isNumber(n) {
+	"use strict";
+	return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 
 

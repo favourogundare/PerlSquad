@@ -68,7 +68,7 @@ function eventEditGame() {
 		var AddList = [];
 		$("#CheckboxMenu").find("input[type=checkbox]:checked").each(function() {
 			if($(this) === null) {
-				alert("No checkboxes selected...")
+				alert("No checkboxes selected...");
 			}
 			if ( $.inArray($(this).parent()[0].innerText, ImagesOnScreen) === -1 ) {
 				AddList.push($(this).parent()[0].innerText);
@@ -143,7 +143,7 @@ function eventEditGame() {
 		var formImage = new FormData();
 		formImage.append('subDir', game.currentBiome.name);
 		formImage.append('userImage', image);
-		console.log(formImage.get('subDir'));
+		
 		uploadFormData(formImage);
 		function uploadFormData(formData) {
 			$.ajax({
@@ -154,7 +154,6 @@ function eventEditGame() {
 				cache: false,
 				processData: false,
 				success: function(data) {
-					//$('#drop-area').html(data);
 					console.log("Success: " + data);
 				}
 			});
@@ -162,12 +161,10 @@ function eventEditGame() {
 	}
 	
 	function cancel(e) {
+		e = e || window.event; // get window.event if e argument missing (in IE)
 		if (e.preventDefault) { e.preventDefault(); }
 		return false;
 	}
-	
-	var load      = new Event('load');
-	var loadend   = new Event('loadend');
 	
 	// Tells the browser that we *can* drop on this target
 	dropzone.addEventListener('dragover', cancel);
@@ -197,7 +194,11 @@ function eventEditGame() {
 		console.log(e);
 		
 		var files = e.dataTransfer.files;
-		if (ImagesOnScreen.length + files.length < 11) {
+		/** Quick fix to avoid race conditions. Could be fixed better with more time. */
+		if (files.length > 1) {
+			alert("Please only upload one image at a time");
+		}
+		else if (ImagesOnScreen.length + files.length < 11) {
 			for (var i=0; i<files.length; i++) {
 				var file = files[i];
 				console.log("FILEEEE: "+ file);
@@ -215,11 +216,13 @@ function eventEditGame() {
 						progressText.textBaseline = "middle";
 					game.getStage().addChild(progressText);
 					reader.addEventListener('progress', function(prog_e) {
+						prog_e = prog_e || window.event; // get window.event if e argument missing (in IE)
 						progressText.text = "Image " + (prog_e.loaded / prog_e.total * 100|0) + "% Loaded";
 						game.getStage().update();
 					});
 					
 					reader.addEventListener('loadend', function (event) {
+						event = event || window.event; // get window.event if e argument missing (in IE)
 						game.getStage().removeChild(progressText);
 						var imgX = e.clientX;
 						var imgY = e.clientY;
@@ -262,7 +265,6 @@ function eventEditGame() {
 							game.assets[game.currentBiome.num-1][game.imageScale[game.currentBiome.num-1].length-1] = { result: previewImage, item: {id: imgID} };
 							SetSelectEffects(previewBtmp, game.currentBiome.num-1, game.imageScale[game.currentBiome.num-1].length-1);
 						};
-						//bgrnd.sourceRect = new createjs.Rectangle(0,0,300,300);
 					});
 					reader.readAsDataURL(file);
 				}
@@ -279,9 +281,9 @@ function eventEditGame() {
 	
 	console.log ("NOT BROKEN");
 	var HelpText = new createjs.Text();
-		HelpText.textAlign    = "center";
+		HelpText.textAlign    = "left";
 		HelpText.textBaseline = "middle";
-		HelpText.x = game.getStage().width/2;
+		HelpText.x = game.getStage().width/2 -182.5;
 		HelpText.y = game.getStage().height/3-15;
 		HelpText.font = "25px Arial";
 		HelpText.color = "black";
@@ -316,7 +318,7 @@ function eventEditGame() {
 			if (isNumber(lines[i])) {
 				console.log("New Biome!!!!!!!!!");
 				BiomeSectionNum++;
-				//if not the biome section we're looking for
+				/** if not the biome section we're looking for */
 				if (BiomeSectionNum != game.currentBiome.num) {
 					if (BiomeSectionNum < game.currentBiome.num) {
 						OuterSection = ManifestBiomeSectionPreSplit;
@@ -387,7 +389,7 @@ function eventEditGame() {
 					for (var j=0; j<5; j++) {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 					}
-					var numPrecDescriptions = lines[i];
+					numPrecDescriptions = lines[i];
 					while (numPrecDescriptions>0) {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 						numPrecDescriptions--;
@@ -395,7 +397,7 @@ function eventEditGame() {
 					for(var j=0; j<5; j++) {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 					}
-					var numTempDescriptions = lines[i];
+					numTempDescriptions = lines[i];
 					while (numTempDescriptions>0) {
 						ManifestBiomeSection = ManifestBiomeSection.concat("\n"+lines[++i]);
 						numTempDescriptions--;
@@ -458,9 +460,6 @@ function eventEditGame() {
 			reformedBiome += "\n" + SimplifyText(game.otherText[index][1][k]);
 		}
 		
-		
-		//console.log(reformedBiome);
-		
 		return ManifestBiomeSectionPreSplit + reformedBiome + ManifestBiomeSectionPostSplit;
 	}
 	
@@ -514,6 +513,7 @@ function eventEditGame() {
 	 */
 	function SetSelectEffects(IMG, index, i) {
 		IMG.addEventListener("mousedown", function (event) {
+			event = event || window.event; // get window.event if e argument missing (in IE)
 			console.log("SBX: "+IMG.scaleBackX);
 			IMG.scaleX = IMG.scaleBackX * 1.1;
 			IMG.scaleY = IMG.scaleBackY * 1.1;
@@ -543,6 +543,7 @@ function eventEditGame() {
 		});
 		
 		IMG.addEventListener("pressup", function (event) {
+			event = event || window.event; // get window.event if e argument missing (in IE)
 			if (moveModeOn) {
 				alert("Move mode on... Press M to toggle off before switching images.");
 			}
@@ -607,7 +608,7 @@ function eventEditGame() {
 		}
 		console.log(infoPage);
 		
-		//set temp and prec
+		/** set temp and prec */
 		precip      = new createjs.Bitmap(prec);
 		precip.name = "precip";
 		temperature = new createjs.Bitmap(temp);
@@ -645,25 +646,26 @@ function eventEditGame() {
 	 *  Sets the background for the editing
 	 *  stage based upon which biome was chosen.
 	 */
-	function SetInfoBG(event) {	
+	function SetInfoBG(event) {
+		event = event || window.event; // get window.event if e argument missing (in IE)
 		if (game.currentBiome.num == 1){
-			back.src        = "deciduous.jpg";
+			back.src        = "./Pictures/Background/deciduous.jpg";
 			back.onload     = SetBiomeInfo;
 		} 
 		else if (game.currentBiome.num == 2) {
-			back.src        = "desert.jpg";
+			back.src        = "./Pictures/Background/desert.jpg";
 			back.onload     = SetBiomeInfo;
 		}
 		else if (game.currentBiome.num == 3) {
-			back.src        = "grassland.jpg";
+			back.src        = "./Pictures/Background/grassland.jpg";
 			back.onload     = SetBiomeInfo;
 		}
 		else if (game.currentBiome.num == 4) {
-			back.src        = "rainforest.jpg";
+			back.src        = "./Pictures/Background/rainforest.jpg";
 			back.onload     = SetBiomeInfo;
 		}
 		else if (game.currentBiome.num == 5) {
-			back.src        = "tundra.jpg";
+			back.src        = "./Pictures/Background/tundra.jpg";
 			back.onload     = SetBiomeInfo;
 		}
 	}
@@ -676,7 +678,7 @@ function eventEditGame() {
 	 *  handled.
 	 */
 	function handleKeyDown(e) {
-		//cross browser issues exist
+		/** cross browser issues exist */
 		if (!e) {
 			var e = window.event;
 		}
@@ -730,15 +732,6 @@ function eventEditGame() {
 					alert("No image selected. Please Select an image first");
 				}
 				return false;
-			/*case KEYCODE_R:
-				console.log("R pressed");
-				if (currentSelection) {
-					Handle_R_Pressed();
-				}
-				else {
-					alert("No image selected. Please Select an image first");
-				}
-				return false;*/
 			case KEYCODE_S:
 				console.log("S pressed");
 				if (currentSelection) {
@@ -759,7 +752,7 @@ function eventEditGame() {
 				return false;
 			case KEYCODE_X:
 				console.log("X pressed");
-				var exit=window.confirm("Are you sure you want to exit?")
+				var exit=window.confirm("Are you sure you want to exit?");
 				if (exit) {
 					document.onkeydown = null;
 					CBMAdd.removeEventListener("click", CBMAddClicked);
@@ -771,7 +764,7 @@ function eventEditGame() {
 					game.getStage().removeChild(infoPage, InstructionText, InstructionTextInner);
 					$("#CheckboxMenu").find("input[type=checkbox]").parent().remove();
 					var fileName = prompt("Please enter the name for your manifest file.\nPress cancel to discard changes.", "Manifest.txt");
-					if (fileName != null) {
+					if (fileName !== null) {
 						var blob = new Blob([ReformManifest()], {type: "text/plain;charset=utf-8"});
 						saveAs(blob, fileName);
 					}
@@ -946,10 +939,10 @@ function eventEditGame() {
 						toggleOffMoveMode();
 						return false;
 					case KEYCODE_B: case KEYCODE_D: case KEYCODE_I: case KEYCODE_S: case KEYCODE_T: case KEYCODE_X:
-						alert("Currently in Move Mode... Please Press M to toggle off before attempting to access a separate mode!!!")
+						alert("Currently in Move Mode... Please Press M to toggle off before attempting to access a separate mode!!!");
 						return false;
 				}
-			}
+			};
 			document.onkeyup = function(e) {
 				if (!e) {
 					var e = window.event;
@@ -972,7 +965,7 @@ function eventEditGame() {
 						rightHeld = false;
 						break;
 				}
-			}
+			};
 			
 			/**
 			 *  @function tick
@@ -981,6 +974,7 @@ function eventEditGame() {
 			 *  editing stage.
 			 */
 			function tick(event) {
+				event = event || window.event; // get window.event if e argument missing (in IE)
 				if (HelpDisplayed === false) {
 					if (upHeld) {
 						currentSelection.y-=5;
@@ -1049,10 +1043,10 @@ function eventEditGame() {
 						toggleOffScaleMode();
 						return false;
 					case KEYCODE_B: case KEYCODE_D: case KEYCODE_I: case KEYCODE_M: case KEYCODE_T: case KEYCODE_X:
-						alert("Currently in Scale Mode... Please Press S to toggle off before attempting to access a separate mode!!!")
+						alert("Currently in Scale Mode... Please Press S to toggle off before attempting to access a separate mode!!!");
 						return false;
 				}
-			}
+			};
 			document.onkeyup = function(e) {
 				if (!e) {
 					var e = window.event;
@@ -1067,7 +1061,7 @@ function eventEditGame() {
 						downHeld = false;
 						break;
 				}
-			}
+			};
 			
 			/**
 			 *  @function tick
@@ -1076,22 +1070,23 @@ function eventEditGame() {
 			 *  editing stage.
 			 */
 			function tick(event) {
+				event = event || window.event; // get window.event if e argument missing (in IE)
 				if (HelpDisplayed === false) {
 					if (upHeld) {
 						bounds = currentSelection.getBounds();
 						maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
 						console.log(maxBound);
 						if (maxBound < 200) {
-							currentSelection.scaleX = currentSelection.scaleBackX -= -.01;
-							currentSelection.scaleY = currentSelection.scaleBackY -= -.01;
+							currentSelection.scaleX = currentSelection.scaleBackX -= -0.01;
+							currentSelection.scaleY = currentSelection.scaleBackY -= -0.01;
 						}
 					}
 					if (downHeld) {
 						bounds = currentSelection.getBounds();
 						maxBound = Math.max(bounds.height * currentSelection.scaleY, bounds.width * currentSelection.scaleX);
 						if (maxBound > 50) {
-							currentSelection.scaleX = currentSelection.scaleBackX -= .01;
-							currentSelection.scaleY = currentSelection.scaleBackY -= .01;	
+							currentSelection.scaleX = currentSelection.scaleBackX -= 0.01;
+							currentSelection.scaleY = currentSelection.scaleBackY -= 0.01;	
 						}
 					}
 					if (upHeld || downHeld) {
@@ -1120,8 +1115,6 @@ function eventEditGame() {
 			itemLabel.innerHTML = currentSelection.name;
 			editInfoBoxOpen = true;
 			EditInfoDiv.style.display = "inline";
-//			editInfoBox.style.display = "inline";
-//			var person = prompt("Please edit the text", infoText);
 		}
 	}
 	
@@ -1179,7 +1172,7 @@ function eventEditGame() {
 	}
 
 	function submitChange() {
-		// Save the new text
+		/** Save the new text */
 		if (currentSelection.name === "precip") {
 			game.otherText[game.currentBiome.num-1][1][0] = EditInfoDiv.children[0].value;
 		}

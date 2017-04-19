@@ -1,11 +1,12 @@
 /* jshint strict: true */
 /**
  * @function eventPreloadAssets
+ * @param manifest
  * Utilizes the manifest to preload assets into 
  */
 function eventPreloadAssets(manifest) {
 	"use strict";
-	// Analytics
+	/** Analytics */
     var timestamp = new Date();
 	
 	var itemProgressText;
@@ -46,11 +47,11 @@ function eventPreloadAssets(manifest) {
 	
 	if (typeof manifest[0] !== 'undefined' && manifest[0] !== null && manifest[0].length > 0){
 		preload.loadManifest(manifest[BiomeIndex]);
-    }
-	//preload.loadManifest(manifest);
+	}
 	
 	/**
 	 * @function handleError
+	 * @param event
 	 * Logs an error if the loading fails.
 	 */
 	function handleError(event) {
@@ -65,6 +66,7 @@ function eventPreloadAssets(manifest) {
 	}
 	/**
 	 * @function handleItemProgress
+	 * @param event
 	 * Displays loading progress for files that take longer to load.
 	 */
 	function handleItemProgress(event) {
@@ -74,6 +76,7 @@ function eventPreloadAssets(manifest) {
 	}
 	/**
 	 * @function handleFileProgress
+	 * @param event
 	 * Displays loading progress for total loading.
 	 */
 	function handleFileProgress(event) {
@@ -101,6 +104,7 @@ function eventPreloadAssets(manifest) {
 	}
 	/**
 	 * @function handleFileLoad
+	 * @param event
 	 * Stores asset in array once loaded.
 	 */
 	function handleFileLoad(event) {
@@ -124,7 +128,7 @@ function eventPreloadAssets(manifest) {
 		}
 		else {
 			
-			// Analytics - how long did it take to load?
+			/** Analytics - how long did it take to load? */
 			sendUserTimeInfo("preloading", timestamp);
 			
 			game.getStage().removeChild(progressText, itemProgressText);

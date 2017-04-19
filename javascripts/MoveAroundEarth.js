@@ -8,6 +8,13 @@ function eventMoveAroundEarth() {
 	var moveOK;
     
     var moveText, moveTextInner;
+	
+	/**
+	 *  @function handleClick
+	 *  @param event
+	 *  Handler function for clicking the avatar on
+	 *  the map. Moves the avatar to the next biome.
+	 */
 	function handleClick(event) {
         game.currentBiome = game.currentBiome.next;
 		if (game.started === false) {
@@ -22,7 +29,7 @@ function eventMoveAroundEarth() {
         game.getStage().update();
     }
     function onMoveOK(event) {
-		// Analytics
+		/** Analytics */
 		sendUserTimeInfo("biome-selection", timestamp);
         game.getMainContainer().removeChild(moveText, moveTextInner, playerIcon, moveOK);
 		playerIcon.removeAllEventListeners(); 
@@ -31,22 +38,22 @@ function eventMoveAroundEarth() {
 			eventEditGame();
 		}
 		else {
-			console.log("game.progress() called")
+			console.log("game.progress() called");
 			game.progress();
 		}
     }
 	
-    //	Build biome list
+    /** Build biome list */
     var biomeList = new DoublyLinkedCycle();
-    //dark green
+    /** dark green */
     biomeList.add(1, "Deciduous Forest", 160, 115);
-    //yellow
+    /** yellow */
     biomeList.add(2, "Desert", 450, 170);
-    //pink
+    /** pink */
     biomeList.add(3, "Grassland", 630, 105);
-    //light green
+    /** light green */
     biomeList.add(4, "Rainforest", 215, 270);
-    //weird green
+    /** weird green */
     biomeList.add(5, "Tundra", 310, 20);
     console.log(biomeList.length);
 	console.log(biomeList.head);
@@ -54,7 +61,7 @@ function eventMoveAroundEarth() {
 	console.log(biomeList.tail);
     var playerIcon = game.getCurrentPlayer().getIcon();
     game.currentBiome = biomeList.head;
-    playerIcon.x = game.currentBiome.x
+    playerIcon.x = game.currentBiome.x;
     playerIcon.y = game.currentBiome.y;
     playerIcon.addEventListener("click", handleClick);
     
@@ -71,7 +78,7 @@ function eventMoveAroundEarth() {
 	moveText.outline = 3;
     
     
-    moveOK = makeOKButton(890, 15, onMoveOK)
+    moveOK = makeOKButton(890, 15, onMoveOK);
     
     game.getMainContainer().addChild(moveText, moveTextInner, moveOK, playerIcon);
     game.getStage().update();

@@ -20,7 +20,7 @@ function GameEvent(actionFunction) {
      */
     this.getIcon = function() {
         if (icon !== undefined) return icon;
-    }
+    };
 
     /**
      * @function this.setIcon
@@ -28,7 +28,7 @@ function GameEvent(actionFunction) {
      */
     this.setIcon = function(easelJSShape) {
         if (easelJsShape !== undefined) icon = easelJSShape;
-    }
+    };
 
     /** 
      * @function this.trigger
@@ -36,5 +36,5 @@ function GameEvent(actionFunction) {
      */
     this.trigger = function() {
         actionFunc();
-    }
+    };
 }

@@ -9,10 +9,75 @@ function init() {
 	var CBM         = document.getElementById("CheckboxMenu");
 	var CBMAdd      = document.getElementById("CheckboxMenuAdd");
 	var CBMDelete   = document.getElementById("CheckboxMenuDelete");
+	
+	// left: 37, up: 38, right: 39, down: 40,
+	// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+	var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+	document.addEventListener('touchmove', touchmove);
+	
+	/**
+	 *  @function touchmove
+	 *  @param e
+	 *  Prevents touch scrolling
+	 */
+	function touchmove(e) {
+		e.preventDefault();
+	}
+	
+	/**
+	 *  @function preventDefault
+	 *  @param e
+	 *  Prevents default behavior for listeners.
+	 */
+	function preventDefault(e) {
+	  e = e || window.event;
+	  if (e.preventDefault)
+		  e.preventDefault();
+	  e.returnValue = false;  
+	}
+
+	/**
+	 *  @function preventDefaultForScrollKeys
+	 *  Disables any key presses that would
+	 *  allow for scrolling.
+	 */
+	function preventDefaultForScrollKeys(e) {
+		if (keys[e.keyCode]) {
+			preventDefault(e);
+			return false;
+		}
+	}
+	
+	/**
+	 *  @function disableScroll
+	 *  Disables scrolling.
+	 */
+	function disableScroll() {
+	  if (window.addEventListener) // older FF
+		  window.addEventListener('DOMMouseScroll', preventDefault, false);
+	  window.onwheel = preventDefault; // modern standard
+	  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+	  window.ontouchmove  = preventDefault; // mobile
+	  document.onkeydown  = preventDefaultForScrollKeys;
+	}
+
+	/**
+	 *  @function enableScroll
+	 *  Enables scrolling when disabled.
+	 */
+	function enableScroll() {
+		if (window.removeEventListener)
+			window.removeEventListener('DOMMouseScroll', preventDefault, false);
+		window.onmousewheel = document.onmousewheel = null; 
+		window.onwheel = null; 
+		window.ontouchmove = null;  
+		document.onkeydown = null;  
+	}
+	
 	Description.value = '';
 	ImageSource.value = '';
 	CBMBkgrd.addEventListener("mousedown", function(event) {
-		currentSelection = null;
 		window.addEventListener("mousemove", CBMHandleMove, true);
 		
 		/**

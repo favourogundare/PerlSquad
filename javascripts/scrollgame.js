@@ -34,88 +34,118 @@ function eventScrollGame() {
 		defaults to easy so that first objects generated are slower to ease player into the game*/
 	
 	/** big container for elements of scroll game */
-    var big_contain = new createjs.Container();
-    
-    /**
-     * @function onMouseDown
-     * Handles a click down.
-     */
-	 
-	var check = new createjs.Bitmap("checkmark.png");
+	var big_contain = new createjs.Container();
+	
+	
+	var check = new createjs.Bitmap("./Pictures/icons/checkmark.png");
 	check.shadow = new createjs.Shadow("#000000", 5, 5, 10);
 	check.scaleX = check.scaleY = 0.9;
-	var not_check = new createjs.Bitmap("no.png");
+	var not_check = new createjs.Bitmap("./Pictures/icons/no.png");
 	not_check.shadow = new createjs.Shadow("#000000", 5, 5, 10);
 	not_check.scaleX = not_check.scaleY = 0.9;
 	
-    var onMouseDown = function(){
-        if(!e){var e = window.event;}
-        clicked = true;
-    };
-    /**
-     * @function onMouseUp
-     * Handles a click release.
-     */
-    var onMouseUp = function (){
-        clicked = false;
-    };
-    
-    canvas = document.getElementById("main");
+	canvas = document.getElementById("main");
 	
-    
-    canvas.onmousedown = onMouseDown;
-    canvas.onmouseup = onMouseUp;
-	
-	// pre game info screen
+	/** pre game info screen */
 	var start_contain = new createjs.Container();
 	
-	// container for animals
+	/** container for animals */
 	var anim_contain = new createjs.Container();
 	
-	// get index for biome from the game class
+	/** get index for biome from the game class */
 	var bioindex = game.currentBiome.num - 1;
 	
-	// picks a "bad" index that isn't the same as current biome
+	/** picks a "bad" index that isn't the same as current biome */
+	var bad_bio;
 	if (bioindex > 0){
-		var bad_bio = bioindex - 1;
+		bad_bio = bioindex - 1;
 	}
 	else{
-		var bad_bio = bioindex + 1;
+		bad_bio = bioindex + 1;
 	}	
 	
-	// get background image
+	/** get background image */
 	bg = new Image();
 	switch(bioindex){
 		case 0:
-			bg.src = "deciduous.jpg";
+			bg.src = "./Pictures/Background/deciduous.jpg";
 			break;
 		case 1:
-			bg.src = "desert.jpg";
+			bg.src = "./Pictures/Background/desert.jpg";
 			break;
 		case 2:
-			bg.src = "grassland.jpg";
+			bg.src = "./Pictures/Background/grassland.jpg";
 			break;
 		case 3:
-			bg.src = "rainforest.jpg";
+			bg.src = "./Pictures/Background/rainforest.jpg";
 			break;
 		case 4:
-			bg.src = "tundra.jpg";
+			bg.src = "./Pictures/Background/tundra.jpg";
 			break;
 	}
     bg.onload = setBG;
 	
-	// "good" animal is retreived from the assets array
+	/**
+	 *  @function HandleBadClicked
+	 *  @param e
+	 *  Handler function for whenever an image
+	 *  is clicked that does not belong to the 
+	 *  biome. Moves image clicked back to right
+	 *  of screen, increments incorrect count, 
+	 *  and accelerates image movement.
+	 */
+	function HandleBadClicked(e) {
+		e = e || window.event; // get window.event if e argument missing (in IE)
+		resetAnimal(e.currentTarget);
+		speed_up += 0.05 + difficulty*difficulty*0.02;
+		e.currentTarget.speed += speed_up;
+		if (difficulty == 1){
+			if (big_contain.contains(check)){
+				big_contain.removeChild(check);
+			}
+			big_contain.addChild(not_check);
+			game.getStage().update();
+		}
+		incorrect++;
+	}
+	
+	/**
+	 *  @function HandleGoodClicked
+	 *  @param e
+	 *  Handler function for whenever an image
+	 *  is clicked that does not belong to the 
+	 *  biome. Moves image clicked back to right
+	 *  of screen, increments correct count, and 
+	 *  accelerates image movement.
+	 */
+	function HandleGoodClicked(e) {
+		e = e || window.event; // get window.event if e argument missing (in IE)
+		resetAnimal(e.currentTarget);
+		speed_up += 0.05 + difficulty*difficulty*0.02;
+		e.currentTarget.speed += speed_up;
+		if (difficulty == 1){
+			if (big_contain.contains(not_check)){
+				big_contain.removeChild(not_check);
+			}
+			big_contain.addChild(check);
+			game.getStage().update();
+		}
+		correct++;
+	}
+	
+	/** "good" animal is retreived from the assets array */
 	var good1 = new createjs.Bitmap(game.assets[bioindex][0].result);
 	good1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	good1.name = "good1";
-	// scales the image to be roughly the same size as the others
-	// height or width (whichever is bigger) is used to scale dimensions
+	/** scales the image to be roughly the same size as the others */
+	/** height or width (whichever is bigger) is used to scale dimensions */
 	var good1bounds = good1.getBounds();
 	var maxgood1 = Math.max(good1bounds.height, good1bounds.width);
 	good1.scaleX = good1.scaleBackX = 140/maxgood1;
 	good1.scaleY = good1.scaleBackY = 140/maxgood1;
+	good1.addEventListener("click", HandleGoodClicked);
     
-	// "bad" animal retrieved
+	/** "bad" animal retrieved */
     var bad1 = new createjs.Bitmap(game.assets[bad_bio][0].result);
 	bad1.shadow = new createjs.Shadow("#000000", 3, 3, 5);
 	bad1.name = "bad1";
@@ -123,6 +153,7 @@ function eventScrollGame() {
 	var maxbad1 = Math.max(bad1bounds.height, bad1bounds.width);
 	bad1.scaleX = bad1.scaleBackX = 140/maxbad1;
 	bad1.scaleY = bad1.scaleBackY = 140/maxbad1;
+	bad1.addEventListener("click", HandleBadClicked);
 	
 	var good2 = new createjs.Bitmap(game.assets[bioindex][1].result);
 	good2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -131,6 +162,7 @@ function eventScrollGame() {
 	good2.scaleX = good2.scaleBackX = 140/maxgood2;
 	good2.scaleY = good2.scaleBackY = 140/maxgood2;
 	good2.name = "good2";
+	good2.addEventListener("click", HandleGoodClicked);
 	
 	var bad2 = new createjs.Bitmap(game.assets[bad_bio][1].result);
 	bad2.shadow = new createjs.Shadow("#000000", 3, 3, 5);
@@ -139,16 +171,18 @@ function eventScrollGame() {
 	bad2.scaleX = bad2.scaleBackX = 140/maxbad2;
 	bad2.scaleY = bad2.scaleBackY = 140/maxbad2;
 	bad2.name = "bad2";
+	bad2.addEventListener("click", HandleBadClicked);
    
-    /**
-     * @function setBG
-     * Sets the background for the mini-game.
+	/**
+	 * @function setBG
+	 * @param event
+	 * Sets the background for the mini-game.
 	 * Also creates a selection screen for difficulty as well as some brief info about the rules
 	 * of the game
-     */
-    function setBG(event){
-        bgrnd = new createjs.Bitmap(bg);
-        game.getStage().addChild(bgrnd, big_contain);
+	 */
+	function setBG(event){
+		bgrnd = new createjs.Bitmap(bg);
+		game.getStage().addChild(bgrnd, big_contain);
 		
 		var instruct_text = new createjs.Text("Click on the Animals that belong in the biome!\n"+
 											  "The animals will speed up over time\n", "32px Arial", "black");
@@ -241,27 +275,32 @@ function eventScrollGame() {
 	createjs.Ticker.addEventListener("tick", tick);
 	createjs.Ticker.setFPS(30);
 	
-	// generates 2 animals using the bitmap given
-    function createAnimals(bitmp){
+	/**
+	 *  @function createAnimals
+	 *  @param bitmp
+	 *  Generates two animals using the bitmap given 
+	 */
+	function createAnimals(bitmp){
 		var l = 2;
-        for (var i=0; i<l; i++){
-            bitmap = bitmp;
-            anim_contain.addChild(bitmap);
+		for (var i=0; i<l; i++){
+			bitmap = bitmp;
+			anim_contain.addChild(bitmap);
 			resetAnimal(bitmap);
-            bitmap.regX = bitmap.image.width/2|0;
-            bitmap.regY = bitmap.image.height/2|0;
-            bitmap.mouseEnabled = true;
-            bmpList.push(bitmap);
-        }
-    }
+			bitmap.regX = bitmap.image.width/2|0;
+			bitmap.regY = bitmap.image.height/2|0;
+			bitmap.mouseEnabled = true;
+			bmpList.push(bitmap);
+		}
+	}
 	
-	// gradually speeds up animals
+	/** gradually speeds up animals */
 	var speed_up = 0.0;
-  
-    /**
-     * @function resetAnimal
-     * Places animals randomly into the mini-game to be clicked/not clicked.
-     */	 
+	
+	/**
+	 * @function resetAnimal
+	 * @param animal
+	 * Places animals randomly into the mini-game to be clicked/not clicked.
+	 */
     function resetAnimal(animal){
         animal.x = canvas.width + Math.random()*500;
         animal.y = canvas.height * Math.random()|0;
@@ -276,43 +315,8 @@ function eventScrollGame() {
 	 * whenever an animal is reset, it's speed is increased by speed_up
      */
     function tick(){
-        /** check for clicking */
-        if (!clicked && game.getStage().mouseX && game.getStage().mouseY){
-            mouseTarget = game.getStage().getObjectUnderPoint(game.getStage().mouseX, game.getStage().mouseY);
-        }
-        if (clicked && mouseTarget){
-            var tempText = String(mouseTarget.name);
-            if ((tempText== "bad1" || tempText== "bad2") && play == true){
-                resetAnimal(mouseTarget);
-				speed_up += 0.05 + difficulty*difficulty*0.02;
-				mouseTarget.speed += speed_up;
-				if (difficulty == 1){
-					if (big_contain.contains(check)){
-						big_contain.removeChild(check);
-					}
-					big_contain.addChild(not_check);
-					game.getStage().update();
-				}
-                incorrect++;
-                clicked=false;
-            }
-            else if ((tempText== "good1" || tempText=="good2" )&& play == true){
-                resetAnimal(mouseTarget);
-				speed_up += 0.05 + difficulty*difficulty*0.02;
-				mouseTarget.speed += speed_up;
-				if (difficulty == 1){
-					if (big_contain.contains(not_check)){
-						big_contain.removeChild(not_check);
-					}
-					big_contain.addChild(check);
-					game.getStage().update();
-				}
-                correct++;
-                clicked=false;
-            }
-        }
         /** moving the animals */
-        if (play == true){
+        if (play === true){
             var l=bmpList.length;
             for(var i=0; i<l; i++){
                 var bmp = bmpList[i];
@@ -358,62 +362,81 @@ function eventScrollGame() {
         }
 
 		var infoText = new createjs.Text();
-		var infoTextInner
+		var infoTextInner;
 	
-		// used for post-game info screen
-	function setImg (img, imgX, imgY) {
-		var bounds = img.getBounds();
-		var maxBound = Math.max(bounds.height, bounds.width);
-		img.scaleX = img.scaleBackX = 140/maxBound;
-		img.scaleY = img.scaleBackY = 140/maxBound;
-		img.x = imgX;
-		img.y = imgY;
-	}
-	
-	function setHoverEffects(img, index, i) {
-		img.on("rollover", function (event) {
-			this.scaleX = this.scaleBackX * 1.1;
-			this.scaleY = this.scaleBackY * 1.1;
-			infoText.text = game.imageText[index][i][0];
-			infoText.font = "28px Arial";
-			infoText.color = "black";
-			infoText.x = 250;
-			infoText.y = 10;
-			infoTextInner = infoText.clone();
-			infoTextInner.color = "white";
-			infoTextInner.shadow = undefined;
-			infoTextInner.outline = false;
-			infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
-			infoText.outline = 3;
-			big_contain.addChild(infoText, infoTextInner);
-			game.getStage().update();
-		});
+		/**
+		 * @function setImg
+		 * @param img
+		 * @param imgX
+		 * @param imgY
+		 *  Used to set images on post-game info
+		 *  screen.
+		 */
+		function setImg (img, imgX, imgY) {
+			var bounds = img.getBounds();
+			var maxBound = Math.max(bounds.height, bounds.width);
+			img.scaleX = img.scaleBackX = 140/maxBound;
+			img.scaleY = img.scaleBackY = 140/maxBound;
+			img.x = imgX;
+			img.y = imgY;
+		}
 		
-		img.on("rollout", function (event) {
-			this.scaleX = this.scaleBackX;
-			this.scaleY = this.scaleBackY;
-			big_contain.removeChild(infoText, infoTextInner);
-			game.getStage().update();
-		});
-	}
-	
-	function setBiomeInfo() {
-		for (var i=0; i<2; i++) {
-			var newImage = new createjs.Bitmap(game.assets[bioindex][i].result);
-			big_contain.addChild(newImage);
-			setImg(newImage, 45, 80 + 200 * i );
-			setHoverEffects(newImage, bioindex, i);
+		/**
+		 *  @function setHoverEffects
+		 *  @param img
+		 *  @param index
+		 *  @param i
+		 *  Used to set the hover effects of images
+		 *  on the post-game info screen.
+		 */
+		function setHoverEffects(img, index, i) {
+			img.on("rollover", function (event) {
+				this.scaleX = this.scaleBackX * 1.1;
+				this.scaleY = this.scaleBackY * 1.1;
+				infoText.text = game.imageText[index][i][0];
+				infoText.font = "28px Arial";
+				infoText.color = "black";
+				infoText.x = 250;
+				infoText.y = 10;
+				infoTextInner = infoText.clone();
+				infoTextInner.color = "white";
+				infoTextInner.shadow = undefined;
+				infoTextInner.outline = false;
+				infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
+				infoText.outline = 3;
+				big_contain.addChild(infoText, infoTextInner);
+				game.getStage().update();
+			});
+			
+			img.on("rollout", function (event) {
+				this.scaleX = this.scaleBackX;
+				this.scaleY = this.scaleBackY;
+				big_contain.removeChild(infoText, infoTextInner);
+				game.getStage().update();
+			});
 		}
-		for (var i=0; i<2; i++) {
-			var newImage = new createjs.Bitmap(game.assets[bad_bio][i].result);
-			big_contain.addChild(newImage);
-			setImg(newImage, 775, 80 + 200 * i );
-			setHoverEffects(newImage, bad_bio, i);
-		}
+		
+		/**
+		 *  @function setBiomeInfo
+		 *  Handles setting up all the post-game
+		 *  info screen info.
+		 */
+		function setBiomeInfo() {
+			for (var i=0; i<2; i++) {
+				var newImage = new createjs.Bitmap(game.assets[bioindex][i].result);
+				big_contain.addChild(newImage);
+				setImg(newImage, 45, 80 + 200 * i );
+				setHoverEffects(newImage, bioindex, i);
+			}
+			for (var i=0; i<2; i++) {
+				var newImage = new createjs.Bitmap(game.assets[bad_bio][i].result);
+				big_contain.addChild(newImage);
+				setImg(newImage, 775, 80 + 200 * i );
+				setHoverEffects(newImage, bad_bio, i);
+			}
 
-		//game.getStage().addChild(big_contain);
-		game.getStage().update();
-	}
+			game.getStage().update();
+		}
 
 		setBiomeInfo();
 		
@@ -441,5 +464,5 @@ function eventScrollGame() {
         score=0;
         
         play=true;
-    }
+    };
 }

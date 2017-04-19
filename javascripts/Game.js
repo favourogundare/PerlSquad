@@ -56,7 +56,7 @@ function Game(easelStage) {
 	this.currentBiome;
 	this.started = false;
  
-    var player = new Player(new createjs.Bitmap("images/player.png"));
+    var player = new Player(new createjs.Bitmap("Pictures/icons/player.png"));
     /** A reference to the player with the current turn. Can be an array for multiplayer/teams. */
     var currentPlayer = player;
     

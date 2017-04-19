@@ -23,6 +23,15 @@ function eventInfoScreen(){
 		temp.onload = setInfoBG;
 	};
 	
+	/**
+	 *  @function setImg
+	 *  @param img
+	 *  @param imgScale
+	 *  @param imgX
+	 *  @param imgY
+	 *  Sets the image on the screen for
+	 *  the info screen.
+	 */
 	function setImg (img, imgScale, imgX, imgY) {
 		var bounds = img.getBounds();
 		var maxBound = Math.max(bounds.height, bounds.width);
@@ -32,6 +41,14 @@ function eventInfoScreen(){
 		img.y = imgY;
 	}
 	
+	/**
+	 *  @function setHoverEffects
+	 *  @param img
+	 *  @param index
+	 *  @param i
+	 *  Sets the hover over effects of
+	 *  the images on the info screen.
+	 */
 	function setHoverEffects(img, index, i) {
 		img.on("rollover", function (event) {
 			this.scaleX = this.scaleBackX * 1.1;
@@ -64,6 +81,11 @@ function eventInfoScreen(){
 		});
 	}
 	
+	/**
+	 *  @function setBiomeInfo
+	 *  Sets all the info for the biome on the
+	 *  info screen.
+	 */
 	function setBiomeInfo() {
 		bgrnd = new createjs.Bitmap(back);
 		infoPage.addChild(bgrnd);
@@ -92,25 +114,31 @@ function eventInfoScreen(){
 		game.getStage().update();
 	}
 	
+	/**
+	 *  @function setInfoBG
+	 *  @param event
+	 *  Sets the info screen background for
+	 *  the given biome.
+	 */
 	function setInfoBG(event) {	
 		if (game.currentBiome.num == 1){
-			back.src        = "deciduous.jpg";
+			back.src        = "./Pictures/Background/deciduous.jpg";
 			back.onload     = setBiomeInfo;
 		} 
 		else if (game.currentBiome.num == 2) {
-			back.src        = "desert.jpg";
+			back.src        = "./Pictures/Background/desert.jpg";
 			back.onload     = setBiomeInfo;
 		}
 		else if (game.currentBiome.num == 3) {
-			back.src        = "grassland.jpg";
+			back.src        = "./Pictures/Background/grassland.jpg";
 			back.onload     = setBiomeInfo;
 		}
 		else if (game.currentBiome.num == 4) {
-			back.src        = "rainforest.jpg";
+			back.src        = "./Pictures/Background/rainforest.jpg";
 			back.onload     = setBiomeInfo;
 		}
 		else if (game.currentBiome.num == 5) {
-			back.src        = "tundra.jpg";
+			back.src        = "./Pictures/Background/tundra.jpg";
 			back.onload     = setBiomeInfo;
 		}
 	}
@@ -121,7 +149,7 @@ function eventInfoScreen(){
 	 * Removes the infoPage container and calls game.progress()
 	 */
 	function onInfoOK() {
-		// Analytics
+		/** Analytics */
 		sendUserTimeInfo("info-screen", timestamp, {biome: game.currentBiome.name});
 		
 		game.getStage().removeChild(infoPage);
