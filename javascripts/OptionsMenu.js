@@ -7,6 +7,7 @@ function eventOptionsMenu() {
 	var edit_button;
 	var done_button;
 	var options_title;
+	var toggleTTS_button   = new RectButton("Speech: ON", "#00e676", game.getStage().width/2 - 150, 150, 300, 50, "#212121", "click", toggleTTS);
     edit_button   = new RectButton("Edit Images", "#ff9100", game.getStage().width/2 - 150, 225, 300, 50, "#212121", "click", edit_clicked);
     done_button = new RectButton("Done", "#f44336", game.getStage().width/2 - 150, 300, 300, 50, "#212121", "click", done_clicked);    
 
@@ -21,9 +22,25 @@ function eventOptionsMenu() {
     options_title.x = game.getStage().width / 2;
     options_title.y = 100;
     
-    options_page.addChild(options_title, edit_button.container, done_button.container);
+    options_page.addChild(options_title, toggleTTS_button.container, edit_button.container, done_button.container);
     game.getStage().addChild(options_page); 
     game.getStage().update();
+	
+	function toggleTTS() {
+		if (!game.speechOn) {
+			if (responsiveVoice.voiceSupport()) {
+				game.speechOn = true;
+				toggleTTS_button.txt.text      = toggleTTS_button.txtInner.text = "Speech: OFF";
+			} else {
+				alert("Text to speech currently unavailable... Please try again later...");
+			}
+		} else {
+			game.speechOn = false;
+			toggleTTS_button.txt.text      = 
+			toggleTTS_button.txtInner.text = "Speech: ON";
+		}
+		game.getStage().update();
+	}
 	
 	/**
 	 *  @function edit_clicked

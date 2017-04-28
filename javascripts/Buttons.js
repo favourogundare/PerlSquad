@@ -38,6 +38,9 @@ function makeOKButton(xCord, yCord, eventListener) {
 	 */
 	function HandleRollOver() {
 		rect.graphics.clear().beginFill("#18660e").drawRect(0, 0, 65, 45);
+		if (game.speechOn) {
+			responsiveVoice.speak(text.text);
+		}
 		game.getStage().update();
 	}
 	
@@ -49,6 +52,9 @@ function makeOKButton(xCord, yCord, eventListener) {
 	 */
 	function HandleRollOut() {
 		rect.graphics.clear().beginFill("#18770e").drawRect(0, 0, 65, 45);
+		if (game.speechOn) {
+			responsiveVoice.cancel();
+		}
 		game.getStage().update();
 	}
 	
@@ -126,6 +132,9 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 		var tempColor = minusHexColor(oldColor, "001100");
 		buttonColor = "#"+tempColor;
 		this.inRect.graphics.clear().beginFill(buttonColor).drawRect(10, 10, buttonW - 20, buttonH - 20);
+		if (game.speechOn) {
+			responsiveVoice.speak(this.txt.text);
+		}
 		game.getStage().update();
 	}
 	
@@ -140,6 +149,9 @@ function RectButton(buttonText, buttonColor, buttonX, buttonY, buttonW, buttonH,
 		var tempColor = addHexColor(oldColor, "001100");
 		buttonColor = "#"+tempColor;
 		this.inRect.graphics.clear().beginFill(buttonColor).drawRect(10, 10, buttonW - 20, buttonH - 20);
+		if (game.speechOn) {
+			responsiveVoice.cancel();
+		}
 		game.getStage().update();
 	}
 	
@@ -226,6 +238,9 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 		var tempColor = minusHexColor(oldColor, "001100");
 		buttonColor = "#"+tempColor;
 		this.inCircle.graphics.clear().beginFill(buttonColor).drawCircle(0, 0, buttonR - 10);
+		if (game.speechOn) {
+			responsiveVoice.speak(this.txt.text);
+		}
 		game.getStage().update();
 	}
 	
@@ -240,6 +255,9 @@ function CircleButton(buttonText, buttonTextFormat, buttonTextX, buttonTextY, bu
 		var tempColor = addHexColor(oldColor, "001100");
 		buttonColor = "#"+tempColor;
 		this.inCircle.graphics.clear().beginFill(buttonColor).drawCircle(0, 0, buttonR - 10);
+		if (game.speechOn) {
+			responsiveVoice.cancel();
+		}
 		game.getStage().update();
 	}
 	

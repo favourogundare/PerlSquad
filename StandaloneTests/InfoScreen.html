@@ -13,69 +13,43 @@
 		var infoText;
         update = true;
 		
-		stage = new createjs.Stage("demoCanvas");
+		stage = new createjs.Stage("infoCanvas");
+		console.log(stage);
         var container = new createjs.Container();
+		stage.width = stage.height = 1000;
         //createjs.Touch.enable(stage);
-		stage.enableMouseOver(10);
+		//stage.enableMouseOver(10);
 		//stage.mouseMoveOutside = true;
 
 		//load toucan image
-		var toucan = new createjs.Bitmap("toucan.png");
-		toucan.scaleX = toucan.scaleY = toucan.scale = .5;
-		toucan.x = 50;
-		toucan.y = 25;
-        
-        toucan.on("rollover", function (evt) {
-			this.scaleX = this.scaleY = this.scale * 1.2;
-			infoText = new createjs.Text("   Known for its large and colorful bill,\nthe toucan stands out among the birds\nof the tropical and subtropical rainforests.", "20px Arial", "#000000");
-		    container.addChild(infoText);
-			update = true;
-		});
-
-		toucan.on("rollout", function (evt) {
-			this.scaleX = this.scaleY = this.scale;
-			container.removeChild(infoText);
-			update = true;
-		});
-        
-        container.addChild(toucan);
-		stage.addChild(container);
-		stage.update();
-        
-        createjs.Ticker.addEventListener("tick", tick);
-	
-		//load sheep image
-		//////////////var sheep = new createjs.Bitmap("sheep.png");
-		//sheep.src = "sheep.png";
-		//sheep.name = "sheep";
-		//sheep.onload = createAnimals;
-
-		/** initialize page text */
-		/*
-		var p_num   = new createjs.Text("Pick # of Players", "36px Arial", "#212121");
-		p_num.textAlign = "center";
-		p_num.textBaseline = "middle";
-		p_num.x   = game.getStage().width / 2;
-		p_num.y   = 50; 
-		*/		
-		
-	}
-	
-	function tick(event) {
-	// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
-		if (update) {
-			update = false; // only update once
-			stage.update(event);
+		var toucanIMG = new Image();
+		toucanIMG.src = "toucan.png";
+		toucanIMG.onload = loaded;
+		function loaded() {
+			var circle = new createjs.Shape();
+			circle.graphics.beginFill("black").drawCircle(stage.width/2, stage.height/2, 70);
+			var toucan = new createjs.Bitmap(toucanIMG);
+			var bounds = toucan.getBounds();
+			var maxbound = Math.max(bounds.height, bounds.width);
+			toucan.scaleX = toucan.scaleY = toucan.scale = 140/maxbound;
+			//toucan.regX = -1*toucan.scaleX*toucan.width/2;
+			//toucan.regY = -1*toucan.scaleX*toucan.height/2;
+			toucan.x = stage.width/2-toucan.scaleX*toucan.image.width/2;
+			toucan.y = stage.height/2;
+			console.log("Changed");
+			
+			
+			container.addChild(circle, toucan);
+			stage.addChild(container);
+			stage.update();
 		}
 	}
 	
-	function stop() {
-		createjs.Ticker.removeEventListener("tick", tick);
-	}
+	
 	
 	</script>
   </head>
   <body onload="init();">
-    <canvas id="demoCanvas" width="500" height="200"></canvas>
+    <canvas id="infoCanvas" width="1000" height="1000"></canvas>
   </body>
 </html>

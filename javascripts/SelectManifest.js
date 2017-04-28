@@ -203,7 +203,7 @@ function prettifyText(inputText) {
 			temp = inputText.substring(0,checking) + "\n" + inputText.substring(checking+1,inputText.length+1);
 			inputText = temp;
 		}
-		checkpoint += 45;
+		checkpoint = checking + 45;
 	}
 	return "   " + inputText;
 }

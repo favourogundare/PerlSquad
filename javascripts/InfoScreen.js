@@ -59,6 +59,9 @@ function eventInfoScreen(){
 			else {
 				infoText.text = game.otherText[index][i][0];
 			}
+			if (game.speechOn) {
+				responsiveVoice.speak(infoText.text);
+			}
 			infoText.font = "28px Arial";
 			infoText.color = "black";
 			infoText.x = 289;
@@ -74,6 +77,9 @@ function eventInfoScreen(){
 		});
 		
 		img.on("rollout", function (event) {
+			if (game.speechOn) {
+				responsiveVoice.cancel();
+			}
 			this.scaleX = this.scaleBackX;
 			this.scaleY = this.scaleBackY;
 			infoPage.removeChild(infoText, infoTextInner);

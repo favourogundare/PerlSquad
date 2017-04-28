@@ -22,6 +22,9 @@ function eventMoveAroundEarth() {
 		}
 		else {
 			moveText.text = moveTextInner.text = "Biome: " + game.currentBiome.name + "\nClick the Player to Change Biomes\nClick OK to Visit";
+			if (game.speechOn) {
+				responsiveVoice.speak(moveText.text);
+			}
 		}
         console.log(game.currentBiome.name);
         playerIcon.x = game.currentBiome.x;
@@ -77,6 +80,9 @@ function eventMoveAroundEarth() {
 	moveText.shadow = new createjs.Shadow("#000", -3, -3, 25);
 	moveText.outline = 3;
     
+	if (game.started && game.speechOn) {
+		responsiveVoice.speak(moveText.text);
+	}
     
     moveOK = makeOKButton(890, 15, onMoveOK);
     

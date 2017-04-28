@@ -207,6 +207,12 @@ function eventScrollGame() {
 			start_text.shadow = new createjs.Shadow("#000", -3, -3, 25);
 			start_text.outline = 3;
 		
+		if (game.speechOn) {
+			responsiveVoice.speak(instruct_text.text, 'UK English Female', {onend: function() {
+				responsiveVoice.speak(start_text.text);
+			}});
+		}
+		
 		var start_box = new createjs.Shape();
 		start_box.shadow = new createjs.Shadow("#000000", 5, 5, 10);
 		start_box.graphics.beginFill("#000000").drawRect(canvas.width/2 - 205, canvas.height/3 - 15, 410, 170);
@@ -266,11 +272,6 @@ function eventScrollGame() {
 		big_contain.addChild(anim_contain);
 		big_contain.removeChild(start_contain);
 	}
-    
-    /**
-     * @function createAnimals
-     * Creates animal objects and enables clicking on them.
-     */
 	
 	createjs.Ticker.addEventListener("tick", tick);
 	createjs.Ticker.setFPS(30);
@@ -286,8 +287,6 @@ function eventScrollGame() {
 			bitmap = bitmp;
 			anim_contain.addChild(bitmap);
 			resetAnimal(bitmap);
-			bitmap.regX = bitmap.image.width/2|0;
-			bitmap.regY = bitmap.image.height/2|0;
 			bitmap.mouseEnabled = true;
 			bmpList.push(bitmap);
 		}
@@ -302,8 +301,11 @@ function eventScrollGame() {
 	 * @param animal
 	 */
     function resetAnimal(animal){
+		console.log(animal);
+		console.log(canvas.height);
         animal.x = canvas.width + Math.random()*500;
-        animal.y = canvas.height * Math.random()|0;
+        animal.y = Math.floor((canvas.height-(animal.scaleX*animal.image.height)) * Math.random());
+		console.log("Y: " + animal.y);
 		// speed calculated based on difficulty setting - default is decently slow for younger kids (easy to tweak)
         animal.speed = Math.random()*0.8 + difficulty;
     }
@@ -320,7 +322,7 @@ function eventScrollGame() {
             var l=bmpList.length;
             for(var i=0; i<l; i++){
                 var bmp = bmpList[i];
-                if (bmp.x > -200){
+                if (bmp.x > -150){
                     bmp.x -= bmp.speed;
                 }else{
                     if (bmp.name == "good1" || bmp.name == "good2"){
@@ -377,8 +379,8 @@ function eventScrollGame() {
 			var maxBound = Math.max(bounds.height, bounds.width);
 			img.scaleX = img.scaleBackX = 140/maxBound;
 			img.scaleY = img.scaleBackY = 140/maxBound;
-			img.x = imgX;
-			img.y = imgY;
+			img.x = imgX-img.image.width*img.scaleX/2;
+			img.y = imgY-img.image.height*img.scaleX/2;
 		}
 		
 		/**
@@ -404,6 +406,9 @@ function eventScrollGame() {
 				infoTextInner.outline = false;
 				infoText.shadow = new createjs.Shadow("#000", -3, -3, 25);
 				infoText.outline = 3;
+				if (game.speechOn) {
+					responsiveVoice.speak(infoText.text);
+				}
 				big_contain.addChild(infoText, infoTextInner);
 				game.getStage().update();
 			});
@@ -411,6 +416,9 @@ function eventScrollGame() {
 			img.on("rollout", function (event) {
 				this.scaleX = this.scaleBackX;
 				this.scaleY = this.scaleBackY;
+				if (game.speechOn) {
+					responsiveVoice.cancel();
+				}
 				big_contain.removeChild(infoText, infoTextInner);
 				game.getStage().update();
 			});
@@ -425,13 +433,13 @@ function eventScrollGame() {
 			for (var i=0; i<2; i++) {
 				var newImage = new createjs.Bitmap(game.assets[bioindex][i].result);
 				big_contain.addChild(newImage);
-				setImg(newImage, 45, 80 + 200 * i );
+				setImg(newImage, 100, 140 + 180 * i );
 				setHoverEffects(newImage, bioindex, i);
 			}
 			for (var i=0; i<2; i++) {
 				var newImage = new createjs.Bitmap(game.assets[bad_bio][i].result);
 				big_contain.addChild(newImage);
-				setImg(newImage, 775, 80 + 200 * i );
+				setImg(newImage, 860, 140 + 180 * i );
 				setHoverEffects(newImage, bad_bio, i);
 			}
 

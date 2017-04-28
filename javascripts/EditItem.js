@@ -128,23 +128,42 @@ function eventEditGame() {
 					else {
 						ImagesNotOnScreen.splice($.inArray(DeleteList[j], ImagesNotOnScreen), 1);
 					}
+					var AssetIndex = GetAssetIndexByID(DeleteList[j]);
+					game.assets[game.currentBiome.num-1].splice(AssetIndex, 1);
+					game.imageSources[game.currentBiome.num-1].splice(AssetIndex, 1);
+					game.imageText[game.currentBiome.num-1].splice(AssetIndex, 1);
+					game.imageScale[game.currentBiome.num-1].splice(AssetIndex, 1);
+					game.imageX[game.currentBiome.num-1].splice(AssetIndex, 1);
+					game.imageY[game.currentBiome.num-1].splice(AssetIndex, 1);
 				}
 				game.getStage().update();
 				console.log($("#CheckboxMenu").find("input[type=checkbox]:checked"));
 				$("#CheckboxMenu").find("input[type=checkbox]:checked").parent().remove();
 			} else {
-				alert("Cannot delete images... There must be at least two animals on the screen.");
+				alert("Cannot delete images... There must be at least two animals left on the screen.");
 				$(".checkbox").prop('checked', false);
 			}
 		}
 	}
 	
+	/**
+	 *  @function createFormData
+	 *  Creates the form data for imageScale
+	 *  the user is uploading.
+	 *  @param image
+	 */
 	function createFormData(image) {
 		var formImage = new FormData();
 		formImage.append('subDir', game.currentBiome.name);
 		formImage.append('userImage', image);
 		
 		uploadFormData(formImage);
+		/**
+		 *  @function uploadFormData
+		 *  Utilizes the PHP to upload the imageScale
+		 *  to the server.
+		 *  @param formData
+		 */
 		function uploadFormData(formData) {
 			$.ajax({
 				url: "upload_image.php",
@@ -160,6 +179,12 @@ function eventEditGame() {
 		}
 	}
 	
+	/**
+	 *  @function cancel
+	 *  Prevents the default behaviors of some
+	 *  event handlers. 
+	 *  @param e
+	 */
 	function cancel(e) {
 		e = e || window.event; // get window.event if e argument missing (in IE)
 		if (e.preventDefault) { e.preventDefault(); }
@@ -170,6 +195,13 @@ function eventEditGame() {
 	dropzone.addEventListener('dragover', cancel);
 	dropzone.addEventListener('dragenter', cancel);
 	dropzone.addEventListener('drop', HandleDrop);
+	/**
+	 *  @function HandleDrop
+	 *  Handles dropping images on the screen.
+	 *  Adds the image to the stage and uploads
+	 *  to the server.
+	 *  @param e
+	 */
 	function HandleDrop(e) {
 		e = e || window.event; // get window.event if e argument missing (in IE)   
 		if (e.preventDefault) { console.log("prevented"); e.preventDefault(); } // stops the browser from redirecting off to the image.
@@ -205,7 +237,9 @@ function eventEditGame() {
 				createFormData(file);
 				
 				if (!file.name.match(/.(jpg|jpeg|png|gif)$/i)) {
-					alert('Woah there! Images uploaded must be in\none of the following formats:\n{.jpg, .jpeg, .png, .gif}');
+					alert('Woah there! Images uploaded must be in\n'+
+						  'one of the following formats:\n'+
+						  '{.jpg, .jpeg, .png, .gif}');
 				}
 				else if (file.size < 2000000) {
 					var reader = new FileReader();
@@ -247,12 +281,19 @@ function eventEditGame() {
 							infoPage.addChild(previewBtmp);
 							game.getStage().update();
 							var imgID = "";
-							while (imgID === "") {
-								imgID = prompt("Please enter the id for your image.\nSuggestion: The id should describe what the image is.\nEx: A polar bear image might have the id PolarBear", "");
+							while (imgID === "" || imgID === null) {
+								imgID = prompt("Please enter the ID for your image.\n"+
+											   "Suggestion: The ID should describe what the image is.\n"+
+											   "Ex: A polar bear image might have the ID PolarBear", "");
+								if ($.inArray(imgID, ImagesOnScreen)    > -1 || 
+									$.inArray(imgID, ImagesNotOnScreen) > -1) {
+									alert("Sorry! This ID is already taken... Please try another...");
+									imgID = "";
+								}
 							}
 							var imgText = "";
 							while (imgText === "") {
-								imgText = prompt("Please enter the text for your image.\nSuggestion: The id should describe something about the image.", "");
+								imgText = prompt("Please enter the text for your image.\nSuggestion: The text should describe something about the image.", "");
 							}
 							imgText = SimplifyText(imgText);
 							imgText = prettifyText(imgText);
@@ -1147,6 +1188,12 @@ function eventEditGame() {
 		game.getStage().update();
 	}
 	
+	/**
+	 *  @function toggleOffScaleMode
+	 *  Toggles scale mode off in the editing
+	 *  portion of the game and restores the 
+	 *  original button functionality.
+	 */
 	function toggleOffScaleMode() {
 		scaleModeOn = false;
 		var bounds = currentSelection.getBounds();
@@ -1168,11 +1215,19 @@ function eventEditGame() {
 		game.getStage().update();
 	}
 		
+	/**
+	 *  @function closeEditInfoBox
+	 *  Closes the text editor box.
+	 */
 	function closeEditInfoBox() {
 		editInfoBoxOpen = false;
 		EditInfoDiv.style.display = "none";
 	}
 
+	/**
+	 *  @function submitChange
+	 *  Saves the text for the image.
+	 */
 	function submitChange() {
 		/** Save the new text */
 		var mytext = EditInfoDiv.children[0].value;
